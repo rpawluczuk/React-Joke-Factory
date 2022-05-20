@@ -1,24 +1,20 @@
-import  React from "react";
+import React from "react";
 import "./App.css"
+import Sidebar from "./components/sidebar/Sidebar";
+import MainView from "./components/MainView";
 
+function App() {
 
-function App () {
-    const jokes = [
-      { id : 1, text: "joke 1"},
-      { id : 2, text: "joke 2"},
-      { id : 3, text: "joke 3"}
-    ]
-
-    return(
-        <div className="container">
-          <h1 className="text-center display-2 text-dark m-5 fw-bolder">List of Jokes</h1>
-          <ul>
-            {jokes.map((joke, index) => (
-                <li key={index}>{joke.text}</li>
-            ))}
-          </ul>
+  return (
+        <div className="d-flex flex-row">
+          <div className="col-xl-1 col-md-2 col-3 mr-1">
+            <Sidebar/>
+          </div>
+          <div className="col container">
+            <MainView/>
+          </div>
         </div>
-    );
+  );
 }
 
 export default App;

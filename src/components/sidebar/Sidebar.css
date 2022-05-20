@@ -1,0 +1,12 @@
+.sidebar {
+  width: 10%;
+  min-width: 160px;
+  background: cornflowerblue;
+  bottom: 0;
+}
+
+.sidebar_logo {
+  margin: 30px auto;
+  width: 120px;
+  display: block;
+}
