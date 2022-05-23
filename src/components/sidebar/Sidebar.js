@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
       <div className="sidebar fixed-top">
         <img src="logo.png" className="sidebar_logo" alt="logo"/>
-          <NavigationButton bigButtonLabel={"Jokes"}/>
+          <NavigationButton bigButtonLabel={'Jokes'}/>
           <NavigationButton bigButtonLabel={"Structures"}/>
           <NavigationButton bigButtonLabel={"Authors"}/>
       </div>

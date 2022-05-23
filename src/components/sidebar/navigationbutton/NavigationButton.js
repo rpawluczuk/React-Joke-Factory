@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
+import PropTypes from 'prop-types'
 import "./NavigationButton.css"
 
 const NavigationButton = ({ bigButtonLabel }) => {
@@ -25,4 +26,9 @@ const NavigationButton = ({ bigButtonLabel }) => {
       </>
   )
 }
+
+NavigationButton.propTypes = {
+  bigButtonLabel: PropTypes.string.isRequired
+}
+
 export default NavigationButton;
