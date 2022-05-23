@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import SingleJoke from "./singlejoke/SingleJoke";
 import JokeData from "./data/JokeData";
+import JokeCreation from "../jokecreation/JokeCreation";
 
 const JokeMainView = () => {
 
@@ -31,6 +32,7 @@ const JokeMainView = () => {
                 handleDelete={(id) => deleteJoke(id)}
             />
         ))}
+        <JokeCreation/>
       </div>
   )
 }
