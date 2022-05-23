@@ -1,12 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import "./App.css"
 import Sidebar from "./components/sidebar/Sidebar";
 import JokeMainView from "./components/jokemainview/JokeMainView";
-import JokeData from "./components/jokemainview/data/JokeData";
 
 function App() {
-
-  const [jokeList, setJokeList] = useState(JokeData)
 
   return (
         <div className="d-flex flex-row">
@@ -14,7 +11,7 @@ function App() {
             <Sidebar/>
           </div>
           <div className="col container">
-            <JokeMainView jokeList={jokeList}/>
+            <JokeMainView/>
           </div>
         </div>
   );
