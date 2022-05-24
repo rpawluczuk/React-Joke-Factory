@@ -18,7 +18,7 @@ const JokeMainView = () => {
       <div className="container">
         <h1 className="text-center display-2 text-dark m-5 fw-bolder">List of
           Jokes</h1>
-        {jokeList.map((joke, index) => (
+        {jokeList.map((joke) => (
             <SingleJoke key={joke.id} joke={joke}/>
         ))}
       </div>

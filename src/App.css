@@ -21,6 +21,14 @@
   margin: 15px;
 }
 
+.Item-top-button {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: dimgrey;
+  text-align: center;
+}
+
 .Validation-message {
   text-align: center;
   color: red;
