@@ -6,6 +6,10 @@ const JokeContext = createContext()
 
 export const JokeProvider = ({children}) => {
   const [jokeList, setJokeList] = useState(JokeData)
+  const [jokeEditionWrapper, setJokeEditionWrapper] = useState({
+    joke: {},
+    editFlag: false
+  })
 
   const deleteJoke = (id) => {
     if(window.confirm('Are you sure you want to delete?')) {
@@ -18,10 +22,33 @@ export const JokeProvider = ({children}) => {
     setJokeList([newJoke, ...jokeList])
   }
 
+  const editJoke = (joke) => {
+    setJokeEditionWrapper({
+      joke,
+      editFlag: true
+    })
+  }
+
+  const resetJokeEditionWrapper = () => {
+    setJokeEditionWrapper({
+      joke: {},
+      editFlag: false
+    })
+  }
+
+  const updateJoke = (id, updJoke) => {
+    setJokeList(jokeList.map((joke) => joke.id === id ? {...joke, ...updJoke} : joke))
+    resetJokeEditionWrapper()
+  }
+
   return <JokeContext.Provider value={{
     jokeList,
     deleteJoke,
-    addJoke
+    addJoke,
+    editJoke,
+    updateJoke,
+    resetJokeEditionWrapper,
+    jokeEditionWrapper
   }}>
     {children}
   </JokeContext.Provider>

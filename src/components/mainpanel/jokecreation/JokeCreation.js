@@ -9,7 +9,7 @@ const JokeCreation = () => {
   const [titleMessage, setTitleMessage] = useState('')
   const [contentMessage, setContentMessage] = useState('')
 
-  const {addJoke} = useContext(JokeContext)
+  const {addJoke, jokeEditionWrapper, updateJoke, resetJokeEditionWrapper} = useContext(JokeContext)
 
   useEffect(() => {
     title.length < 3 || content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
@@ -17,13 +17,31 @@ const JokeCreation = () => {
     content.length > 0 && content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
   }, [title, content])
 
+  useEffect(() => {
+    if(jokeEditionWrapper.editFlag === true) {
+      setIsBtnDisabled(false)
+      setTitle(jokeEditionWrapper.joke.title)
+      setContent(jokeEditionWrapper.joke.content)
+    }
+  }, [jokeEditionWrapper])
+
+  useEffect(() => {
+    if(jokeEditionWrapper.editFlag === false) {
+      resetJokeEditionWrapper()
+    }
+  }, [])
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const newJoke = {
       title: title,
       content: content
     }
-    addJoke(newJoke)
+    if (jokeEditionWrapper.editFlag === true) {
+      updateJoke(jokeEditionWrapper.joke.id, newJoke)
+    } else {
+      addJoke(newJoke)
+    }
     setTitle('')
     setContent('')
   }

@@ -5,16 +5,15 @@ import {useNavigate} from "react-router-dom";
 
 const NavigationButton = ({bigButtonLabel, mainViewLink, creationLink}) => {
   const [showSmallButtons, setShowSmallButtons] = useState(false)
+  const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleBigButtonClick = () => {
     setShowSmallButtons((prevState => !prevState))
   }
 
-  const navigate = useNavigate();
-
   return (
       <>
-        <button className="navbar-toggler big_button" type="button" onClick={handleClick}>
+        <button className="navbar-toggler big_button" type="button" onClick={handleBigButtonClick}>
           {bigButtonLabel}
         </button>
         {
