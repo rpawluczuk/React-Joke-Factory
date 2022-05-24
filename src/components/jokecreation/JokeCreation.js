@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import "../../App.css"
 
-const JokeCreation = () => {
+const JokeCreation = ({handleAddJoke}) => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [isBtnDisabled, setIsBtnDisabled] = useState(true)
@@ -14,11 +14,22 @@ const JokeCreation = () => {
     content.length > 0 && content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
   }, [title, content])
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const newJoke = {
+      title: title,
+      content: content
+    }
+    handleAddJoke(newJoke)
+    setTitle('')
+    setContent('')
+  }
+
   return (
       <div>
         <p className="Data-header">Add a new joke</p>
 
-        <form className='mt-4'>
+        <form onSubmit={handleSubmit} className='mt-4'>
           <div className="d-flex flex-column align-items-center">
             <div className="row col-8 form-group">
               <label>Title</label>

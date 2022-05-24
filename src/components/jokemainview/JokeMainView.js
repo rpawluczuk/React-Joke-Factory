@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import SingleJoke from "./singlejoke/SingleJoke";
 import JokeData from "./data/JokeData";
 import JokeCreation from "../jokecreation/JokeCreation";
+import {v4 as uuidv4} from 'uuid'
 
 const JokeMainView = () => {
 
@@ -20,6 +21,11 @@ const JokeMainView = () => {
         </div>
     )
   }
+  
+  const addJoke = (newJoke) => {
+    newJoke.id = uuidv4()
+    setJokeList([newJoke, ...jokeList])
+  }
 
   return (
       <div className="container">
@@ -32,7 +38,7 @@ const JokeMainView = () => {
                 handleDelete={(id) => deleteJoke(id)}
             />
         ))}
-        <JokeCreation/>
+        <JokeCreation handleAddJoke={addJoke}/>
       </div>
   )
 }
