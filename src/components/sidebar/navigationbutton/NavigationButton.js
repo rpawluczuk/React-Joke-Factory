@@ -8,12 +8,9 @@ const NavigationButton = ({bigButtonLabel, mainViewLink, creationLink}) => {
 
   const handleClick = () => {
     setShowSmallButtons((prevState => !prevState))
-    console.log({creationLink})
-    console.log({mainViewLink})
-    console.log({bigButtonLabel})
   }
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
       <>
@@ -24,10 +21,10 @@ const NavigationButton = ({bigButtonLabel, mainViewLink, creationLink}) => {
             showSmallButtons && (
                 <>
                     <button
-                        onClick={() => {navigate('' + mainViewLink)}}
+                        onClick={() => {navigate(mainViewLink)}}
                         className="small_button">List</button>
                     <button
-                        onClick={() => {navigate('' + creationLink)}}
+                        onClick={() => {navigate(creationLink)}}
                         className="small_button">Create</button>
                 </>
             )

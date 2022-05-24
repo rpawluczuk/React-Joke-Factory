@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "../../../App.css"
+import JokeContext from "../../../context/JokeContext";
 
-const JokeCreation = ({handleAddJoke}) => {
+const JokeCreation = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [isBtnDisabled, setIsBtnDisabled] = useState(true)
   const [titleMessage, setTitleMessage] = useState('')
   const [contentMessage, setContentMessage] = useState('')
+
+  const {addJoke} = useContext(JokeContext)
 
   useEffect(() => {
     title.length < 3 || content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
@@ -20,7 +23,7 @@ const JokeCreation = ({handleAddJoke}) => {
       title: title,
       content: content
     }
-    handleAddJoke(newJoke)
+    addJoke(newJoke)
     setTitle('')
     setContent('')
   }
