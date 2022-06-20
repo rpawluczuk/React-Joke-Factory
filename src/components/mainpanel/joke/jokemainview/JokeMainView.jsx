@@ -1,10 +1,14 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import SingleJoke from "./singlejoke/SingleJoke";
-import JokeContext from "../../../context/JokeContext";
+import JokeContext from "../../../../context/JokeContext";
 
 const JokeMainView = () => {
 
-  const {jokeList} = useContext(JokeContext)
+  const {jokeList, getJokeList} = useContext(JokeContext)
+
+  useEffect(() => {
+    getJokeList()
+  }, [])
 
   if (!jokeList || jokeList.length === 0) {
     return (

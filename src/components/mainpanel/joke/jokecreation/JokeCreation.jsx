@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import "../../../App.css"
-import JokeContext from "../../../context/JokeContext";
+import "../../../../App.css"
+import JokeContext from "../../../../context/JokeContext";
 
 const JokeCreation = () => {
   const [title, setTitle] = useState('')
@@ -9,7 +9,7 @@ const JokeCreation = () => {
   const [titleMessage, setTitleMessage] = useState('')
   const [contentMessage, setContentMessage] = useState('')
 
-  const {addJoke, jokeEditionWrapper, updateJoke, resetJokeEditionWrapper} = useContext(JokeContext)
+  const {addJoke} = useContext(JokeContext)
 
   useEffect(() => {
     title.length < 3 || content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
@@ -17,19 +17,6 @@ const JokeCreation = () => {
     content.length > 0 && content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
   }, [title, content])
 
-  useEffect(() => {
-    if(jokeEditionWrapper.editFlag === true) {
-      setIsBtnDisabled(false)
-      setTitle(jokeEditionWrapper.joke.title)
-      setContent(jokeEditionWrapper.joke.content)
-    }
-  }, [jokeEditionWrapper])
-
-  useEffect(() => {
-    if(jokeEditionWrapper.editFlag === false) {
-      resetJokeEditionWrapper()
-    }
-  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -37,11 +24,8 @@ const JokeCreation = () => {
       title: title,
       content: content
     }
-    if (jokeEditionWrapper.editFlag === true) {
-      updateJoke(jokeEditionWrapper.joke.id, newJoke)
-    } else {
-      addJoke(newJoke)
-    }
+    addJoke(newJoke)
+
     setTitle('')
     setContent('')
   }

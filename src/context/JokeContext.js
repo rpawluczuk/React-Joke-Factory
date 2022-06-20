@@ -1,54 +1,69 @@
-import React, {createContext, useState} from "react";
-import JokeData from "../components/mainpanel/jokemainview/data/JokeData";
-import {v4 as uuidv4} from "uuid";
+import React, {createContext, useEffect, useState, useReducer} from "react";
+import jokeReducer from "./JokeReducer";
 
 const JokeContext = createContext()
 
 export const JokeProvider = ({children}) => {
-  const [jokeList, setJokeList] = useState(JokeData)
-  const [jokeEditionWrapper, setJokeEditionWrapper] = useState({
-    joke: {},
-    editFlag: false
-  })
 
-  const deleteJoke = (id) => {
+  const initialState = {
+    jokeList: [],
+    joke: {}
+  }
+
+  const [state, dispatch] = useReducer(jokeReducer, initialState)
+
+  const getJoke = async (id) => {
+    const response = await fetch(`/jokes/creator/${id}`, { method: 'GET'})
+    const data = await response.json()
+    dispatch({
+      type: 'GET_JOKE',
+      payload: data
+    })
+  }
+
+  const getJokeList = async () => {
+    const response = await fetch('/jokes')
+    const data = await response.json()
+    dispatch({
+      type: 'GET_JOKES',
+      payload: data
+    })
+  }
+
+  const deleteJoke = async (id) => {
     if(window.confirm('Are you sure you want to delete?')) {
-      setJokeList(jokeList.filter((joke) => joke.id !== id))
+      await fetch(`/jokes/${id}`, { method: 'DELETE'})
     }
   }
 
-  const addJoke = (newJoke) => {
-    newJoke.id = uuidv4()
-    setJokeList([newJoke, ...jokeList])
-  }
-
-  const editJoke = (joke) => {
-    setJokeEditionWrapper({
-      joke,
-      editFlag: true
+  const addJoke = async (newJoke) => {
+    await fetch('/jokes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newJoke),
     })
   }
 
-  const resetJokeEditionWrapper = () => {
-    setJokeEditionWrapper({
-      joke: {},
-      editFlag: false
+  const updateJoke = async (id, updJoke) => {
+    await fetch(`/jokes/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updJoke)
     })
-  }
-
-  const updateJoke = (id, updJoke) => {
-    setJokeList(jokeList.map((joke) => joke.id === id ? {...joke, ...updJoke} : joke))
-    resetJokeEditionWrapper()
   }
 
   return <JokeContext.Provider value={{
-    jokeList,
+    jokeList: state.jokeList,
+    joke: state.joke,
     deleteJoke,
     addJoke,
-    editJoke,
     updateJoke,
-    resetJokeEditionWrapper,
-    jokeEditionWrapper
+    getJoke,
+    getJokeList
   }}>
     {children}
   </JokeContext.Provider>

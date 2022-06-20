@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.css"
 import Sidebar from "./components/sidebar/Sidebar";
-import JokeMainView from "./components/mainpanel/jokemainview/JokeMainView";
+import JokeMainView from "./components/mainpanel/joke/jokemainview/JokeMainView";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import JokeCreation from "./components/mainpanel/jokecreation/JokeCreation";
+import JokeCreation from "./components/mainpanel/joke/jokecreation/JokeCreation";
 import {JokeProvider} from "./context/JokeContext";
+import JokeEdition from "./components/mainpanel/joke/jokeedition/JokeEdition";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
               <Routes>
                 <Route exact path='/' element={<JokeMainView/>}/>
                 <Route exact path='/joke-creation' element={<JokeCreation/>}/>
+                <Route exact path='/joke-edition/:id' element={<JokeEdition/>}/>
               </Routes>
             </div>
           </div>

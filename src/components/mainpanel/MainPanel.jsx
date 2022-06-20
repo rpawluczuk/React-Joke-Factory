@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import JokeMainView from "./jokemainview/JokeMainView";
-import JokeCreation from "./jokecreation/JokeCreation";
+import JokeMainView from "./joke/jokemainview/JokeMainView";
+import JokeCreation from "./joke/jokecreation/JokeCreation";
 
 const MainPanel = () => {
 
