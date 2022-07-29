@@ -1,33 +1,40 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../../../../App.css"
-import JokeContext from "../../../../context/JokeContext";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const JokeCreation = () => {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [jokeCreatorDto, setJokeCreatorDto] = useState({
+    title: '',
+    content: ''
+  })
   const [isBtnDisabled, setIsBtnDisabled] = useState(true)
   const [titleMessage, setTitleMessage] = useState('')
   const [contentMessage, setContentMessage] = useState('')
 
-  const {addJoke} = useContext(JokeContext)
+  const navigate = useNavigate();
 
   useEffect(() => {
-    title.length < 3 || content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-    title.length > 0 && title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
-    content.length > 0 && content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
-  }, [title, content])
+    jokeCreatorDto.title.length < 3 || jokeCreatorDto.content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
+    jokeCreatorDto.title.length > 0 && jokeCreatorDto.title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
+    jokeCreatorDto.content.length > 0 && jokeCreatorDto.content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
+  }, [jokeCreatorDto.title, jokeCreatorDto.content])
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const newJoke = {
-      title: title,
-      content: content
-    }
-    addJoke(newJoke)
+  const handleSubmit = () => {
+    axios.post(`http://localhost:8081/api/jokes`, jokeCreatorDto).then(navigate(`/joke-list`))
+  }
 
-    setTitle('')
-    setContent('')
+  const handleTitleChange = event => {
+    setJokeCreatorDto(prevState => {
+      return {...prevState, title: event.target.value}
+    })
+  }
+
+  const handleContentChange = event => {
+    setJokeCreatorDto(prevState => {
+      return {...prevState, content: event.target.value}
+    })
   }
 
   return (
@@ -38,8 +45,8 @@ const JokeCreation = () => {
           <div className="d-flex flex-column align-items-center">
             <div className="row col-8 form-group">
               <label>Title</label>
-              <input onChange={event => setTitle(event.target.value)}
-                     value={title}
+              <input onChange={handleTitleChange}
+                     value={jokeCreatorDto.title}
                      type="text"
                      className="form-control"
                      placeholder="title"/>
@@ -47,8 +54,8 @@ const JokeCreation = () => {
             </div>
             <div className="row col-8 form-group">
               <label>Content</label>
-              <textarea onChange={event => setContent(event.target.value)}
-                        value={content}
+              <textarea onChange={handleContentChange}
+                        value={jokeCreatorDto.content}
                         placeholder="content"
                         className="form-control"
                         rows="6"/>

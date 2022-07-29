@@ -1,88 +1,90 @@
-import React, {useContext, useEffect, useState} from 'react';
-import JokeContext, {JokeProvider} from "../../../../context/JokeContext";
-import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
+import axios from "axios";
 
 const JokeEdition = () => {
-  // const [title, setTitle] = useState('')
-  // const [content, setContent] = useState('')
-  const [isBtnDisabled, setIsBtnDisabled] = useState(true)
-  const [titleMessage, setTitleMessage] = useState('')
-  const [contentMessage, setContentMessage] = useState('')
+    const [isBtnDisabled, setIsBtnDisabled] = useState(true)
+    const [titleMessage, setTitleMessage] = useState('')
+    const [contentMessage, setContentMessage] = useState('')
+    const [jokeCreatorDto, setJokeCreatorDto] = useState({
+        title: '',
+        content: ''
+    })
 
-  const {updateJoke, getJoke, joke} = useContext(JokeContext)
-  const params = useParams();
+    const params = useParams();
+    const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log(title)
-  //   title.length < 3 || content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-  //   title.length > 0 && title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
-  //   content.length > 0 && content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
-  // }, [title, content])
+    useEffect(() => {
+      jokeCreatorDto.title.length < 3 || jokeCreatorDto.content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
+      jokeCreatorDto.title.length > 0 && jokeCreatorDto.title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
+      jokeCreatorDto.content.length > 0 && jokeCreatorDto.content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
+    }, [jokeCreatorDto.title, jokeCreatorDto.content])
 
-  useEffect(() => {
-    getJoke(params.id)
-    console.log(joke.value)
-  }, [])
+    useEffect(() => {
+        axios.get(`http://localhost:8081/api/jokes/creator/${params.id}`).then((res) => {
+            setJokeCreatorDto({
+                id: params.id,
+                title: res.data.title,
+                content: res.data.content
+            })
+        })
+    }, [])
 
-  const {
-    title,
-    content
-  } = joke
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const newJoke = {
-      title: title,
-      content: content
+    const handleSubmit = () => {
+        axios.put(`http://localhost:8081/api/jokes`, jokeCreatorDto).then(navigate(`/joke-list`))
     }
 
-    // setTitle('')
-    // setContent('')
-  }
+    const handleTitleChange = event => {
+        setJokeCreatorDto(prevState => {
+            return {...prevState, title: event.target.value}
+        })
+    }
 
-  // onChange={event => setTitle(event.target.value)}
+    const handleContentChange = event => {
+        setJokeCreatorDto(prevState => {
+            return {...prevState, content: event.target.value}
+        })
+    }
 
-  return (
-      <JokeProvider>
+    return (
         <div>
-          <p className="Data-header">Edit a new joke</p>
-
-          <form onSubmit={handleSubmit} className='mt-4'>
-            <div className="d-flex flex-column align-items-center">
-              <div className="row col-8 form-group">
-                <label>Title</label>
-                <input
-                       value={title}
-                       type="text"
-                       className="form-control"
-                       placeholder="title"/>
-                {titleMessage && <div className='Validation-message'>{titleMessage}</div> }
-              </div>
-              <div className="row col-8 form-group">
-                <label>Content</label>
-                <textarea
-                          value={content}
-                          placeholder="content"
-                          className="form-control"
-                          rows="6"/>
-                {contentMessage && <div className='Validation-message'>{contentMessage}</div> }
-              </div>
-              <div className="row col-8 m-3">
-                <div className="d-flex flex-row-reverse">
-                  <button className="btn btn-success float-right mx-2"
-                          type="submit" disabled={isBtnDisabled}>Add Joke
-                  </button>
-                  <button className="btn btn-primary float-right mx-2">Cancel
-                  </button>
-                  <button type="submit"
-                          className="btn btn-primary float-right mx-2">Reset
-                  </button>
+            <p className="Data-header">Edit a new joke</p>
+            <form onSubmit={handleSubmit} className='mt-4'>
+                <div className="d-flex flex-column align-items-center">
+                    <div className="row col-8 form-group">
+                        <label>Title</label>
+                        <input onChange={handleTitleChange}
+                               value={jokeCreatorDto.title}
+                               type="text"
+                               className="form-control"
+                               placeholder="title"
+                        />
+                        {titleMessage && <div className='Validation-message'>{titleMessage}</div>}
+                    </div>
+                    <div className="row col-8 form-group">
+                        <label>Content</label>
+                        <textarea onChange={handleContentChange}
+                                  value={jokeCreatorDto.content}
+                                  placeholder="content"
+                                  className="form-control"
+                                  rows="6"/>
+                        {contentMessage && <div className='Validation-message'>{contentMessage}</div>}
+                    </div>
+                    <div className="row col-8 m-3">
+                        <div className="d-flex flex-row-reverse">
+                            <button className="btn btn-success float-right mx-2"
+                                    type="submit" disabled={isBtnDisabled}>Add Joke
+                            </button>
+                            <button className="btn btn-primary float-right mx-2">Cancel
+                            </button>
+                            <button type="submit"
+                                    className="btn btn-primary float-right mx-2">Reset
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </form>
+            </form>
         </div>
-      </JokeProvider>
-  )
+    )
 }
 export default JokeEdition;

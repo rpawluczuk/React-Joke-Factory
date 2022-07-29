@@ -8,7 +8,7 @@ const MainPanel = () => {
   return (
       <BrowserRouter>
           <Routes>
-            <Route exact path='/' element={<JokeMainView/>}/>
+            <Route exact path='/joke-list' element={<JokeMainView/>}/>
             <Route path='/joke-creation' element={<JokeCreation/>}/>
           </Routes>
       </BrowserRouter>
