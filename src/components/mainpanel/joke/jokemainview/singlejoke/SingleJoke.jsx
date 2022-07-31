@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
 import {FaEdit, FaTimes} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
-import {jokeContext} from "../../../../../context/JokeContext";
+import {JokeContext} from "../../../../../context/JokeContext";
 import axios from "axios";
 
 const SingleJoke = ({joke}) => {
-    const [jokeList, setJokeList] = useContext(jokeContext);
     const navigate = useNavigate();
+    const {refreshJokeList} = useContext(JokeContext)
 
     const handleEditJoke = (id) => {
         navigate(`/joke-edition/${id}`)
@@ -15,14 +15,8 @@ const SingleJoke = ({joke}) => {
     const handleDelete = (id) => {
         if (window.confirm('Are you sure you want to delete?')) {
             axios.delete(`http://localhost:8081/api/jokes/${id}`)
-                .then(getJokes)
+                .then(refreshJokeList)
         }
-    }
-
-    const getJokes = () => {
-        axios.get(`http://localhost:8081/api/jokes`).then((res) => {
-            setJokeList(res.data)
-        })
     }
 
     return (
