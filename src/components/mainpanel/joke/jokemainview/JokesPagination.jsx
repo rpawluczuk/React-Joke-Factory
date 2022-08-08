@@ -4,30 +4,52 @@ import axios from "axios";
 import {JokeContext} from "../../../../context/JokeContext";
 
 
-
 const JokesPagination = () => {
 
-    const [pagination, setPagination] = useState({});
-    const {refreshJokeList} = useContext(JokeContext)
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalItems, setTotalItems] = useState();
+    const [totalPages, setTotalPages] = useState();
+    const [pageSize, setPageSize] = useState(5);
+    const {refreshJokeList, jokeList} = useContext(JokeContext)
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/jokes/pagination`).then((res) => {
-            setPagination(res.data)
+            setCurrentPage(res.data.currentPage)
+            setTotalItems(res.data.totalItems)
+            setTotalPages(res.data.totalPages)
+            setPageSize(res.data.pageSize)
         })
     }, [])
 
     useEffect(() => {
+        const pagination = {
+            currentPage: currentPage,
+            totalItems: totalItems,
+            totalPages: totalPages,
+            pageSize: pageSize
+        }
         axios.put(`http://localhost:8081/api/jokes/pagination`, pagination).then(refreshJokeList)
-    }, [pagination.currentPage])
+    }, [currentPage, pageSize])
+
+    useEffect(() => {
+        axios.get(`http://localhost:8081/api/jokes/pagination`).then((res) => {
+            setCurrentPage(res.data.currentPage)
+            setTotalItems(res.data.totalItems)
+            setTotalPages(res.data.totalPages)
+            setPageSize(res.data.pageSize)
+        })
+    }, [jokeList])
 
     const handlePageChange = (event) => {
-        setPagination(prevState => {
-            return {...prevState, currentPage: event.selected}
-        })
+        setCurrentPage(event.selected)
+    };
+
+    const handleSizeChange = (event) => {
+        setPageSize(event.target.value)
     };
 
     return (
-        <div className={"d-flex justify-content-center"}>
+        <div className={"d-flex flex-row justify-content-center"}>
             <ReactPaginate
                 previousLabel="< previous"
                 nextLabel="next >"
@@ -40,15 +62,24 @@ const JokesPagination = () => {
                 breakLabel="..."
                 breakClassName="page-item"
                 breakLinkClassName="page-link"
-                pageCount={pagination.totalPages}
+                pageCount={totalPages}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={handlePageChange}
                 containerClassName="pagination"
                 activeClassName="active"
-                forcePage={pagination.currentPage}
+                forcePage={currentPage}
                 renderOnZeroPageCount={null}
             />
+            <div className="ms-4">
+                <span className="d-inline me-3" style={{height: `36px`}}>Page Size</span>
+                <select onChange={handleSizeChange} className="d-inline page-item" style={{height: `36px`}}>
+                    <option selected="true">5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                </select>
+            </div>
         </div>
     );
 }
