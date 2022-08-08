@@ -8,9 +8,9 @@ const Sidebar = () => {
   return (
       <div className="sidebar fixed-top">
         <img src={logo} className="sidebar_logo" alt="logo"/>
-          <NavigationButton bigButtonLabel={'Jokes'} mainViewLink={'/'} creationLink={'/joke-creation'}/>
+          <NavigationButton bigButtonLabel={'Jokes'} mainViewLink={'joke-list/'} creationLink={'/joke-creation'}/>
           <NavigationButton bigButtonLabel={"Structures"} mainViewLink={'/structure'} creationLink={'/structure-creation'}/>
-          <NavigationButton bigButtonLabel={"Authors"} mainViewLink={'/author'} creationLink={'/author-creation'}/>
+          <NavigationButton bigButtonLabel={"Authors"} mainViewLink={'/author-list'} creationLink={'/author-creation'}/>
       </div>
   )
 }

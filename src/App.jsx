@@ -5,6 +5,7 @@ import JokeMainView from "./components/mainpanel/joke/jokemainview/JokeMainView"
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import JokeCreation from "./components/mainpanel/joke/jokecreation/JokeCreation";
 import JokeEdition from "./components/mainpanel/joke/jokeedition/JokeEdition";
+import AuthorMainView from "./components/mainpanel/author/AuthorMainView";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                             <Route exact path='/joke-list' element={<JokeMainView/>}/>
                             <Route exact path='/joke-creation' element={<JokeCreation/>}/>
                             <Route exact path='/joke-edition/:id' element={<JokeEdition/>}/>
+                            <Route exact path='/author-list' element={<AuthorMainView/>}/>
                         </Routes>
                     </div>
                 </div>
