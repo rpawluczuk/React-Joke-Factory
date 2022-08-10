@@ -1,52 +1,42 @@
 import React, {useContext, useEffect, useState} from 'react';
 import ReactPaginate from 'react-paginate';
 import axios from "axios";
-import {JokeContext} from "../../../../context/JokeContext";
 import {AuthorContext} from "../../../../context/AuthorContext";
 
 
 const AuthorPagination = () => {
 
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalItems, setTotalItems] = useState();
-    const [totalPages, setTotalPages] = useState();
-    const [pageSize, setPageSize] = useState(5);
-    const {refreshAuthorList, authorList} = useContext(AuthorContext)
+    const [pagination, setPagination] = useState({});
+    const {refreshAuthorList} = useContext(AuthorContext)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/authors/pagination`).then((res) => {
-            setCurrentPage(res.data.currentPage)
-            setTotalItems(res.data.totalItems)
-            setTotalPages(res.data.totalPages)
-            setPageSize(res.data.pageSize)
-        })
+        getPagination()
     }, [])
 
     useEffect(() => {
-        const pagination = {
-            currentPage: currentPage,
-            totalItems: totalItems,
-            totalPages: totalPages,
-            pageSize: pageSize
-        }
-        axios.put(`http://localhost:8081/api/authors/pagination`, pagination).then(refreshAuthorList)
-    }, [currentPage, pageSize])
-
-    useEffect(() => {
-        axios.get(`http://localhost:8081/api/authors/pagination`).then((res) => {
-            setCurrentPage(res.data.currentPage)
-            setTotalItems(res.data.totalItems)
-            setTotalPages(res.data.totalPages)
-            setPageSize(res.data.pageSize)
+        axios.put(`http://localhost:8081/api/authors/pagination`, pagination).then(() => {
+            refreshAuthorList()
+        }).then(() => {
+            getPagination()
         })
-    }, [authorList])
+    }, [pagination.currentPage, pagination.pageSize])
+
+    const getPagination = () => {
+        axios.get(`http://localhost:8081/api/authors/pagination`).then((res) => {
+            setPagination(res.data)
+        })
+    };
 
     const handlePageChange = (event) => {
-        setCurrentPage(event.selected)
+        setPagination(prevState => {
+            return {...prevState, currentPage: event.selected}
+        })
     };
 
     const handleSizeChange = (event) => {
-        setPageSize(event.target.value)
+        setPagination(prevState => {
+            return {...prevState, pageSize: event.target.value}
+        })
     };
 
     return (
@@ -63,13 +53,13 @@ const AuthorPagination = () => {
                 breakLabel="..."
                 breakClassName="page-item"
                 breakLinkClassName="page-link"
-                pageCount={totalPages}
+                pageCount={pagination.totalPages}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={handlePageChange}
                 containerClassName="pagination"
                 activeClassName="active"
-                forcePage={currentPage}
+                forcePage={pagination.currentPage}
                 renderOnZeroPageCount={null}
             />
             <div className="ms-4">

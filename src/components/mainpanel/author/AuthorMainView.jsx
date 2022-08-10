@@ -34,7 +34,6 @@ const [authorList, setAuthorList] = useState([])
                 {authorList.map((author) => (
                     <SingleAuthor key={author.id} author={author}/>
                 ))}
-
                 <AuthorPagination></AuthorPagination>
             </div>
         </AuthorContext.Provider>
