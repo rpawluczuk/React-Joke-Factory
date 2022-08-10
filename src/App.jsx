@@ -7,6 +7,7 @@ import JokeCreation from "./components/mainpanel/joke/jokecreation/JokeCreation"
 import JokeEdition from "./components/mainpanel/joke/jokeedition/JokeEdition";
 import AuthorMainView from "./components/mainpanel/author/AuthorMainView";
 import AuthorCreation from "./components/mainpanel/author/AuthorCreation";
+import AuthorEdition from "./components/mainpanel/author/AuthorEdition";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                             <Route exact path='/joke-edition/:id' element={<JokeEdition/>}/>
                             <Route exact path='/author-list' element={<AuthorMainView/>}/>
                             <Route exact path='/author-creation' element={<AuthorCreation/>}/>
+                            <Route exact path='/author-edition/:id' element={<AuthorEdition/>}/>
                         </Routes>
                     </div>
                 </div>

@@ -73,7 +73,7 @@ const JokeEdition = () => {
                     <div className="row col-8 m-3">
                         <div className="d-flex flex-row-reverse">
                             <button className="btn btn-success float-right mx-2"
-                                    type="submit" disabled={isBtnDisabled}>Add Joke
+                                    type="submit" disabled={isBtnDisabled}>Update Joke
                             </button>
                             <button className="btn btn-primary float-right mx-2">Cancel
                             </button>
