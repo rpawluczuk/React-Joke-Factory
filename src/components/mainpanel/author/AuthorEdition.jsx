@@ -16,7 +16,7 @@ const AuthorEdition = () => {
 
     useEffect(() => {
         authorCreatorDto.name.length < 3 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-        authorCreatorDto.name.length> 0 && authorCreatorDto.name.length < 3 ? setNameMessage("Name must be at least 3 characters long!") : setNameMessage(null)
+        authorCreatorDto.name.length > 0 && authorCreatorDto.name.length < 3 ? setNameMessage("Name must be at least 3 characters long!") : setNameMessage(null)
     }, [authorCreatorDto.name])
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const AuthorEdition = () => {
                                type="text"
                                className="form-control"
                                placeholder="name"/>
-                        {nameMessage && <div className='Validation-message'>{nameMessage}</div> }
+                        {nameMessage && <div className='Validation-message'>{nameMessage}</div>}
                     </div>
                     <div className="row col-8 form-group">
                         <label>Surname</label>
