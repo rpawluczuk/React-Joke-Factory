@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import JokeMainView from "./joke/jokemainview/JokeMainView";
-import JokeCreation from "./joke/jokecreation/JokeCreation";
+import JokeMainView from "./joke/JokeMainView";
+import JokeCreation from "./joke/JokeCreation";
 import AuthorMainView from "./author/AuthorMainView";
 import AuthorCreation from "./author/AuthorCreation";
 

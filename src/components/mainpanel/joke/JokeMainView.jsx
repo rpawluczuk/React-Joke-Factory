@@ -1,7 +1,7 @@
 import React, {useEffect, useState, createContext, useContext} from 'react';
-import SingleJoke from "./singlejoke/SingleJoke";
-import {JokeContext, JokeProvider} from "../../../../context/JokeContext";
-import JokesPagination from "./JokesPagination";
+import SingleJoke from "./jokemainview/SingleJoke";
+import {JokeContext, JokeProvider} from "../../../context/JokeContext";
+import JokesPagination from "./jokemainview/JokesPagination";
 import axios from "axios";
 
 const JokeMainView = () => {

@@ -4,7 +4,9 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import Select from "react-select";
 
-const JokeCreation = () => {
+
+const FastCreation = () => {
+
     const [jokeCreatorDto, setJokeCreatorDto] = useState({
         title: '',
         content: '',
@@ -15,7 +17,7 @@ const JokeCreation = () => {
     const [contentMessage, setContentMessage] = useState('')
     const [authorItemList, setAuthorItemList] = useState([])
 
-    const navigate = useNavigate();
+    const navigate = useNavigate
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/authors/list-items`).then((res) => {
@@ -28,7 +30,6 @@ const JokeCreation = () => {
         jokeCreatorDto.title.length > 0 && jokeCreatorDto.title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
         jokeCreatorDto.content.length > 0 && jokeCreatorDto.content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
     }, [jokeCreatorDto.title, jokeCreatorDto.content])
-
 
     const handleSubmit = () => {
         axios.post(`http://localhost:8081/api/jokes`, jokeCreatorDto).then(navigate(`/joke-list`))
@@ -52,10 +53,9 @@ const JokeCreation = () => {
         })
     };
 
-    return (
-        <div>
-            <p className="Data-header">Add a new joke</p>
 
+    return (
+        <div className="container">
             <form onSubmit={handleSubmit} className='mt-4'>
                 <div className="d-flex flex-column align-items-center">
                     <div className="row col-8 form-group">
@@ -102,6 +102,7 @@ const JokeCreation = () => {
                 </div>
             </form>
         </div>
-    )
+    );
 }
-export default JokeCreation;
+
+export default FastCreation;
