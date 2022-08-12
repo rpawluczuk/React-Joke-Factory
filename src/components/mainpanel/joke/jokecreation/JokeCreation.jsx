@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import "../../../../App.css"
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import Select from "react-select";
 
 const JokeCreation = () => {
     const [jokeCreatorDto, setJokeCreatorDto] = useState({
         title: '',
         content: '',
-        authorItem: {}
+        authorItem: null
     })
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
     const [titleMessage, setTitleMessage] = useState('')
@@ -45,10 +46,9 @@ const JokeCreation = () => {
         })
     }
 
-    const handleAuthorSelect = event => {
-        console.log(JSON.parse(event.target.value))
+    const handleAuthorSelect = selectedAuthor => {
         setJokeCreatorDto(prevState => {
-            return {...prevState, authorItem: JSON.parse(event.target.value)}
+            return {...prevState, authorItem: selectedAuthor}
         })
     };
 
@@ -78,15 +78,14 @@ const JokeCreation = () => {
                     </div>
                     <div className="row col-8 form-group">
                         <label>Author</label>
-                        <select onChange={handleAuthorSelect} className="form-control" data-toggle="tooltip"
-                                data-placement="right" title="Select Author Branch">
-                            <option value="null">--Select Author--</option>
-                            {authorItemList.map(authorItem => (
-                                <option key={authorItem.id} value={JSON.stringify(authorItem)}>
-                                    {authorItem.text}
-                                </option>
-                            ))}
-                        </select>
+                        <Select
+                            className="p-0"
+                            value={jokeCreatorDto.authorItem}
+                            options={authorItemList}
+                            onChange={handleAuthorSelect}
+                            isSearchable={true}
+                            placeholder={"Select Author Branch"}
+                        />
                     </div>
                     <div className="row col-8 m-3">
                         <div className="d-flex flex-row-reverse">

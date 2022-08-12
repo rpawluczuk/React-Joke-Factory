@@ -29,11 +29,8 @@ const SingleJoke = ({joke}) => {
                 </div>
             </div>
             <div className='card-body px-4'>
-          <pre style={{
-              whiteSpace: 'pre-wrap',
-              fontSize: 'larger',
-              fontFamily: 'serif'
-          }}>{joke.content}</pre>
+                <pre style={{whiteSpace: 'pre-wrap', fontSize: 'larger', fontFamily: 'serif'}}>{joke.content}</pre>
+                <div className='d-flex flex-row justify-content-end' style={{color: 'grey'}}> Author: { joke.author } </div>
             </div>
         </div>
     )
