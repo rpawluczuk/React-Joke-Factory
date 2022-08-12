@@ -4,6 +4,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import FastCreation from "./jokeCreation/FastCreation";
+import CreationByFactory from "./jokeCreation/CreationByFactory";
 
 const JokeCreation = () => {
 
@@ -12,7 +13,7 @@ const JokeCreation = () => {
             <p className="Data-header">Add a new joke</p>
 
             <Tabs
-                defaultActiveKey="fastCreation"
+                defaultActiveKey="creationByFactory"
                 id="uncontrolled-tab-example"
                 className="mb-3"
             >
@@ -20,7 +21,7 @@ const JokeCreation = () => {
                     <FastCreation/>
                 </Tab>
                 <Tab eventKey="creationByFactory" title="Creation by Factory">
-                    <h1>In progress</h1>
+                    <CreationByFactory/>
                 </Tab>
             </Tabs>
         </div>
