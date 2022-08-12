@@ -1,10 +1,11 @@
-import React, {useEffect, useState}  from 'react';
+import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import axios from "axios";
-import SingleJoke from "../jokemainview/SingleJoke";
+import TopicChildBlock from "./creationByFactory/TopicChildBlock";
 
 
-const CreationByFactory = ()  => {
+
+const CreationByFactory = () => {
 
     const [categoryList, setCategoryList] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(null)
@@ -29,7 +30,7 @@ const CreationByFactory = ()  => {
             }
             console.log(topicCreatorChildRowRequestDto)
             axios.get(`http://localhost:8081/api/topics/topic-creator-child-row`, {
-                params : {
+                params: {
                     topicCreatorChildRowRequestDto: JSON.stringify(topicCreatorChildRowRequestDto)
                 }
             }).then((res) => {
@@ -62,7 +63,7 @@ const CreationByFactory = ()  => {
 
             <div className="d-flex flex-column align-items-center">
                 {topicCreatorChildList.map((topic) => (
-                    <div>{topic.name}</div>
+                    <TopicChildBlock topic={topic}/>
                 ))}
             </div>
         </div>

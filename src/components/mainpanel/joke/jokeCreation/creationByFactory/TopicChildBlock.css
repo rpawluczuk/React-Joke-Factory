@@ -1,0 +1,14 @@
+.jokeTopicBlock {
+    width: 180px;
+    height: 180px;
+    background: blanchedalmond;
+    border-style: solid;
+}
+
+.Item-top-button {
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: dimgrey;
+    text-align: center;
+}
