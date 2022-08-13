@@ -4,7 +4,6 @@ import axios from "axios";
 import TopicChildBlock from "./creationByFactory/TopicChildBlock";
 
 
-
 const CreationByFactory = () => {
 
     const [categoryList, setCategoryList] = useState([])
@@ -60,11 +59,12 @@ const CreationByFactory = () => {
                     />
                 </div>
             </div>
+            <div className="d-flex flex-row flex-wrap">
 
-            <div className="d-flex flex-column align-items-center">
-                {topicCreatorChildList.map((topic) => (
-                    <TopicChildBlock topic={topic}/>
-                ))}
+                    {topicCreatorChildList.map((topic) => (
+                        <TopicChildBlock topic={topic}/>
+                    ))}
+
             </div>
         </div>
     );
