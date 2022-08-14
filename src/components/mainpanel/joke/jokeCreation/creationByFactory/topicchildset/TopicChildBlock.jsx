@@ -1,13 +1,23 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "./TopicChildBlock.css";
 import {FaWindowClose, FaGripHorizontal} from "react-icons/all";
+import {TopicContext} from "../../../../../../context/TopicContext";
 
 const TopicChildBlock = ({topic}) => {
 
     const [isSelected, setIsSelected] = useState(false);
+    const {selectedTopicId, setSelectedTopicId} = useContext(TopicContext)
+
+    useEffect(() => {
+        if (selectedTopicId === topic.id && isSelected === false) {
+            setIsSelected(true)
+        } else if (selectedTopicId !== topic.id && isSelected === true) {
+            setIsSelected(false)
+        }
+    }, [selectedTopicId])
 
     const handleShowChildren = () => {
-        setIsSelected(prevState => !prevState);
+        setSelectedTopicId(topic.id);
     }
 
     return (

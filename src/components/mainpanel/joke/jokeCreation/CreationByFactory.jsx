@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import axios from "axios";
-import TopicChildBlock from "./creationByFactory/TopicChildBlock";
+import TopicChildBlock from "./creationByFactory/topicchildset/TopicChildBlock";
+import {TopicContext} from "../../../../context/TopicContext";
+import TopicChildSet from "./creationByFactory/TopicChildSet";
 
 
 const CreationByFactory = () => {
@@ -9,6 +11,7 @@ const CreationByFactory = () => {
     const [categoryList, setCategoryList] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [topicCreatorChildList, setTopicCreatorChildList] = useState([])
+    const [selectedTopicId, setSelectedTopicId] = useState()
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
@@ -59,13 +62,9 @@ const CreationByFactory = () => {
                     />
                 </div>
             </div>
-            <div className="d-flex flex-row flex-wrap">
-
-                    {topicCreatorChildList.map((topic) => (
-                        <TopicChildBlock topic={topic}/>
-                    ))}
-
-            </div>
+            <TopicContext.Provider value={{selectedTopicId, setSelectedTopicId}}>
+                <TopicChildSet topicCreatorChildList={topicCreatorChildList}/>
+            </TopicContext.Provider>
         </div>
     );
 }
