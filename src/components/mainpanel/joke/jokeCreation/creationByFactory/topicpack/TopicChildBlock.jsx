@@ -2,11 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import "./TopicChildBlock.css";
 import {FaWindowClose, FaGripHorizontal} from "react-icons/all";
 import {TopicContext} from "../../../../../../context/TopicContext";
+import {TopicPanelContext} from "../../../../../../context/TopicPanelContext";
+import topicPack from "../TopicPack";
 
 const TopicChildBlock = ({topic}) => {
 
     const [isSelected, setIsSelected] = useState(false);
-    const {selectedTopicId, setSelectedTopicId} = useContext(TopicContext)
+    const {selectedTopicId, setSelectedTopicId, topicPackNumber} = useContext(TopicContext)
+    const {selectedTopicIdList, setSelectedTopicIdList} = useContext(TopicPanelContext)
 
     useEffect(() => {
         if (selectedTopicId === topic.id && isSelected === false) {
@@ -18,6 +21,9 @@ const TopicChildBlock = ({topic}) => {
 
     const handleShowChildren = () => {
         setSelectedTopicId(topic.id);
+        setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
+            topic.id
+        ]);
     }
 
     return (
