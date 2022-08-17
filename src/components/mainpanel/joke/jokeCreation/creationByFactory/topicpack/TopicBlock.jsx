@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import "./TopicChildBlock.css";
+import "./TopicBlock.css";
 import {FaWindowClose, FaGripHorizontal} from "react-icons/all";
-import {TopicContext} from "../../../../../../context/TopicContext";
+import {TopicPackContext} from "../../../../../../context/TopicPackContext";
 import {TopicPanelContext} from "../../../../../../context/TopicPanelContext";
-import topicPack from "../TopicPack";
 
-const TopicChildBlock = ({topic}) => {
+const TopicBlock = ({topic}) => {
 
     const [isSelected, setIsSelected] = useState(false);
-    const {selectedTopicId, setSelectedTopicId, topicPackNumber} = useContext(TopicContext)
+    const {selectedTopicId, setSelectedTopicId, topicPackNumber} = useContext(TopicPackContext)
     const {selectedTopicIdList, setSelectedTopicIdList} = useContext(TopicPanelContext)
 
     useEffect(() => {
@@ -27,7 +26,7 @@ const TopicChildBlock = ({topic}) => {
     }
 
     return (
-        <div className="jokeTopicBlock d-flex flex-column justify-content-between m-3"
+        <div className="topicBlock d-flex flex-column justify-content-between m-3"
             style={{
                 backgroundColor: isSelected ? 'burlywood' : 'blanchedalmond',
                 borderColor: isSelected ? 'red' : 'black'
@@ -53,4 +52,4 @@ const TopicChildBlock = ({topic}) => {
     );
 }
 
-export default TopicChildBlock;
+export default TopicBlock;

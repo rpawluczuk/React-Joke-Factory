@@ -1,7 +1,8 @@
-.jokeTopicBlock {
+.topicBlock {
     width: 180px;
     height: 180px;
     border-style: solid;
+    background: blanchedalmond;
 }
 
 .Item-top-button {
@@ -10,4 +11,9 @@
     font-size: 26px;
     color: dimgrey;
     text-align: center;
+}
+
+.buttonSize{
+    width: 35px;
+    height: 35px;
 }

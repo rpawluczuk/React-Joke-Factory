@@ -1,15 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import TopicChildBlock from "./topicpack/TopicChildBlock";
-import {TopicContext} from "../../../../../context/TopicContext";
+import TopicBlock from "./topicpack/TopicBlock";
+import {TopicPackContext} from "../../../../../context/TopicPackContext";
 import axios from "axios";
+import TopicBlockCreator from "./topicpack/TopicBlockCreator";
 
 const TopicPack = ({parentId, topicPackNumber}) => {
 
     const [topicCreatorChildList, setTopicCreatorChildList] = useState([])
-    // const [topicPackNumber, setTopicPackNumber] = useState()
+    const [selectedTopicId, setSelectedTopicId] = useState()
 
     useEffect(() => {
-        console.log(parentId)
+        setSelectedTopicId(parentId)
+        refreshTopicPack()
+    }, [parentId])
+
+    const refreshTopicPack = () => {
         const topicCreatorChildRowRequestDto = {
             parentId: parentId,
             topicPagination: {
@@ -26,19 +31,19 @@ const TopicPack = ({parentId, topicPackNumber}) => {
         }).then((res) => {
             setTopicCreatorChildList(res.data.topicCreatorChildList)
         });
-    }, [parentId])
+    }
 
-    const [selectedTopicId, setSelectedTopicId] = useState([])
 
     return (
-        <TopicContext.Provider value={{selectedTopicId, setSelectedTopicId, topicPackNumber}}>
+        <TopicPackContext.Provider value={{selectedTopicId, setSelectedTopicId, topicPackNumber, refreshTopicPack}}>
             <hr></hr>
             <div className="d-flex flex-row flex-wrap">
                 {topicCreatorChildList.map((topic) => (
-                    <TopicChildBlock key={topic.id} topic={topic}/>
+                    <TopicBlock key={topic.id} topic={topic}/>
                 ))}
+                <TopicBlockCreator/>
             </div>
-        </TopicContext.Provider>
+        </TopicPackContext.Provider>
     );
 }
 
