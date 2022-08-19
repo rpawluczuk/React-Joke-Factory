@@ -8,7 +8,7 @@ const TopicBlockCreator = () => {
 
     const [topicItemList, setTopicItemList] = useState([])
     const [topicName, setTopicName] = useState('')
-    const {selectedTopicId, refreshTopicPack} = useContext(TopicPackContext)
+    const {topicParentId, refreshTopicPack} = useContext(TopicPackContext)
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/topics/list-items`).then((res) => {
@@ -16,14 +16,14 @@ const TopicBlockCreator = () => {
         });
     }, [])
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const topicCreatorChildDto = {
             name: topicName,
-            parentId: selectedTopicId,
+            parentId: topicParentId,
         }
-        axios.post(`http://localhost:8081/api/topics/add-topic-child`, topicCreatorChildDto)
+        await axios.post(`http://localhost:8081/api/topics/add-topic-child`, topicCreatorChildDto)
             .then(setTopicName(''))
-            .then(refreshTopicPack)
+        await refreshTopicPack(0)
     }
 
     const handleNameChange = event => {

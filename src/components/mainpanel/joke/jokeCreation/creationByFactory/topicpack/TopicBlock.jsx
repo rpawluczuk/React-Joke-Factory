@@ -3,26 +3,32 @@ import "./TopicBlock.css";
 import {FaWindowClose, FaGripHorizontal} from "react-icons/all";
 import {TopicPackContext} from "../../../../../../context/TopicPackContext";
 import {TopicPanelContext} from "../../../../../../context/TopicPanelContext";
+import axios from "axios";
 
 const TopicBlock = ({topic}) => {
 
     const [isSelected, setIsSelected] = useState(false);
-    const {selectedTopicId, setSelectedTopicId, topicPackNumber} = useContext(TopicPackContext)
-    const {selectedTopicIdList, setSelectedTopicIdList} = useContext(TopicPanelContext)
+    const {topicParentId, setTopicParentId, topicPackNumber, refreshTopicPack} = useContext(TopicPackContext)
+    const {setSelectedTopicIdList} = useContext(TopicPanelContext)
 
     useEffect(() => {
-        if (selectedTopicId === topic.id && isSelected === false) {
+        if (topicParentId === topic.id && isSelected === false) {
             setIsSelected(true)
-        } else if (selectedTopicId !== topic.id && isSelected === true) {
+        } else if (topicParentId !== topic.id && isSelected === true) {
             setIsSelected(false)
         }
-    }, [selectedTopicId])
+    }, [topicParentId])
 
     const handleShowChildren = () => {
-        setSelectedTopicId(topic.id);
+        setTopicParentId(topic.id);
         setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
             topic.id
         ]);
+    }
+
+    const handleDeleteRelation = async () => {
+        await axios.delete(`http://localhost:8081/api/topics//remove-relation?topic-parent-id=${topicParentId}&topic-child-id=${topic.id}`)
+        await refreshTopicPack(0)
     }
 
     return (
@@ -32,7 +38,7 @@ const TopicBlock = ({topic}) => {
                 borderColor: isSelected ? 'red' : 'black'
             }}>
             <div className="d-flex flex-row justify-content-end" style={{background: "darkseagreen"}}>
-                <button className='Item-top-button'>
+                <button className='Item-top-button' onClick={handleDeleteRelation}>
                     <FaWindowClose/>
                 </button>
             </div>
@@ -42,10 +48,8 @@ const TopicBlock = ({topic}) => {
                 </pre>
             </div>
             <div className="d-flex flex-row justify-content-center">
-                <button className="btn-sm btn-outline-warning">
-                    <FaGripHorizontal
-                        style={{fontSize: "26px"}}
-                        onClick={handleShowChildren}/>
+                <button className="btn-sm btn-outline-warning" onClick={handleShowChildren}>
+                    <FaGripHorizontal style={{fontSize: "26px"}}/>
                 </button>
             </div>
         </div>
