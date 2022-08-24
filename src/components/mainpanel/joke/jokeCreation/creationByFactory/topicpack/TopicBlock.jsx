@@ -9,7 +9,7 @@ const TopicBlock = ({topic}) => {
 
     const [isSelected, setIsSelected] = useState(false);
     const {topicParentId, setTopicParentId, topicPackNumber, refreshTopicPack} = useContext(TopicPackContext)
-    const {setSelectedTopicIdList} = useContext(TopicPanelContext)
+    const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
         if (topicParentId === topic.id && isSelected === false) {
@@ -21,13 +21,11 @@ const TopicBlock = ({topic}) => {
 
     const handleShowChildren = () => {
         setTopicParentId(topic.id);
-        setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
-            topic.id
-        ]);
+        addTopicPack(topic.id, topicPackNumber)
     }
 
     const handleDeleteRelation = async () => {
-        await axios.delete(`http://localhost:8081/api/topics//remove-relation?topic-parent-id=${topicParentId}&topic-child-id=${topic.id}`)
+        await axios.delete(`http://localhost:8081/api/topics/remove-relation?topic-parent-id=${topicParentId}&topic-child-id=${topic.id}`)
         await refreshTopicPack(0)
     }
 

@@ -25,9 +25,15 @@ const CreationByFactory = () => {
         }
     }, [selectedCategory])
 
-    const handleCategorySelect = newSelectedCategory => {
+    const handleCategorySelect = (newSelectedCategory) => {
         setSelectedCategory(newSelectedCategory)
     };
+
+    const addTopicPack = (parentId, topicPackNumber) => {
+        setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
+            parentId
+        ]);
+    }
 
     return (
         <div className="container">
@@ -44,7 +50,7 @@ const CreationByFactory = () => {
                     />
                 </div>
             </div>
-            <TopicPanelContext.Provider value={{selectedTopicIdList, setSelectedTopicIdList}}>
+            <TopicPanelContext.Provider value={{selectedTopicIdList, addTopicPack}}>
                 {selectedTopicIdList.map((parentId, index) => (
                     <TopicPack parentId={parentId} topicPackNumber={index}/>
                 ))}
