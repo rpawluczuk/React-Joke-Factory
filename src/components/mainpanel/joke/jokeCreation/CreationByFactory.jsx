@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import axios from "axios";
 import TopicPack from "./creationByFactory/TopicPack";
-import {TopicPanelContext} from "../../../../context/TopicPanelContext";
+import {TopicPanelContext} from "./TopicPanelContext";
 
 
 const CreationByFactory = () => {

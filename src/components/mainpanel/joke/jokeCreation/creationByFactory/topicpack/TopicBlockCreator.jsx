@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import axios from "axios";
 import "./TopicBlock.css";
-import {TopicPackContext} from "../../../../../../context/TopicPackContext";
+import {TopicPackContext} from "../TopicPackContext";
 import {FaCheck} from "react-icons/all";
 
 const TopicBlockCreator = () => {

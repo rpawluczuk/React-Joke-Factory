@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {TopicPackContext} from "../../../../../../context/TopicPackContext";
+import {TopicPackContext} from "../TopicPackContext";
 import ReactPaginate from "react-paginate";
 
 

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {FaEdit, FaTimes} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
-import {JokeContext} from "../../../../context/JokeContext";
+import {JokeContext} from "../JokeContext";
 import axios from "axios";
 
 const SingleJoke = ({joke}) => {

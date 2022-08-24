@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {AuthorContext} from "../../../context/AuthorContext";
+import {AuthorContext} from "./AuthorContext";
 import axios from "axios";
 import SingleAuthor from "./authormainview/SingleAuthor";
 import AuthorPagination from "./authormainview/AuthorPagination";

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import ReactPaginate from 'react-paginate';
 import axios from "axios";
-import {AuthorContext} from "../../../../context/AuthorContext";
+import {AuthorContext} from "../AuthorContext";
 
 
 const AuthorPagination = () => {

@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {FaEdit, FaTimes} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {AuthorContext} from "../../../../context/AuthorContext";
+import {AuthorContext} from "../AuthorContext";
 
 const SingleAuthor= ({author}) => {
     const navigate = useNavigate();

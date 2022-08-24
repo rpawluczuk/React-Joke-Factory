@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import ReactPaginate from 'react-paginate';
 import axios from "axios";
-import {JokeContext} from "../../../../context/JokeContext";
+import {JokeContext} from "../JokeContext";
 
 
 const JokesPagination = () => {

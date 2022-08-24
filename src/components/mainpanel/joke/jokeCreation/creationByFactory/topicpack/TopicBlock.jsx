@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "./TopicBlock.css";
 import {FaWindowClose, FaGripHorizontal} from "react-icons/all";
-import {TopicPackContext} from "../../../../../../context/TopicPackContext";
-import {TopicPanelContext} from "../../../../../../context/TopicPanelContext";
+import {TopicPackContext} from "../TopicPackContext";
+import {TopicPanelContext} from "../../TopicPanelContext";
 import axios from "axios";
 
 const TopicBlock = ({topic}) => {
