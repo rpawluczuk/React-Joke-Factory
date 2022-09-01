@@ -6,7 +6,7 @@ import AuthorPagination from "./authormainview/AuthorPagination";
 
 const AuthorMainView = () => {
 
-const [authorList, setAuthorList] = useState([])
+    const [authorList, setAuthorList] = useState([])
 
     useEffect(() => {
         refreshAuthorList()

@@ -8,6 +8,9 @@ import JokeEdition from "./components/mainpanel/joke/JokeEdition";
 import AuthorMainView from "./components/mainpanel/author/AuthorMainView";
 import AuthorCreation from "./components/mainpanel/author/AuthorCreation";
 import AuthorEdition from "./components/mainpanel/author/AuthorEdition";
+import TopicMainView from "./components/mainpanel/topic/TopicMainView";
+import TopicCreation from "./components/mainpanel/topic/TopicCreation";
+import TopicEdition from "./components/mainpanel/topic/TopicEdition";
 
 function App() {
 
@@ -26,6 +29,9 @@ function App() {
                             <Route exact path='/author-list' element={<AuthorMainView/>}/>
                             <Route exact path='/author-creation' element={<AuthorCreation/>}/>
                             <Route exact path='/author-edition/:id' element={<AuthorEdition/>}/>
+                            <Route exact path='/topic-list' element={<TopicMainView/>}/>
+                            <Route exact path='/topic-creation' element={<TopicCreation/>}/>
+                            <Route exact path='/topic-edition/:id' element={<TopicEdition/>}/>
                         </Routes>
                     </div>
                 </div>

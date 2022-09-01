@@ -11,6 +11,7 @@ const Sidebar = () => {
           <NavigationButton bigButtonLabel={'Jokes'} mainViewLink={'joke-list/'} creationLink={'/joke-creation'}/>
           <NavigationButton bigButtonLabel={"Structures"} mainViewLink={'/structure'} creationLink={'/structure-creation'}/>
           <NavigationButton bigButtonLabel={"Authors"} mainViewLink={'/author-list'} creationLink={'/author-creation'}/>
+          <NavigationButton bigButtonLabel={"Topics"} mainViewLink={'/topic-list'} creationLink={'/topic-creation'}/>
       </div>
   )
 }
