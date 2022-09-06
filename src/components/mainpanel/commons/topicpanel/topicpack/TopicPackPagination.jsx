@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {TopicPackContext} from "../TopicPackContext";
+import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import ReactPaginate from "react-paginate";
 
 

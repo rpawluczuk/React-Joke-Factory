@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import axios from "axios";
-import TopicPack from "./creationByFactory/TopicPack";
-import {TopicPanelContext} from "./TopicPanelContext";
+import TopicPanel from "components/mainpanel/commons/TopicPanel";
 
 
 const CreationByFactory = () => {
 
     const [categoryList, setCategoryList] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(null)
-    const [selectedTopicIdList, setSelectedTopicIdList] = useState([])
+    const [initialTopicId, setInitialTopicId] = useState(null)
+
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
@@ -19,21 +19,13 @@ const CreationByFactory = () => {
 
     useEffect(() => {
         if (selectedCategory !== null) {
-            setSelectedTopicIdList([
-                selectedCategory.value
-            ])
+            setInitialTopicId(selectedCategory.value)
         }
     }, [selectedCategory])
 
     const handleCategorySelect = (newSelectedCategory) => {
         setSelectedCategory(newSelectedCategory)
     };
-
-    const addTopicPack = (parentId, topicPackNumber) => {
-        setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
-            parentId
-        ]);
-    }
 
     return (
         <div className="container">
@@ -50,11 +42,9 @@ const CreationByFactory = () => {
                     />
                 </div>
             </div>
-            <TopicPanelContext.Provider value={{selectedTopicIdList, addTopicPack}}>
-                {selectedTopicIdList.map((parentId, index) => (
-                    <TopicPack parentId={parentId} topicPackNumber={index}/>
-                ))}
-            </TopicPanelContext.Provider>
+            {selectedCategory !== null &&
+                <TopicPanel initialTopicId={initialTopicId}></TopicPanel>
+            }
         </div>
     );
 }

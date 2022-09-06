@@ -21,7 +21,6 @@ const [query, setQuery] = useState('')
 
 
     const refreshJokeList = () => {
-    console.log(query)
         if (query.length === 0) {
             axios.get(`http://localhost:8081/api/jokes`).then((res) => {
                 setJokeList(res.data)

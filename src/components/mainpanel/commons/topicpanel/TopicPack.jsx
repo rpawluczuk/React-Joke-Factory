@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
-import TopicBlock from "./topicpack/TopicBlock";
-import {TopicPackContext} from "./TopicPackContext";
+import TopicBlock from "components/mainpanel/commons/topicpanel/topicpack/TopicBlock";
+import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
-import TopicBlockCreator from "./topicpack/TopicBlockCreator";
-import TopicPackPagination from "./topicpack/TopicPackPagination";
+import TopicBlockCreator from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockCreator";
+import TopicPackPagination from "components/mainpanel/commons/topicpanel/topicpack/TopicPackPagination";
 import {FaRandom} from "react-icons/all";
-import {TopicPanelContext} from "../TopicPanelContext";
+import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 
 const TopicPack = ({parentId, topicPackNumber}) => {
 
