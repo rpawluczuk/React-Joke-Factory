@@ -1,56 +1,47 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
-import {FaWindowClose, FaGripHorizontal} from "react-icons/all";
-import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
-import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
+import TopicBlockPresenter from "components/mainpanel/commons/topicpanel/topicpack/topicblock/TopicBlockPresenter";
+import {TopicBlockContext} from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockContext";
+import TopicBlockCreator from "components/mainpanel/commons/topicpanel/topicpack/topicblock/TopicBlockCreator";
+import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
+import TopicBlockEditor from "components/mainpanel/commons/topicpanel/topicpack/topicblock/TopicBlockEditor";
 import axios from "axios";
 
-const TopicBlock = ({topic}) => {
+const TopicBlock = ({topicProp, showChildren}) => {
 
-    const [isSelected, setIsSelected] = useState(false);
-    const {topicParentId, setTopicParentId, topicPackNumber, refreshTopicPack} = useContext(TopicPackContext)
-    const {addTopicPack} = useContext(TopicPanelContext)
+    const [selectedType, setSelectedType] = useState(TopicBlockType.PRESENTER)
+    const [topic, setTopic] = useState({
+        id: null,
+        name: ''
+    })
 
     useEffect(() => {
-        if (topicParentId === topic.id && isSelected === false) {
-            setIsSelected(true)
-        } else if (topicParentId !== topic.id && isSelected === true) {
-            setIsSelected(false)
+        if (topicProp !== undefined) {
+            setTopic({
+                id: topicProp.id,
+                name: topicProp.name
+            })
         }
-    }, [topicParentId])
+    }, [topicProp])
 
-    const handleShowChildren = () => {
-        setTopicParentId(topic.id);
-        addTopicPack(topic.id, topicPackNumber)
-    }
-
-    const handleDeleteRelation = async () => {
-        await axios.delete(`http://localhost:8081/api/topics/remove-relation?topic-parent-id=${topicParentId}&topic-child-id=${topic.id}`)
-        await refreshTopicPack(0)
+    const refreshTopicBlock = () => {
+        axios.get(`http://localhost:8081/api/topics/${topic.id}`).then((res) => {
+            console.log(res.data)
+            setTopic(res.data)
+        })
     }
 
     return (
-        <div className="topicBlock d-flex flex-column justify-content-between m-3"
-            style={{
-                backgroundColor: isSelected ? 'burlywood' : 'blanchedalmond',
-                borderColor: isSelected ? 'red' : 'black'
-            }}>
-            <div className="d-flex flex-row justify-content-end" style={{background: "darkseagreen"}}>
-                <button className='Item-top-button' onClick={handleDeleteRelation}>
-                    <FaWindowClose/>
-                </button>
-            </div>
-            <div className="d-flex flex-row justify-content-center">
-                <pre style={{whiteSpace: "pre-wrap", fontSize: "larger", fontFamily: "serif"}}>
-                    {topic.name}
-                </pre>
-            </div>
-            <div className="d-flex flex-row justify-content-center">
-                <button className="btn-sm btn-outline-warning" onClick={handleShowChildren}>
-                    <FaGripHorizontal style={{fontSize: "26px"}}/>
-                </button>
-            </div>
-        </div>
+        <TopicBlockContext.Provider value={{setSelectedType, topic, refreshTopicBlock}}>
+            { selectedType === TopicBlockType.PRESENTER &&
+                <TopicBlockPresenter
+                    showChildren={showChildren}>
+                </TopicBlockPresenter>
+            }
+            { selectedType === TopicBlockType.EDITOR &&
+                <TopicBlockEditor></TopicBlockEditor>
+            }
+        </TopicBlockContext.Provider>
     );
 }
 

@@ -6,7 +6,7 @@ const AuthorEdition = () => {
     const [authorCreatorDto, setAuthorCreatorDto] = useState({
         name: '',
         surname: '',
-        description: '',
+        description: ''
     })
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
     const [nameMessage, setNameMessage] = useState('')

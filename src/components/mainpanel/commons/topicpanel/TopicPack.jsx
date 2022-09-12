@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import TopicBlock from "components/mainpanel/commons/topicpanel/topicpack/TopicBlock";
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
-import TopicBlockCreator from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockCreator";
+import TopicBlockCreator from "components/mainpanel/commons/topicpanel/topicpack/topicblock/TopicBlockCreator";
 import TopicPackPagination from "components/mainpanel/commons/topicpanel/topicpack/TopicPackPagination";
 import {FaRandom} from "react-icons/all";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
@@ -28,7 +28,7 @@ const TopicPack = ({parentId, topicPackNumber}) => {
         })
     }
 
-    const refreshTopicPack = (currentPage) => {
+    const refreshTopicPack = async (currentPage) => {
         axios.get(`http://localhost:8081/api/topics/topic-creator-child-row`, {
             params: {
                 topicCreatorChildRowRequestDto: JSON.stringify({
@@ -75,7 +75,7 @@ const TopicPack = ({parentId, topicPackNumber}) => {
             </div>
             <div className="d-flex flex-row flex-wrap">
                 {topicCreatorChildList.map((topic) => (
-                    <TopicBlock key={topic.id} topic={topic}/>
+                    <TopicBlock key={topic.id} topicProp={topic}/>
                 ))}
                 <TopicBlockCreator/>
             </div>

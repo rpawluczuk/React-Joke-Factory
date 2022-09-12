@@ -40,21 +40,21 @@ const TopicBlockCreator = () => {
                        type="text"
                        className="form-control"
                        placeholder="topic child name"/>
-                    <datalist id="topics">
-                        {topicItemList.map((topicItem) => (
-                            <option>
-                                {topicItem.label}
-                            </option>
-                        ))}
-                    </datalist>
+                <datalist id="topics">
+                    {topicItemList.map((topicItem) => (
+                        <option>
+                            {topicItem.label}
+                        </option>
+                    ))}
+                </datalist>
             </form>
             <div className="d-flex flex-row justify-content-center mb-4">
-            <button onClick={handleSubmit} className="btn-sm btn-outline-success buttonSize m-1">
-                <FaCheck/>
-            </button>
+                <button onClick={handleSubmit} className="btn-sm btn-outline-success buttonSize m-1">
+                    <FaCheck/>
+                </button>
+            </div>
         </div>
-        </div>
-);
+    );
 }
 
 export default TopicBlockCreator;
