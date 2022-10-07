@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 import axios from "axios";
 import TopicPanel from "components/mainpanel/commons/TopicPanel";
+import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
 
 
 const CreationByFactory = () => {
@@ -43,7 +44,9 @@ const CreationByFactory = () => {
                 </div>
             </div>
             {selectedCategory !== null &&
-                <TopicPanel initialTopicId={initialTopicId}></TopicPanel>
+                <TopicPanel initialTopicId={initialTopicId}
+                            initialTopicType={TopicBlockType.PRESENTER}>
+                </TopicPanel>
             }
         </div>
     );

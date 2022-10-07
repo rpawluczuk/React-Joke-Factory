@@ -11,14 +11,14 @@ import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPac
 
 const TopicBlock = (props) => {
 
-    const [selectedType, setSelectedType] = useState(TopicBlockType.PRESENTER)
+    const [blockType, setBlockType] = useState(TopicBlockType.PRESENTER)
     const [topic, setTopic] = useState({
         id: null,
         parentId: null,
         name: ''
     })
     const {addTopicPack} = useContext(TopicPanelContext)
-    const {refreshTopicPack} = useContext(TopicPackContext)
+    const {refreshTopicPack, setSelectedTopicId} = useContext(TopicPackContext)
 
     useEffect(() => {
         if (props.topic !== undefined) {
@@ -31,11 +31,24 @@ const TopicBlock = (props) => {
     }, [props.topic])
 
     useEffect(() => {
-        setSelectedType(props.topicBlockType)
+        setBlockType(props.topicBlockType)
     }, [props.topicBlockType])
 
     function handleTopicNameChange(event) {
         setTopic({...topic, name: event.target.value})
+    }
+
+    function handleEditClick() {
+        setBlockType(TopicBlockType.EDITOR)
+    }
+
+    function handleShowChildrenClick() {
+        addTopicPack(topic.id, props.topicPackNumber)
+        setSelectedTopicId(topic.id)
+    }
+
+    function handleCancelEditionClick() {
+        setBlockType(TopicBlockType.PRESENTER)
     }
 
     const refreshTopicBlock = () => {
@@ -44,8 +57,14 @@ const TopicBlock = (props) => {
         })
     }
 
+    function handleEditionSubmit() {
+        axios.patch(`http://localhost:8081/api/topics`, topic).then(res => {
+            setBlockType(TopicBlockType.PRESENTER);
+            refreshTopicBlock()
+        })
+    }
+
     const handleTopicCreatorSubmit = async () => {
-        console.log('creator submit')
         const topicCreatorDto = {
             name: topic.name,
             parentId: topic.parentId,
@@ -54,7 +73,7 @@ const TopicBlock = (props) => {
             setTopic(res.data)
             if (res.data.parentId === null) {
                 addTopicPack(res.data.id, 0)
-                setSelectedType(TopicBlockType.PRESENTER)
+                setBlockType(TopicBlockType.PRESENTER)
             } else {
                 refreshTopicPack()
                 setTopic({
@@ -67,22 +86,28 @@ const TopicBlock = (props) => {
     }
 
     return (
-        <TopicBlockContext.Provider value={{setSelectedType, topic, setTopic, refreshTopicBlock}}>
-            { selectedType === TopicBlockType.PRESENTER &&
+        <TopicBlockContext.Provider value={{topic, setTopic, refreshTopicBlock}}>
+            { blockType === TopicBlockType.PRESENTER &&
                 <TopicBlockPresenter
+                    topic={topic}
                     showChildren={props.showChildren}
-                    topicPackNumber={props.topicPackNumber}
-                    topic={topic}>
+                    onEditClick={handleEditClick}
+                    onShowChildrenClick={handleShowChildrenClick}>
                 </TopicBlockPresenter>
             }
-            { selectedType === TopicBlockType.EDITOR &&
-                <TopicBlockEditor></TopicBlockEditor>
+            { blockType === TopicBlockType.EDITOR &&
+                <TopicBlockEditor
+                    topic={topic}
+                    onEditionSubmit={handleEditionSubmit}
+                    onCancelEditionClick={handleCancelEditionClick}
+                    onTopicNameChange={handleTopicNameChange}>
+                </TopicBlockEditor>
             }
-            { selectedType === TopicBlockType.CREATOR &&
+            { blockType === TopicBlockType.CREATOR &&
                 <TopicBlockCreator
+                    topic={topic}
                     onTopicCreatorSubmit={handleTopicCreatorSubmit}
-                    onTopicNameChange={handleTopicNameChange}
-                    name={topic.name}>
+                    onTopicNameChange={handleTopicNameChange}>
                 </TopicBlockCreator>
             }
         </TopicBlockContext.Provider>

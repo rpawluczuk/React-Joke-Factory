@@ -2,11 +2,20 @@ import React, {useEffect, useState} from 'react';
 import TopicPack from "components/mainpanel/commons/topicpanel/TopicPack";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 import TopicBlock from "components/mainpanel/commons/topicpanel/topicpack/TopicBlock";
+import axios from "axios";
 
 const TopicPanel = (props) => {
 
+    const {initialTopicType, initialTopicId} = props;
+
     const [selectedTopicIdList, setSelectedTopicIdList] = useState([])
-    const [initialTopic, setInitialTopic] = useState(props.initialTopic)
+    const [initialTopic, setInitialTopic] = useState({})
+
+    useEffect(() => {
+        axios.get(`http://localhost:8081/api/topics/${initialTopicId}`).then((res) => {
+            setInitialTopic(res.data)
+        })
+    }, [initialTopicId])
 
     useEffect(() => {
         if (initialTopic !== undefined) {
@@ -17,7 +26,6 @@ const TopicPanel = (props) => {
     }, [initialTopic])
 
     const addTopicPack = (parentId, topicPackNumber) => {
-        console.log(parentId, topicPackNumber)
         setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
             parentId
         ]);
@@ -29,7 +37,7 @@ const TopicPanel = (props) => {
                 <TopicBlock
                     topic={initialTopic}
                     showChildren={false}
-                    topicBlockType={props.initialTopicType}>
+                    topicBlockType={initialTopicType}>
                 </TopicBlock>
             </div>
             {selectedTopicIdList.map((parentId, index) => (

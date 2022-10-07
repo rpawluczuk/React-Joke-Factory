@@ -2,36 +2,26 @@ import React, {useContext, useEffect, useState} from 'react';
 import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
 import {FaWindowClose, FaGripHorizontal, FaEdit} from "react-icons/all";
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
-import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 import axios from "axios";
-import {TopicBlockContext} from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockContext";
-import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
 
 const TopicBlockPresenter = (props) => {
 
+    const {topic, showChildren, onEditClick, onShowChildrenClick} = props;
+
     const [isSelected, setIsSelected] = useState(false);
-    const {refreshTopicPack} = useContext(TopicPackContext)
-    const {addTopicPack} = useContext(TopicPanelContext)
-    const {setSelectedType} = useContext(TopicBlockContext)
+    const {refreshTopicPack, selectedTopicId} = useContext(TopicPackContext)
+
 
     useEffect(() => {
-        if (props.topic.parentId === props.topic.id && isSelected === false) {
+        if (selectedTopicId === topic.id && isSelected === false) {
             setIsSelected(true)
-        } else if (props.topic.parentId !== props.topic.id && isSelected === true) {
+        } else if (selectedTopicId !== topic.id && isSelected === true) {
             setIsSelected(false)
         }
-    }, [props.topic.parentId])
-
-    const handleShowChildren = () => {
-        addTopicPack(props.topic.id, props.topicPackNumber)
-    }
-
-    const handleEdit = () => {
-        setSelectedType(TopicBlockType.EDITOR)
-    }
+    }, [selectedTopicId])
 
     const handleDeleteRelation = async () => {
-        await axios.delete(`http://localhost:8081/api/topics/remove-relation?topic-parent-id=${props.topic.parentId}&topic-child-id=${props.topic.id}`)
+        await axios.delete(`http://localhost:8081/api/topics/remove-relation?topic-parent-id=${topic.parentId}&topic-child-id=${topic.id}`)
         await refreshTopicPack(0)
     }
 
@@ -48,15 +38,15 @@ const TopicBlockPresenter = (props) => {
             </div>
             <div className="d-flex flex-row justify-content-center">
                 <pre style={{whiteSpace: "pre-wrap", fontSize: "larger", fontFamily: "serif"}}>
-                    {props.topic.name}
+                    {topic.name}
                 </pre>
             </div>
             <div className="d-flex flex-row justify-content-center">
-                {props.showChildren !== false && <button className="btn-sm btn-outline-warning" onClick={handleShowChildren}>
+                {showChildren !== false && <button className="btn-sm btn-outline-warning" onClick={onShowChildrenClick}>
                     <FaGripHorizontal style={{fontSize: "26px"}}/>
                 </button>
                 }
-                <button className="btn-sm btn-outline-warning" onClick={handleEdit}>
+                <button className="btn-sm btn-outline-warning" onClick={onEditClick}>
                     <FaEdit style={{fontSize: "26px"}}/>
                 </button>
             </div>

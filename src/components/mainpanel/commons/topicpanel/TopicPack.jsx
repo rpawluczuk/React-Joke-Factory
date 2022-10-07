@@ -10,7 +10,7 @@ import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext"
 const TopicPack = (props) => {
 
     const [topicCreatorChildList, setTopicCreatorChildList] = useState([])
-    // const [topicParentId, setTopicParentId] = useState()
+    const [selectedTopicId, setSelectedTopicId] = useState()
     const [pagination, setPagination] = useState({
         currentPage: 0,
         pageSize: 20
@@ -18,7 +18,6 @@ const TopicPack = (props) => {
     const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
-        // setTopicParentId(props.parentId)
         refreshTopicPack()
     }, [props.parentId])
 
@@ -55,17 +54,17 @@ const TopicPack = (props) => {
                 })
             }
         }).then((res) => {
-            // setTopicParentId(res.data.randomTopicId)
             addTopicPack(res.data.randomTopicId, props.topicPackNumber)
             changeCurrentPage(res.data.randomPage)
             setTopicCreatorChildList(res.data.topicCreatorChildList)
         })
     }
 
-
     return (
         <TopicPackContext.Provider
-            value={{refreshTopicPack, pagination, changeCurrentPage}}>
+            value={{refreshTopicPack, pagination, changeCurrentPage,
+                setSelectedTopicId, selectedTopicId
+            }}>
             <hr></hr>
             <div className="d-flex flex-row justify-content-center">
                 <button className="btn-sm btn-outline-primary" onClick={handleRandom}>
