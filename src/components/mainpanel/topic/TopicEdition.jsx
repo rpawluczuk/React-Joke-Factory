@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import axios from "axios";
-import TopicBlock from "components/mainpanel/commons/topicpanel/topicpack/TopicBlock";
 import TopicPanel from "components/mainpanel/commons/TopicPanel";
+import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
 
 const TopicEdition = () => {
 
@@ -12,7 +12,6 @@ const TopicEdition = () => {
     })
 
     const params = useParams();
-    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/topics/${params.id}`).then((res) => {
@@ -22,15 +21,10 @@ const TopicEdition = () => {
 
     return(
         <div className="container">
-            <div className="d-flex flex-column align-items-center">
-                <TopicBlock
-                    key={topicCreatorDto.id}
-                    topicProp={topicCreatorDto}
-                    showChildren={false}>
-                </TopicBlock>
-            </div>
+            <p className="Data-header">Edit topic</p>
             <TopicPanel
-                initialTopicId={topicCreatorDto.id}
+                initialTopic={topicCreatorDto}
+                initialTopicType={TopicBlockType.EDITOR}
             ></TopicPanel>
         </div>
     )

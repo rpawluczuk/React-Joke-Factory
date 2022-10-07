@@ -1,6 +1,7 @@
 const TopicBlockType = {
     EDITOR: "editor",
-    PRESENTER: "presenter"
+    PRESENTER: "presenter",
+    CREATOR: "creator"
 }
 
 export default TopicBlockType

@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import TopicBlock from "components/mainpanel/commons/topicpanel/topicpack/TopicBlock";
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
-import TopicBlockCreator from "components/mainpanel/commons/topicpanel/topicpack/topicblock/TopicBlockCreator";
 import TopicPackPagination from "components/mainpanel/commons/topicpanel/topicpack/TopicPackPagination";
 import {FaRandom} from "react-icons/all";
+import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 
-const TopicPack = ({parentId, topicPackNumber}) => {
+const TopicPack = (props) => {
 
     const [topicCreatorChildList, setTopicCreatorChildList] = useState([])
-    const [topicParentId, setTopicParentId] = useState()
+    // const [topicParentId, setTopicParentId] = useState()
     const [pagination, setPagination] = useState({
         currentPage: 0,
         pageSize: 20
@@ -18,9 +18,9 @@ const TopicPack = ({parentId, topicPackNumber}) => {
     const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
-        setTopicParentId(parentId)
-        refreshTopicPack(0)
-    }, [parentId])
+        // setTopicParentId(props.parentId)
+        refreshTopicPack()
+    }, [props.parentId])
 
     const changeCurrentPage = (currentPage) => {
         setPagination(prevState => {
@@ -28,13 +28,13 @@ const TopicPack = ({parentId, topicPackNumber}) => {
         })
     }
 
-    const refreshTopicPack = async (currentPage) => {
+    const refreshTopicPack = async () => {
         axios.get(`http://localhost:8081/api/topics/topic-creator-child-row`, {
             params: {
                 topicCreatorChildRowRequestDto: JSON.stringify({
-                    parentId: parentId,
+                    parentId: props.parentId,
                     topicPackPagination: {
-                        currentPage: currentPage,
+                        currentPage: pagination.currentPage,
                         pageSize: 20
                     }
                 })
@@ -49,14 +49,14 @@ const TopicPack = ({parentId, topicPackNumber}) => {
         axios.get(`http://localhost:8081/api/topics/random`, {
             params: {
                 randomTopicIdRequestDto: JSON.stringify({
-                    parentId: parentId,
+                    parentId: props.parentId,
                     totalPages: pagination.totalPages,
                     pageSize: pagination.pageSize
                 })
             }
         }).then((res) => {
-            setTopicParentId(res.data.randomTopicId)
-            addTopicPack(res.data.randomTopicId, topicPackNumber)
+            // setTopicParentId(res.data.randomTopicId)
+            addTopicPack(res.data.randomTopicId, props.topicPackNumber)
             changeCurrentPage(res.data.randomPage)
             setTopicCreatorChildList(res.data.topicCreatorChildList)
         })
@@ -65,7 +65,7 @@ const TopicPack = ({parentId, topicPackNumber}) => {
 
     return (
         <TopicPackContext.Provider
-            value={{topicParentId, setTopicParentId, topicPackNumber, refreshTopicPack, pagination, changeCurrentPage}}>
+            value={{refreshTopicPack, pagination, changeCurrentPage}}>
             <hr></hr>
             <div className="d-flex flex-row justify-content-center">
                 <button className="btn-sm btn-outline-primary" onClick={handleRandom}>
@@ -75,9 +75,17 @@ const TopicPack = ({parentId, topicPackNumber}) => {
             </div>
             <div className="d-flex flex-row flex-wrap">
                 {topicCreatorChildList.map((topic) => (
-                    <TopicBlock key={topic.id} topicProp={topic}/>
+                    <TopicBlock
+                        key={topic.id}
+                        topic={topic}
+                        topicPackNumber={props.topicPackNumber}
+                        topicBlockType={TopicBlockType.PRESENTER}
+                    />
                 ))}
-                <TopicBlockCreator/>
+                <TopicBlock
+                    topic={{parentId: props.parentId}}
+                    topicBlockType={TopicBlockType.CREATOR}
+                />
             </div>
             <TopicPackPagination></TopicPackPagination>
 
