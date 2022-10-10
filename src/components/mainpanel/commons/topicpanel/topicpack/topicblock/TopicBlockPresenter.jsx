@@ -6,11 +6,10 @@ import axios from "axios";
 
 const TopicBlockPresenter = (props) => {
 
-    const {topic, showChildren, onEditClick, onShowChildrenClick} = props;
+    const {topic, showChildren, selectedTopicId, onEditClick, onShowChildrenClick} = props;
 
     const [isSelected, setIsSelected] = useState(false);
-    const {refreshTopicPack, selectedTopicId} = useContext(TopicPackContext)
-
+    const {refreshTopicPack} = useContext(TopicPackContext)
 
     useEffect(() => {
         if (selectedTopicId === topic.id && isSelected === false) {
@@ -18,7 +17,7 @@ const TopicBlockPresenter = (props) => {
         } else if (selectedTopicId !== topic.id && isSelected === true) {
             setIsSelected(false)
         }
-    }, [selectedTopicId])
+    }, [selectedTopicId, refreshTopicPack])
 
     const handleDeleteRelation = async () => {
         await axios.delete(`http://localhost:8081/api/topics/remove-relation?topic-parent-id=${topic.parentId}&topic-child-id=${topic.id}`)

@@ -6,7 +6,7 @@ import axios from "axios";
 
 const TopicPanel = (props) => {
 
-    const {initialTopicType, initialTopicId} = props;
+    const {initialTopicType, initialTopicId = null} = props;
 
     const [selectedTopicIdList, setSelectedTopicIdList] = useState([])
     const [initialTopic, setInitialTopic] = useState({})
@@ -18,7 +18,7 @@ const TopicPanel = (props) => {
     }, [initialTopicId])
 
     useEffect(() => {
-        if (initialTopic !== undefined) {
+        if (initialTopic.id !== undefined) {
             setSelectedTopicIdList([
                 initialTopic.id
             ])
@@ -26,6 +26,7 @@ const TopicPanel = (props) => {
     }, [initialTopic])
 
     const addTopicPack = (parentId, topicPackNumber) => {
+        console.log("add pack")
         setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
             parentId
         ]);

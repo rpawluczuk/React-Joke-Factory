@@ -11,6 +11,8 @@ import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPac
 
 const TopicBlock = (props) => {
 
+    const {selectedTopicId} = props;
+
     const [blockType, setBlockType] = useState(TopicBlockType.PRESENTER)
     const [topic, setTopic] = useState({
         id: null,
@@ -49,6 +51,7 @@ const TopicBlock = (props) => {
 
     function handleCancelEditionClick() {
         setBlockType(TopicBlockType.PRESENTER)
+        refreshTopicBlock()
     }
 
     const refreshTopicBlock = () => {
@@ -58,7 +61,7 @@ const TopicBlock = (props) => {
     }
 
     function handleEditionSubmit() {
-        axios.patch(`http://localhost:8081/api/topics`, topic).then(res => {
+        axios.patch(`http://localhost:8081/api/topics`, topic).then(() => {
             setBlockType(TopicBlockType.PRESENTER);
             refreshTopicBlock()
         })
@@ -91,6 +94,7 @@ const TopicBlock = (props) => {
                 <TopicBlockPresenter
                     topic={topic}
                     showChildren={props.showChildren}
+                    selectedTopicId={selectedTopicId}
                     onEditClick={handleEditClick}
                     onShowChildrenClick={handleShowChildrenClick}>
                 </TopicBlockPresenter>

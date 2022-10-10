@@ -1,15 +1,11 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import ReactPaginate from "react-paginate";
 
 
-const TopicPackPagination = () => {
+const TopicPackPagination = (props) => {
 
-    const {pagination, refreshTopicPack} = useContext(TopicPackContext)
-
-    const handlePageChange = (event) => {
-        refreshTopicPack(event.selected)
-    };
+    const {pagination, onPageChange} = props;
 
     return (
         <div className="d-flex justify-content-center mb-5">
@@ -29,14 +25,12 @@ const TopicPackPagination = () => {
                     pageCount={pagination.totalPages}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
-                    onPageChange={handlePageChange}
+                    onPageChange={(e) => onPageChange(e.selected)}
                     containerClassName="pagination"
                     activeClassName="active"
                     forcePage={pagination.currentPage}
                     renderOnZeroPageCount={null}
                 />
-
-
         </div>
     )
 };
