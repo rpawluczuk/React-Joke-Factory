@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import SingleTopic from "./topicmainview/SingleTopic";
 import {TopicContext} from "./TopicContext";
-import TopicPagination from "./topicmainview/TopicPagination";
 import TopicSearch from "components/mainpanel/topic/topicmainview/TopicSearch";
+import TopicList from "components/mainpanel/topic/topicmainview/TopicList";
 
 const TopicMainView = () => {
 
@@ -31,14 +30,6 @@ const TopicMainView = () => {
         });
     }
 
-    if (!topicList || topicList.length === 0) {
-        return (
-            <div className='container'>
-                <p className="text-center display-6 m-5 fw-bolder" style={{color: 'red'}}>No Topics</p>
-            </div>
-        )
-    }
-
     return (
         <TopicContext.Provider value={{topicList, setTopicList, refreshTopicList}}>
             <div className="container">
@@ -49,11 +40,11 @@ const TopicMainView = () => {
                         onSearchFormSubmit={handleSearchFormSubmit}
                         searchControl={searchControl}
                     />
-                    {topicList.map((topic) => (
-                        <SingleTopic key={topic.id} topic={topic}/>
-                    ))}
+                    { (!topicList || topicList.length === 0)
+                        ? <p className="text-center display-6 m-5 fw-bolder" style={{color: 'red'}}>No Topics</p>
+                        : <TopicList topicList={topicList}></TopicList>
+                    }
                 </div>
-                <TopicPagination></TopicPagination>
             </div>
         </TopicContext.Provider>
     )

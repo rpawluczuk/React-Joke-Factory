@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {Badge, Card} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {FaEdit, FaTimes} from "react-icons/all";
@@ -11,11 +11,15 @@ const SingleTopic = ({topic}) => {
 
     const navigate = useNavigate();
     const {refreshTopicList} = useContext(TopicContext);
-    const [isCategory, setIsCategory] = useState(false);
+    const [isCategory, setIsCategory] = useState(topic.category);
 
     const handleEditTopic = (id) => {
         navigate(`/topic-edition/${id}`)
     }
+
+    useEffect(() => {
+        console.log(topic)
+    }, [])
 
     const handleDeleteTopic = (id) => {
         if (window.confirm('Are you sure you want to delete?')) {
@@ -23,6 +27,12 @@ const SingleTopic = ({topic}) => {
                 .then(refreshTopicList)
         }
     }
+
+    function handleCategoryButtonClick() {
+        axios.patch(`http://localhost:8081/api/topics/changeCategoryStatus/${topic.id}`)
+            .then(() => setIsCategory(prevState => !prevState))
+    }
+
 
     return (
         <Card>
@@ -53,10 +63,13 @@ const SingleTopic = ({topic}) => {
                         ))}
                     </Card.Text>
                     <div>
-                        {isCategory
-                            ? <Button variant="primary" className="me-2 mt-2">Category</Button>
-                            : <Button variant="outline-primary" className="me-2 mt-2">Category</Button>
-                        }
+                        <Button
+                            variant={isCategory ? "primary" : "outline-primary"}
+                            className="me-2 mt-2"
+                            onClick={handleCategoryButtonClick}
+                        >
+                            Category
+                        </Button>
                     </div>
                 </div>
             </Card.Body>

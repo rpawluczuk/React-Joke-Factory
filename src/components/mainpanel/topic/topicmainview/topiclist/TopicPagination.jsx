@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import ReactPaginate from 'react-paginate';
 import axios from "axios";
-import {TopicContext} from "../TopicContext";
+import {TopicContext} from "components/mainpanel/topic/TopicContext";
 
 const TopicPagination = () => {
 
