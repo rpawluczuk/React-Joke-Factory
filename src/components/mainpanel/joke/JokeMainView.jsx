@@ -18,8 +18,6 @@ const [query, setQuery] = useState('')
         refreshJokeList()
     }, [query])
 
-
-
     const refreshJokeList = () => {
         if (query.length === 0) {
             axios.get(`http://localhost:8081/api/jokes`).then((res) => {

@@ -25,11 +25,11 @@ const JokeFilter = () => {
                 [...prevState, ...res.data]
             )
         });
-        axios.get(`http://localhost:8081/api/structures/list-items`).then((res) => {
-            setStructureList(prevState =>
-                [...prevState, ...res.data]
-            )
-        });
+        // axios.get(`http://localhost:8081/api/structures/list-items`).then((res) => {
+        //     setStructureList(prevState =>
+        //         [...prevState, ...res.data]
+        //     )
+        // });
     }, [])
 
     useEffect(() => {

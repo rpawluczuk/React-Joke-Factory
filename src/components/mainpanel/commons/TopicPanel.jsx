@@ -26,7 +26,6 @@ const TopicPanel = (props) => {
     }, [initialTopic])
 
     const addTopicPack = (parentId, topicPackNumber) => {
-        console.log("add pack")
         setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
             parentId
         ]);
