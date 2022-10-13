@@ -67,12 +67,13 @@ const TopicBlock = (props) => {
         })
     }
 
-    const handleTopicCreatorSubmit = async () => {
+    function handleTopicCreatorSubmit(event) {
+        event.preventDefault();
         const topicCreatorDto = {
             name: topic.name,
             parentId: topic.parentId,
         }
-        await axios.post(`http://localhost:8081/api/topics`, topicCreatorDto).then( res => {
+        axios.post(`http://localhost:8081/api/topics`, topicCreatorDto).then( res => {
             setTopic(res.data)
             if (res.data.parentId === null) {
                 addTopicPack(res.data.id, 0)
