@@ -7,7 +7,7 @@ import axios from "axios";
 const TopicPanel = (props) => {
 
     const {initialTopicType, initialTopicId = null} = props;
-
+    const [topicItemList, setTopicItemList] = useState([])
     const [selectedTopicIdList, setSelectedTopicIdList] = useState([])
     const [initialTopic, setInitialTopic] = useState({})
 
@@ -15,6 +15,7 @@ const TopicPanel = (props) => {
         axios.get(`http://localhost:8081/api/topics/${initialTopicId}`).then((res) => {
             setInitialTopic(res.data)
         })
+        refreshTopicItemList()
     }, [initialTopicId])
 
     useEffect(() => {
@@ -31,8 +32,15 @@ const TopicPanel = (props) => {
         ]);
     }
 
+    function refreshTopicItemList() {
+        axios.get(`http://localhost:8081/api/topics/list-items`).then((res) => {
+            setTopicItemList(res.data)
+            console.log(res.data.length)
+        });
+    }
+
     return (
-        <TopicPanelContext.Provider value={{selectedTopicIdList, addTopicPack}}>
+        <TopicPanelContext.Provider value={{selectedTopicIdList, addTopicPack, refreshTopicItemList, topicItemList}}>
             <div className="d-flex flex-column align-items-center">
                 <TopicBlock
                     topic={initialTopic}

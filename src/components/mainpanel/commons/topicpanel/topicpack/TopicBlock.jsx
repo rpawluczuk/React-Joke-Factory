@@ -19,7 +19,7 @@ const TopicBlock = (props) => {
         parentId: null,
         name: ''
     })
-    const {addTopicPack} = useContext(TopicPanelContext)
+    const {addTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
     const {refreshTopicPack, setSelectedTopicId} = useContext(TopicPackContext)
 
     useEffect(() => {
@@ -86,6 +86,7 @@ const TopicBlock = (props) => {
                     name: ''
                 })
             }
+            refreshTopicItemList()
         })
     }
 

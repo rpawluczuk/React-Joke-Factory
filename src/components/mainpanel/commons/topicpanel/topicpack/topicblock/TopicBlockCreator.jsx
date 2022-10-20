@@ -1,21 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import React, {useContext} from 'react';
 import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
 import {FaCheck} from "react-icons/all";
 import {Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 
 const TopicBlockCreator = (props) => {
 
     const {topic, onTopicNameChange, onTopicCreatorSubmit} = props;
-
-    const [topicItemList, setTopicItemList] = useState([])
-
-    useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/list-items`).then((res) => {
-            setTopicItemList(res.data)
-        });
-    }, [])
+    const {topicItemList} = useContext(TopicPanelContext)
 
     return (
         <div className="topicBlock d-flex flex-column justify-content-between m-3">
