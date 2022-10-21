@@ -8,9 +8,15 @@ import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/To
 const CreationByFactory = () => {
 
     const [categoryList, setCategoryList] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState(null)
-    const [initialTopicId, setInitialTopicId] = useState(null)
-
+    const [selectedCategory, setSelectedCategory] = useState({
+        value: null,
+        label: "All"
+    })
+    const [initialTopic, setInitialTopic] = useState({
+        id: null,
+        parentId: null,
+        name: "All"
+    })
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
@@ -19,8 +25,17 @@ const CreationByFactory = () => {
     }, [])
 
     useEffect(() => {
-        if (selectedCategory !== null) {
-            setInitialTopicId(selectedCategory.value)
+        const initialTopicId = selectedCategory.value;
+        if (initialTopicId !== null) {
+            axios.get(`http://localhost:8081/api/topics/${initialTopicId}`).then((res) => {
+                setInitialTopic(res.data)
+            })
+        } else {
+            setInitialTopic({
+                id: null,
+                parentId: null,
+                name: "All"
+            })
         }
     }, [selectedCategory])
 
@@ -44,7 +59,7 @@ const CreationByFactory = () => {
                 </div>
             </div>
             {selectedCategory !== null &&
-                <TopicPanel initialTopicId={initialTopicId}
+                <TopicPanel initialTopic={initialTopic}
                             initialTopicType={TopicBlockType.PRESENTER}>
                 </TopicPanel>
             }

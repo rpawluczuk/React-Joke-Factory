@@ -28,7 +28,6 @@ const TopicPack = (props) => {
     }
 
     const refreshTopicPack = async () => {
-        console.log("refresch pack")
         axios.get(`http://localhost:8081/api/topics/topic-creator-child-row`, {
             params: {
                 topicCreatorChildRowRequestDto: JSON.stringify({

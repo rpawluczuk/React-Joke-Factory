@@ -17,10 +17,6 @@ const SingleTopic = ({topic}) => {
         navigate(`/topic-edition/${id}`)
     }
 
-    useEffect(() => {
-        console.log(topic)
-    }, [])
-
     const handleDeleteTopic = (id) => {
         if (window.confirm('Are you sure you want to delete?')) {
             axios.delete(`http://localhost:8081/api/topics/${id}`)
