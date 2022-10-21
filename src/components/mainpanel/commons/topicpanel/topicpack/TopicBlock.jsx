@@ -19,6 +19,7 @@ const TopicBlock = (props) => {
         parentId: null,
         name: ''
     })
+    const [errorMessage, setErrorMessage] = useState(null)
     const {addTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
     const {refreshTopicPack, setSelectedTopicId} = useContext(TopicPackContext)
 
@@ -73,7 +74,7 @@ const TopicBlock = (props) => {
             name: topic.name,
             parentId: topic.parentId,
         }
-        axios.post(`http://localhost:8081/api/topics`, topicCreatorDto).then( res => {
+        axios.post(`http://localhost:8081/api/topics`, topicCreatorDto).then(res => {
             setTopic(res.data)
             if (res.data.parentId === null) {
                 addTopicPack(res.data.id, 0)
@@ -87,35 +88,43 @@ const TopicBlock = (props) => {
                 })
             }
             refreshTopicItemList()
+            setErrorMessage(null)
+        }).catch((error) => {
+            setErrorMessage(error.response.data.message)
         })
     }
 
     return (
         <TopicBlockContext.Provider value={{topic, setTopic, refreshTopicBlock}}>
-            { blockType === TopicBlockType.PRESENTER &&
-                <TopicBlockPresenter
-                    topic={topic}
-                    showChildren={props.showChildren}
-                    selectedTopicId={selectedTopicId}
-                    onEditClick={handleEditClick}
-                    onShowChildrenClick={handleShowChildrenClick}>
-                </TopicBlockPresenter>
-            }
-            { blockType === TopicBlockType.EDITOR &&
-                <TopicBlockEditor
-                    topic={topic}
-                    onEditionSubmit={handleEditionSubmit}
-                    onCancelEditionClick={handleCancelEditionClick}
-                    onTopicNameChange={handleTopicNameChange}>
-                </TopicBlockEditor>
-            }
-            { blockType === TopicBlockType.CREATOR &&
-                <TopicBlockCreator
-                    topic={topic}
-                    onTopicCreatorSubmit={handleTopicCreatorSubmit}
-                    onTopicNameChange={handleTopicNameChange}>
-                </TopicBlockCreator>
-            }
+                <div className="d-flex flex-column">
+                    {blockType === TopicBlockType.PRESENTER &&
+                        <TopicBlockPresenter
+                            topic={topic}
+                            showChildren={props.showChildren}
+                            selectedTopicId={selectedTopicId}
+                            onEditClick={handleEditClick}
+                            onShowChildrenClick={handleShowChildrenClick}>
+                        </TopicBlockPresenter>
+                    }
+                    {blockType === TopicBlockType.EDITOR &&
+                        <TopicBlockEditor
+                            topic={topic}
+                            onEditionSubmit={handleEditionSubmit}
+                            onCancelEditionClick={handleCancelEditionClick}
+                            onTopicNameChange={handleTopicNameChange}>
+                        </TopicBlockEditor>
+                    }
+                    {blockType === TopicBlockType.CREATOR &&
+                        <TopicBlockCreator
+                            topic={topic}
+                            onTopicCreatorSubmit={handleTopicCreatorSubmit}
+                            onTopicNameChange={handleTopicNameChange}>
+                        </TopicBlockCreator>
+                    }
+                    {errorMessage !== null &&
+                        <p1 style={{color:'red'}}>{errorMessage}</p1>
+                    }
+                </div>
         </TopicBlockContext.Provider>
     );
 }
