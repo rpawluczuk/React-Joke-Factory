@@ -45,7 +45,7 @@ const TopicPack = (props) => {
     }
 
     const handleRandomClick = async () => {
-        const numer = axios.get(`http://localhost:8081/api/topics/random`, {
+        const number = axios.get(`http://localhost:8081/api/topics/random`, {
             params: {
                 randomTopicIdRequestDto: JSON.stringify({
                     parentId: props.parentId,
@@ -60,7 +60,7 @@ const TopicPack = (props) => {
             await setSelectedTopicId(res.data.randomTopicId)
             return res.data.randomTopicId
         })
-        await setSelectedTopicId(numer)
+        await setSelectedTopicId(number)
     }
 
     return (

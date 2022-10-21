@@ -61,7 +61,8 @@ const TopicBlock = (props) => {
         })
     }
 
-    function handleEditionSubmit() {
+    function handleEditionSubmit(event) {
+        event.preventDefault();
         axios.patch(`http://localhost:8081/api/topics`, topic).then(() => {
             setBlockType(TopicBlockType.PRESENTER);
             refreshTopicBlock()
