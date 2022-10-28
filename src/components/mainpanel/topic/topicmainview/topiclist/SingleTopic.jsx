@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {Badge, Card} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {FaEdit, FaTimes} from "react-icons/all";
@@ -6,18 +6,28 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {TopicContext} from "components/mainpanel/topic/TopicContext";
 import "App.css";
+import QuestionPanel from "components/mainpanel/topic/topicmainview/topiclist/questionpanel/QuestionPanel";
 
-const SingleTopic = ({topic}) => {
+const SingleTopic = (props) => {
 
     const navigate = useNavigate();
     const {refreshTopicList} = useContext(TopicContext);
+    const [topic, setTopic] = useState(props.topic)
     const [isCategory, setIsCategory] = useState(topic.category);
 
-    const handleEditTopic = (id) => {
+    function refreshTopic() {
+        axios.get(`http://localhost:8081/api/topics/${topic.id}`)
+            .then((res) => {
+                console.log(res.data)
+                setTopic(res.data)
+            })
+    }
+
+    function handleEditTopic(id) {
         navigate(`/topic-edition/${id}`)
     }
 
-    const handleDeleteTopic = (id) => {
+    function handleDeleteTopic(id) {
         if (window.confirm('Are you sure you want to delete?')) {
             axios.delete(`http://localhost:8081/api/topics/${id}`)
                 .then(refreshTopicList)
@@ -68,6 +78,12 @@ const SingleTopic = ({topic}) => {
                         </Button>
                     </div>
                 </div>
+                {isCategory &&
+                    <QuestionPanel
+                        categoryId={topic.id}
+                        questions={topic.questions}
+                        refreshTopic={refreshTopic}>
+                    </QuestionPanel>}
             </Card.Body>
         </Card>
     )

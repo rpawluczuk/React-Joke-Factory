@@ -24,11 +24,20 @@
   border-bottom: 1px solid white;
 }
 
-button:hover {
+.small_button:hover {
   background: blue;
   transition: linear 300ms;
 }
 
-button:active {
+.big_button:hover {
+  background: blue;
+  transition: linear 300ms;
+}
+
+.small_button:active {
+  background: red;
+}
+
+.big_button:active {
   background: red;
 }
