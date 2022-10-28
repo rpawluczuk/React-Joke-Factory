@@ -1,6 +1,6 @@
-import React, {useEffect, useState, createContext, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import SingleJoke from "./jokemainview/SingleJoke";
-import {JokeContext, JokeProvider} from "./JokeContext";
+import {JokeContext} from "./JokeContext";
 import JokesPagination from "./jokemainview/JokesPagination";
 import axios from "axios";
 import JokeFilter from "./jokemainview/JokeFilter";
@@ -24,6 +24,7 @@ const [query, setQuery] = useState('')
                 setJokeList(res.data)
             });
         } else {
+            console.log(query)
             axios.get(`http://localhost:8081/api/jokes?query${query}`).then((res) => {
                 setJokeList(res.data)
             });

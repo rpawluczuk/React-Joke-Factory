@@ -8,20 +8,24 @@ const TopicPanel = (props) => {
 
     const {initialTopicType, initialTopic} = props;
     const [topicItemList, setTopicItemList] = useState([])
-    const [selectedTopicIdList, setSelectedTopicIdList] = useState([])
+    const [selectedTopicList, setSelectedTopicList] = useState([])
+    const [categoryList, setCategoryList] = useState([])
 
     useEffect(() => {
         if (initialTopic.id !== undefined) {
-            setSelectedTopicIdList([
-                initialTopic.id
+            setSelectedTopicList([
+                initialTopic
             ])
         }
         refreshTopicItemList()
+        axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
+            setCategoryList(res.data)
+        });
     }, [initialTopic])
 
-    const addTopicPack = (parentId, topicPackNumber) => {
-        setSelectedTopicIdList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
-            parentId
+    const addTopicPack = (parentTopic, topicPackNumber) => {
+        setSelectedTopicList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
+            parentTopic
         ]);
     }
 
@@ -32,7 +36,7 @@ const TopicPanel = (props) => {
     }
 
     return (
-        <TopicPanelContext.Provider value={{selectedTopicIdList, addTopicPack, refreshTopicItemList, topicItemList}}>
+        <TopicPanelContext.Provider value={{selectedTopicIdList: selectedTopicList, addTopicPack, refreshTopicItemList, topicItemList}}>
             <div className="d-flex flex-column align-items-center">
                 <TopicBlock
                     topic={initialTopic}
@@ -40,10 +44,11 @@ const TopicPanel = (props) => {
                     topicBlockType={initialTopicType}>
                 </TopicBlock>
             </div>
-            {selectedTopicIdList.map((parentId, index) => (
+            {selectedTopicList.map((parentTopic, index) => (
                 <TopicPack
-                    parentId={parentId}
+                    parentTopic={parentTopic}
                     topicPackNumber={index}
+                    categoryList={categoryList}
                 />
             ))}
         </TopicPanelContext.Provider>

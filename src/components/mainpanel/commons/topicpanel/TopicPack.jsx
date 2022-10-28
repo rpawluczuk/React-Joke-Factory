@@ -6,11 +6,15 @@ import TopicPackPagination from "components/mainpanel/commons/topicpanel/topicpa
 import {FaRandom} from "react-icons/all";
 import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
+import TopicPackFilter from "components/mainpanel/commons/topicpanel/topicpack/TopicPackFilter";
 
 const TopicPack = (props) => {
 
-    const {parentId, topicPackNumber} = props;
-
+    const {parentTopic, topicPackNumber, categoryList} = props;
+    const [categoryFilter, setCategoryFilter] = useState({
+        value: 0,
+        label: "All"
+    })
     const [topicList, setTopicList] = useState([])
     const [selectedTopicId, setSelectedTopicId] = useState()
     const [pagination, setPagination] = useState({
@@ -21,17 +25,31 @@ const TopicPack = (props) => {
 
     useEffect(() => {
         refreshTopicPack()
-    }, [parentId, pagination.currentPage])
+    }, [parentTopic, pagination.currentPage])
 
     function handlePageChange(pageNumber) {
         setPagination({...pagination, currentPage: pageNumber})
+    }
+
+    function handleCategorySelect(selectedCategory) {
+        setCategoryFilter(selectedCategory)
+        axios.get(`http://localhost:8081/api/topics/pack-filter`,
+            {
+                params: {
+                    categoryId: selectedCategory.value,
+                    parentId: parentTopic.id,
+                    pageSize: pagination.pageSize
+                }
+            }).then((res) => {
+            setTopicList(res.data)
+        });
     }
 
     const refreshTopicPack = async () => {
         axios.get(`http://localhost:8081/api/topics/topic-creator-child-row`, {
             params: {
                 topicCreatorChildRowRequestDto: JSON.stringify({
-                    parentId: parentId,
+                    parentId: parentTopic.id,
                     topicPackPagination: {
                         currentPage: pagination.currentPage,
                         pageSize: 20
@@ -54,10 +72,10 @@ const TopicPack = (props) => {
                 })
             }
         }).then(async (res) => {
-            await addTopicPack(res.data.randomTopicId, props.topicPackNumber)
+            await addTopicPack(res.data.randomTopic, props.topicPackNumber)
             await handlePageChange(res.data.randomPage)
             await setTopicList(res.data.topicCreatorChildList)
-            await setSelectedTopicId(res.data.randomTopicId)
+            await setSelectedTopicId(res.data.randomTopic.id)
             return res.data.randomTopicId
         })
         await setSelectedTopicId(number)
@@ -65,11 +83,16 @@ const TopicPack = (props) => {
 
     return (
         <TopicPackContext.Provider
-            value={{refreshTopicPack, pagination,
-                setSelectedTopicId, selectedTopicId
-            }}>
+            value={{refreshTopicPack, pagination, setSelectedTopicId, selectedTopicId}}>
             <hr></hr>
-            <div className="d-flex flex-row justify-content-center">
+            {parentTopic.category === false &&
+                <TopicPackFilter
+                    categoryFilter={categoryFilter}
+                    categoryList={categoryList}
+                    onCategorySelect={handleCategorySelect}>
+                </TopicPackFilter>
+            }
+            <div className="d-flex flex-row justify-content-center mt-3">
                 <button className="btn-sm btn-outline-primary" onClick={handleRandomClick}>
                     <div>Random</div>
                     <FaRandom style={{fontSize: "26px"}}/>
@@ -86,7 +109,7 @@ const TopicPack = (props) => {
                     />
                 ))}
                 <TopicBlock
-                    topic={{parentId: parentId}}
+                    topic={{parentId: parentTopic.id}}
                     topicBlockType={TopicBlockType.CREATOR}
                 />
             </div>

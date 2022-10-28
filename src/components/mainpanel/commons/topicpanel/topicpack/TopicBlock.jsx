@@ -25,11 +25,7 @@ const TopicBlock = (props) => {
 
     useEffect(() => {
         if (props.topic !== undefined) {
-            setTopic({
-                id: props.topic.id,
-                parentId: props.topic.parentId,
-                name: props.topic.name
-            })
+            setTopic(props.topic)
         }
     }, [props.topic])
 
@@ -46,7 +42,7 @@ const TopicBlock = (props) => {
     }
 
     function handleShowChildrenClick() {
-        addTopicPack(topic.id, props.topicPackNumber)
+        addTopicPack(topic, props.topicPackNumber)
         setSelectedTopicId(topic.id)
     }
 
