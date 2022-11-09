@@ -18,7 +18,6 @@ const SingleTopic = (props) => {
     function refreshTopic() {
         axios.get(`http://localhost:8081/api/topics/${topic.id}`)
             .then((res) => {
-                console.log(res.data)
                 setTopic(res.data)
             })
     }

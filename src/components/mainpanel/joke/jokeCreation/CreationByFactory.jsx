@@ -9,34 +9,24 @@ const CreationByFactory = () => {
 
     const [categoryList, setCategoryList] = useState([])
     const [selectedCategory, setSelectedCategory] = useState({
-        value: null,
+        value: 0,
         label: "All"
     })
-    const [initialTopic, setInitialTopic] = useState({
-        id: null,
-        parentId: null,
-        name: "All"
-    })
+    const [topicPanel, setTopicPanel] = useState(null)
 
     useEffect(() => {
         axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
             setCategoryList(res.data)
         });
+        axios.get(`http://localhost:8081/api/topics/panel/${0}`).then((res) => {
+            setTopicPanel(res.data)
+        });
     }, [])
 
     useEffect(() => {
-        const initialTopicId = selectedCategory.value;
-        if (initialTopicId !== null) {
-            axios.get(`http://localhost:8081/api/topics/${initialTopicId}`).then((res) => {
-                setInitialTopic(res.data)
-            })
-        } else {
-            setInitialTopic({
-                id: null,
-                parentId: null,
-                name: "All"
-            })
-        }
+        axios.get(`http://localhost:8081/api/topics/panel/${selectedCategory.value}`).then((res) => {
+            setTopicPanel(res.data)
+        })
     }, [selectedCategory])
 
     const handleCategorySelect = (newSelectedCategory) => {
@@ -58,8 +48,8 @@ const CreationByFactory = () => {
                     />
                 </div>
             </div>
-            {selectedCategory !== null &&
-                <TopicPanel initialTopic={initialTopic}
+            {topicPanel !== null &&
+                <TopicPanel topicPanel={topicPanel}
                             initialTopicType={TopicBlockType.PRESENTER}>
                 </TopicPanel>
             }

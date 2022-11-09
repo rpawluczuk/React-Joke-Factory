@@ -11,17 +11,17 @@ import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPac
 
 const TopicBlock = (props) => {
 
-    const {selectedTopicId} = props;
+    const {topicPackIndex} = props;
 
     const [blockType, setBlockType] = useState(TopicBlockType.PRESENTER)
     const [topic, setTopic] = useState({
-        id: null,
+        id: 0,
         parentId: null,
         name: ''
     })
     const [errorMessage, setErrorMessage] = useState(null)
     const {addTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
-    const {refreshTopicPack, setSelectedTopicId} = useContext(TopicPackContext)
+    const {refreshTopicPack} = useContext(TopicPackContext)
 
     useEffect(() => {
         if (props.topic !== undefined) {
@@ -42,8 +42,15 @@ const TopicBlock = (props) => {
     }
 
     function handleShowChildrenClick() {
-        addTopicPack(topic, props.topicPackNumber)
-        setSelectedTopicId(topic.id)
+        axios.get(`http://localhost:8081/api/topics/panel/show-children`, {
+            params: {
+                parentId: topic.id,
+                topicPackIndex: topicPackIndex
+            }
+        }).then(async (res) => {
+            await addTopicPack(res.data[0], topicPackIndex);
+            await addTopicPack(res.data[1], topicPackIndex + 1);
+        });
     }
 
     function handleCancelEditionClick() {
@@ -98,7 +105,6 @@ const TopicBlock = (props) => {
                         <TopicBlockPresenter
                             topic={topic}
                             showChildren={props.showChildren}
-                            selectedTopicId={selectedTopicId}
                             onEditClick={handleEditClick}
                             onShowChildrenClick={handleShowChildrenClick}>
                         </TopicBlockPresenter>

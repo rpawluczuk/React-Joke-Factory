@@ -6,27 +6,32 @@ import axios from "axios";
 
 const TopicPanel = (props) => {
 
-    const {initialTopicType, initialTopic} = props;
+    const {initialTopicType, topicPanel} = props;
     const [topicItemList, setTopicItemList] = useState([])
-    const [selectedTopicList, setSelectedTopicList] = useState([])
+    const [topicPackList, setTopicPackList] = useState([])
     const [categoryList, setCategoryList] = useState([])
 
     useEffect(() => {
-        if (initialTopic.id !== undefined) {
-            setSelectedTopicList([
-                initialTopic
-            ])
-        }
         refreshTopicItemList()
         axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
             setCategoryList(res.data)
         });
-    }, [initialTopic])
+        setTopicPackList(topicPanel.topicPackList)
+    }, [topicPanel])
 
-    const addTopicPack = (parentTopic, topicPackNumber) => {
-        setSelectedTopicList(oldArray => [...oldArray.slice(0, topicPackNumber + 1),
-            parentTopic
-        ]);
+    const addTopicPack = (topicPack, topicPackIndex) => {
+            setTopicPackList(oldArray => [...oldArray.slice(0, topicPackIndex),
+                topicPack
+            ]);
+    }
+
+    function changeTopicPack(newTopicPack, topicPackIndex) {
+        setTopicPackList(topicPackList.map((oldTopicPack, index) => {
+            if (index === topicPackIndex) {
+                return newTopicPack;
+            }
+            return oldTopicPack
+        }))
     }
 
     function refreshTopicItemList() {
@@ -36,19 +41,22 @@ const TopicPanel = (props) => {
     }
 
     return (
-        <TopicPanelContext.Provider value={{selectedTopicIdList: selectedTopicList, addTopicPack, refreshTopicItemList, topicItemList}}>
+        <TopicPanelContext.Provider
+            value={{selectedTopicIdList: topicPackList, addTopicPack, topicItemList}}>
             <div className="d-flex flex-column align-items-center">
                 <TopicBlock
-                    topic={initialTopic}
+                    topic={topicPanel.initialTopic}
                     showChildren={false}
                     topicBlockType={initialTopicType}>
                 </TopicBlock>
             </div>
-            {selectedTopicList.map((parentTopic, index) => (
+            {topicPackList.length > 0 && topicPackList.map((topicPack, index) => (
                 <TopicPack
-                    parentTopic={parentTopic}
-                    topicPackNumber={index}
+                    topicPack={topicPack}
+                    topicPackIndex={index}
                     categoryList={categoryList}
+                    changeTopicPack={changeTopicPack}
+                    key={topicPack}
                 />
             ))}
         </TopicPanelContext.Provider>

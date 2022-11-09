@@ -1,5 +1,4 @@
-import React, {useContext} from 'react';
-import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
+import React from 'react';
 import ReactPaginate from "react-paginate";
 
 
@@ -28,7 +27,7 @@ const TopicPackPagination = (props) => {
                     onPageChange={(e) => onPageChange(e.selected)}
                     containerClassName="pagination"
                     activeClassName="active"
-                    forcePage={pagination.currentPage}
+                    forcePage={pagination.number}
                     renderOnZeroPageCount={null}
                 />
         </div>
