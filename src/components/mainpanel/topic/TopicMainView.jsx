@@ -6,16 +6,16 @@ import TopicList from "components/mainpanel/topic/topicmainview/TopicList";
 
 const TopicMainView = () => {
 
-    const [topicList, setTopicList] = useState([])
+    const [topicView, setTopicView] = useState({})
     const [searchControl, setSearchControl] = useState("")
 
     useEffect(() => {
-        refreshTopicList()
+        refreshTopicView()
     }, [])
 
-    const refreshTopicList = () => {
-        axios.get(`http://localhost:8081/api/topics`).then((res) => {
-            setTopicList(res.data)
+    const refreshTopicView = () => {
+        axios.get(`http://localhost:8081/api/topics/view`).then((res) => {
+            setTopicView(res.data)
         });
     }
 
@@ -25,13 +25,41 @@ const TopicMainView = () => {
 
     function handleSearchFormSubmit(event) {
         event.preventDefault();
-        axios.get(`http://localhost:8081/api/topics/by-name?name=${searchControl}`).then((res) => {
-            setTopicList(res.data)
+        axios.get(`http://localhost:8081/api/topics/view/by-name?name=${searchControl}`).then((res) => {
+            setTopicView(res.data)
+        });
+    }
+
+    function handleCategorySwitch(event) {
+        event.preventDefault();
+        axios.get(`http://localhost:8081/api/topics/view/category-filter`)
+            .then((res) => {
+                setTopicView(res.data);
+            });
+    }
+
+    function handlePageChange(event) {
+        axios.get(`http://localhost:8081/api/topics/view/change-page`, {
+            params: {
+                pageNumber: event.selected
+            }
+        }).then((res) => {
+            setTopicView(res.data)
+        });
+    }
+
+    function handleSizeChange(event) {
+        axios.get(`http://localhost:8081/api/topics/view/change-size`, {
+            params: {
+                pageSize: event.target.value
+            }
+        }).then((res) => {
+            setTopicView(res.data)
         });
     }
 
     return (
-        <TopicContext.Provider value={{topicList, setTopicList, refreshTopicList}}>
+        <TopicContext.Provider>
             <div className="container">
                 <div className="mb-4">
                     <h1 className="text-center display-2 text-dark m-5 fw-bolder">List of Topics</h1>
@@ -39,10 +67,16 @@ const TopicMainView = () => {
                         onSearchControlChange={handleSearchControlChange}
                         onSearchFormSubmit={handleSearchFormSubmit}
                         searchControl={searchControl}
+                        onCategorySwitch={handleCategorySwitch}
+                        categoryFilter={topicView.categoryFilter}
                     />
-                    { (!topicList || topicList.length === 0)
+                    {(!topicView.content || topicView.content.length === 0)
                         ? <p className="text-center display-6 m-5 fw-bolder" style={{color: 'red'}}>No Topics</p>
-                        : <TopicList topicList={topicList}></TopicList>
+                        : <TopicList
+                            topicView={topicView}
+                            onPageChange={handlePageChange}
+                            onSizeChange={handleSizeChange}>
+                        </TopicList>
                     }
                 </div>
             </div>

@@ -1,42 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import ReactPaginate from 'react-paginate';
-import axios from "axios";
-import {TopicContext} from "components/mainpanel/topic/TopicContext";
 
-const TopicPagination = () => {
+const TopicPagination = (props) => {
 
-    const [pagination, setPagination] = useState({});
-    const {refreshTopicList} = useContext(TopicContext)
-
-    useEffect(() => {
-        getPagination()
-    }, [])
-
-    useEffect(() => {
-        axios.put(`http://localhost:8081/api/topics/pagination`, pagination).then(() => {
-            refreshTopicList()
-        }).then(() => {
-            getPagination()
-        })
-    }, [pagination.currentPage, pagination.pageSize])
-
-    const getPagination = () => {
-        axios.get(`http://localhost:8081/api/topics/pagination`).then((res) => {
-            setPagination(res.data)
-        })
-    };
-
-    const handlePageChange = (event) => {
-        setPagination(prevState => {
-            return {...prevState, currentPage: event.selected}
-        })
-    };
-
-    const handleSizeChange = (event) => {
-        setPagination(prevState => {
-            return {...prevState, pageSize: event.target.value}
-        })
-    };
+    const {number, totalPages, onPageChange, onSizeChange} = props;
 
     return (
         <div className={"d-flex flex-row justify-content-center"}>
@@ -52,18 +19,18 @@ const TopicPagination = () => {
                 breakLabel="..."
                 breakClassName="page-item"
                 breakLinkClassName="page-link"
-                pageCount={pagination.totalPages}
+                pageCount={totalPages}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
-                onPageChange={handlePageChange}
+                onPageChange={onPageChange}
                 containerClassName="pagination"
                 activeClassName="active"
-                forcePage={pagination.currentPage}
+                forcePage={number}
                 renderOnZeroPageCount={null}
             />
             <div className="ms-4">
                 <span className="d-inline me-3" style={{height: `36px`}}>Page Size</span>
-                <select onChange={handleSizeChange} className="d-inline page-item" style={{height: `36px`}}>
+                <select onChange={onSizeChange} className="d-inline page-item" style={{height: `36px`}}>
                     <option selected="true">5</option>
                     <option>10</option>
                     <option>20</option>

@@ -4,16 +4,21 @@ import TopicPagination from "components/mainpanel/topic/topicmainview/topiclist/
 
 const TopicList = (props) => {
 
-    const {topicList} = props;
+    const {topicView, onPageChange, onSizeChange} = props;
 
     return (
         <>
             <div className="mb-4">
-                {topicList.map((topic) => (
+                {topicView.content.map((topic) => (
                     <SingleTopic key={topic.id} topic={topic}/>
                 ))}
             </div>
-            <TopicPagination></TopicPagination>
+            <TopicPagination
+                number={topicView.number}
+                totalPages={topicView.totalPages}
+                onPageChange={onPageChange}
+                onSizeChange={onSizeChange}>
+            </TopicPagination>
         </>
     )
 };

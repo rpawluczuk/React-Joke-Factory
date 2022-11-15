@@ -5,7 +5,11 @@ import Stack from 'react-bootstrap/Stack';
 
 const TopicSearch = (props) => {
 
-    const {onSearchControlChange, searchControl, onSearchFormSubmit} = props;
+    const {onSearchControlChange,
+        searchControl,
+        onSearchFormSubmit,
+        onCategorySwitch,
+        categoryFilter} = props;
 
     return (
         <div className="card card-body mt-3 px-5 mb-5">
@@ -25,6 +29,14 @@ const TopicSearch = (props) => {
                         Search
                     </Button>
                 </Stack>
+            </Form>
+            <Form className="mt-3">
+                <Form.Switch
+                    onChange={onCategorySwitch}
+                    id="category-switch"
+                    label="Show only categories"
+                    checked={categoryFilter}
+                />
             </Form>
         </div>
     );

@@ -11,7 +11,7 @@ import QuestionPanel from "components/mainpanel/topic/topicmainview/topiclist/qu
 const SingleTopic = (props) => {
 
     const navigate = useNavigate();
-    const {refreshTopicList} = useContext(TopicContext);
+
     const [topic, setTopic] = useState(props.topic)
     const [isCategory, setIsCategory] = useState(topic.category);
 
@@ -27,10 +27,10 @@ const SingleTopic = (props) => {
     }
 
     function handleDeleteTopic(id) {
-        if (window.confirm('Are you sure you want to delete?')) {
-            axios.delete(`http://localhost:8081/api/topics/${id}`)
-                .then(refreshTopicList)
-        }
+        // if (window.confirm('Are you sure you want to delete?')) {
+        //     axios.delete(`http://localhost:8081/api/topics/${id}`)
+        //         .then(refreshTopicList)
+        // }
     }
 
     function handleCategoryButtonClick() {
@@ -77,12 +77,12 @@ const SingleTopic = (props) => {
                         </Button>
                     </div>
                 </div>
-                {isCategory &&
-                    <QuestionPanel
-                        categoryId={topic.id}
-                        questions={topic.questions}
-                        refreshTopic={refreshTopic}>
-                    </QuestionPanel>}
+                {/*{isCategory &&*/}
+                {/*    <QuestionPanel*/}
+                {/*        categoryId={topic.id}*/}
+                {/*        questions={topic.questions}*/}
+                {/*        refreshTopic={refreshTopic}>*/}
+                {/*    </QuestionPanel>}*/}
             </Card.Body>
         </Card>
     )
