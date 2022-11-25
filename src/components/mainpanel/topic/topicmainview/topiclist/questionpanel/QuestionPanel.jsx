@@ -1,18 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Badge, Card, Col, Form, InputGroup, Row} from "react-bootstrap";
 import {FaBan, FaPlus, FaTimes} from "react-icons/all";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import Select from "react-select";
 
 const QuestionPanel = (props) => {
 
-    const {questions, categoryId, refreshTopic} = props;
+    const {sourceCategoryId} = props;
     const [isAddBadgeClicked, setIsAddBadgeClicked] = useState(false)
-    const [questionCreatorDto, setQuestionCreatorDto] = useState({
-        question: "",
-        categoryId: categoryId
-    })
+    const [questions, setQuestions] = useState(props.questions)
+    const [questionText, setQuestionText] = useState("")
+    const [categoryList, setCategoryList] = useState([])
+    const [selectedTargetCategory, setSelectedTargetCategory] = useState()
 
+    useEffect(() => {
+        axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
+            setCategoryList(res.data)
+        });
+    }, [])
 
     function handleAddBadgeClick() {
         setIsAddBadgeClicked(prevState => !prevState)
@@ -23,16 +29,43 @@ const QuestionPanel = (props) => {
     }
 
     function handleQuestionChange(event) {
-        setQuestionCreatorDto({...questionCreatorDto, question: event.target.value})
+        setQuestionText(event.target.value)
     }
 
     function handleQuestionSubmit(event) {
         event.preventDefault()
-        axios.post(`http://localhost:8081/api/questions`, questionCreatorDto)
-            .then(() => {
-                setQuestionCreatorDto({...questionCreatorDto, question: ""});
+        const questionDto = {
+                sourceCategoryId: sourceCategoryId,
+                questionText: questionText,
+                targetCategoryId: selectedTargetCategory.value
+        }
+        axios.post(`http://localhost:8081/api/questions`, questionDto).then((res) => {
+            setQuestions(res.data);
+        })
+    }
+
+    function handleQuestionClick(question) {
+        axios.put(`http://localhost:8081/api/questions`, {
+            params: {
+                questionId: question.value,
+                questionText: questionText
+            }
+        }).then((res) => {
+            setQuestions(res.data);
+        })
+    }
+
+    function handleDeleteButtonClick(question) {
+        console.log(question)
+        axios.delete(`http://localhost:8081/api/questions/${question.value}`)
+            .then((res) => {
+                setQuestions(res.data);
             })
     }
+
+    const handleTargetCategorySelect = (newSelectedTargetCategory) => {
+        setSelectedTargetCategory(newSelectedTargetCategory)
+    };
 
     return (
         <>
@@ -41,8 +74,8 @@ const QuestionPanel = (props) => {
                     <span className="d-inline-block me-1"> Questions: </span>
                     {questions.map((question) => (
                         <Badge pill bg="success" className="d-inline-block me-1">
-                            {question}
-                            <FaTimes className="ms-2"></FaTimes>
+                            <span onClick={handleQuestionClick}>{question.label}</span>
+                            <FaTimes className="ms-2" onClick={() => handleDeleteButtonClick(question)}></FaTimes>
                         </Badge>
                     ))}
                     <Badge pill bg="success">
@@ -59,6 +92,14 @@ const QuestionPanel = (props) => {
                                     type="text"
                                     placeholder="Type Question"
                                     onChange={handleQuestionChange}
+                                />
+                                <Select
+                                    className="p-0"
+                                    value={selectedTargetCategory}
+                                    options={categoryList}
+                                    onChange={handleTargetCategorySelect}
+                                    isSearchable={true}
+                                    placeholder={"Select Target Category"}
                                 />
                                 <Button type="submit" variant="success">
                                     <FaPlus></FaPlus>

@@ -77,12 +77,12 @@ const SingleTopic = (props) => {
                         </Button>
                     </div>
                 </div>
-                {/*{isCategory &&*/}
-                {/*    <QuestionPanel*/}
-                {/*        categoryId={topic.id}*/}
-                {/*        questions={topic.questions}*/}
-                {/*        refreshTopic={refreshTopic}>*/}
-                {/*    </QuestionPanel>}*/}
+                {isCategory &&
+                    <QuestionPanel
+                        sourceCategoryId={topic.id}
+                        questions={topic.questions}
+                        refreshTopic={refreshTopic}>
+                    </QuestionPanel>}
             </Card.Body>
         </Card>
     )
