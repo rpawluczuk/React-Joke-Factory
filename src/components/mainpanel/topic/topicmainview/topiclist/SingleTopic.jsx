@@ -79,7 +79,7 @@ const SingleTopic = (props) => {
                 </div>
                 {isCategory &&
                     <QuestionPanel
-                        sourceCategoryId={topic.id}
+                        sourceCategory={{label: topic.name, value: topic.id}}
                         questions={topic.questions}
                         refreshTopic={refreshTopic}>
                     </QuestionPanel>}

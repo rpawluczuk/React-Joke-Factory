@@ -7,64 +7,92 @@ import Select from "react-select";
 
 const QuestionPanel = (props) => {
 
-    const {sourceCategoryId} = props;
-    const [isAddBadgeClicked, setIsAddBadgeClicked] = useState(false)
+    const {sourceCategory} = props;
+    const [questionDto, setQuestionDto] = useState({
+        id: null,
+        sourceCategory: sourceCategory,
+        questionText: "",
+        targetCategory: null
+    })
+    const [isQuestionFormVisible, setIsQuestionFormVisible] = useState(false)
     const [questions, setQuestions] = useState(props.questions)
-    const [questionText, setQuestionText] = useState("")
     const [categoryList, setCategoryList] = useState([])
-    const [selectedTargetCategory, setSelectedTargetCategory] = useState()
 
     useEffect(() => {
+        console.log(questions)
         axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
     }, [])
 
     function handleAddBadgeClick() {
-        setIsAddBadgeClicked(prevState => !prevState)
+        setIsQuestionFormVisible(prevState => !prevState)
     }
 
     function handleCancelButtonClick() {
-        setIsAddBadgeClicked(false)
+        setIsQuestionFormVisible(false)
+        setQuestionDto({
+            ...questionDto,
+            id: null,
+            questionText: "",
+            targetCategory: null
+        })
     }
 
     function handleQuestionChange(event) {
-        setQuestionText(event.target.value)
+        setQuestionDto({
+            ...questionDto,
+            questionText: event.target.value
+        })
     }
 
     function handleQuestionSubmit(event) {
         event.preventDefault()
-        const questionDto = {
-                sourceCategoryId: sourceCategoryId,
-                questionText: questionText,
-                targetCategoryId: selectedTargetCategory.value
+        if (questionDto.id === null) {
+            axios.post(`http://localhost:8081/api/questions`, questionDto).then((res) => {
+                setQuestions(res.data);
+                setQuestionDto({
+                    ...questionDto,
+                    id: null,
+                    questionText: "",
+                    targetCategory: null
+                })
+            })
+        } else {
+            axios.put(`http://localhost:8081/api/questions`, questionDto).then((res) => {
+                setQuestions(res.data);
+                setQuestionDto({
+                    ...questionDto,
+                    id: null,
+                    questionText: "",
+                    targetCategory: null
+                })
+            })
         }
-        axios.post(`http://localhost:8081/api/questions`, questionDto).then((res) => {
-            setQuestions(res.data);
-        })
     }
 
     function handleQuestionClick(question) {
-        axios.put(`http://localhost:8081/api/questions`, {
-            params: {
-                questionId: question.value,
-                questionText: questionText
-            }
-        }).then((res) => {
-            setQuestions(res.data);
+        axios.get(`http://localhost:8081/api/questions/${question.id}`).then((res) => {
+            setQuestionDto(
+                res.data
+            )
+            setIsQuestionFormVisible(true)
         })
     }
 
     function handleDeleteButtonClick(question) {
-        console.log(question)
-        axios.delete(`http://localhost:8081/api/questions/${question.value}`)
+        console.log('delete')
+        axios.delete(`http://localhost:8081/api/questions/${question.id}`)
             .then((res) => {
                 setQuestions(res.data);
             })
     }
 
     const handleTargetCategorySelect = (newSelectedTargetCategory) => {
-        setSelectedTargetCategory(newSelectedTargetCategory)
+        setQuestionDto({
+            ...questionDto,
+            targetCategory: newSelectedTargetCategory
+        })
     };
 
     return (
@@ -74,7 +102,7 @@ const QuestionPanel = (props) => {
                     <span className="d-inline-block me-1"> Questions: </span>
                     {questions.map((question) => (
                         <Badge pill bg="success" className="d-inline-block me-1">
-                            <span onClick={handleQuestionClick}>{question.label}</span>
+                            <span onClick={() => handleQuestionClick(question)}>{question.questionText}</span>
                             <FaTimes className="ms-2" onClick={() => handleDeleteButtonClick(question)}></FaTimes>
                         </Badge>
                     ))}
@@ -83,7 +111,7 @@ const QuestionPanel = (props) => {
                     </Badge>
                 </Card.Text>
             </div>
-            {isAddBadgeClicked &&
+            {isQuestionFormVisible &&
                 <Row className="justify-content-md-center mt-4">
                     <Col xs={6}>
                         <Form onSubmit={handleQuestionSubmit}>
@@ -92,10 +120,11 @@ const QuestionPanel = (props) => {
                                     type="text"
                                     placeholder="Type Question"
                                     onChange={handleQuestionChange}
+                                    value={questionDto.questionText}
                                 />
                                 <Select
                                     className="p-0"
-                                    value={selectedTargetCategory}
+                                    value={questionDto.targetCategory}
                                     options={categoryList}
                                     onChange={handleTargetCategorySelect}
                                     isSearchable={true}
