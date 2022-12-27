@@ -37,8 +37,15 @@ const TopicPackFilter = (props) => {
                 }
             }).then((res) => {
                 onCategorySelect(res.data.categoryFilter)
-            console.log(res.data)
         });
+    }
+
+    function handleCategorySelect(selectedCategory) {
+        setQuestionFilter({
+            value: 0,
+            label: "Not Selected"
+        })
+        onCategorySelect(selectedCategory)
     }
 
     return (
@@ -60,7 +67,7 @@ const TopicPackFilter = (props) => {
                     className="p-0"
                     value={categoryFilter}
                     options={categoryList}
-                    onChange={onCategorySelect}
+                    onChange={handleCategorySelect}
                     isSearchable={true}
                     placeholder={"Select Category"}
                 />
