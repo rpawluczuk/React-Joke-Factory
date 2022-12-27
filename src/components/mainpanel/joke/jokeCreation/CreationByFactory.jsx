@@ -15,7 +15,7 @@ const CreationByFactory = () => {
     const [topicPanel, setTopicPanel] = useState(null)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
+        axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
         axios.get(`http://localhost:8081/api/topics/panel/${0}`).then((res) => {

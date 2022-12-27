@@ -13,7 +13,7 @@ const TopicPanel = (props) => {
 
     useEffect(() => {
         refreshTopicItemList()
-        axios.get(`http://localhost:8081/api/topics/category-list`).then((res) => {
+        axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
         setTopicPackList(topicPanel.topicPackList)
@@ -35,7 +35,7 @@ const TopicPanel = (props) => {
     }
 
     function refreshTopicItemList() {
-        axios.get(`http://localhost:8081/api/topics/list-items`).then((res) => {
+        axios.get(`http://localhost:8081/api/topics/view/list-items`).then((res) => {
             setTopicItemList(res.data)
         });
     }

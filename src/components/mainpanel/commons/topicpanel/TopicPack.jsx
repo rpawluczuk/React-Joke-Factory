@@ -71,7 +71,9 @@ const TopicPack = (props) => {
                 <TopicPackFilter
                     categoryFilter={categoryFilter}
                     categoryList={categoryList}
-                    onCategorySelect={handleCategorySelect}>
+                    onCategorySelect={handleCategorySelect}
+                    topicPackIndex={topicPackIndex}
+                    >
                 </TopicPackFilter>
             }
             <div className="d-flex flex-row justify-content-center mt-3">
