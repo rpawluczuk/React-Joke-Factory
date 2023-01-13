@@ -15,7 +15,7 @@ const TopicPack = (props) => {
         value: 0,
         label: "All"
     })
-    const [topicPage, setTopicPage] = useState(topicPack.topicPage)
+    const [topicBlockPage, setTopicBlockPage] = useState(topicPack.topicBlockPage)
     const [pagination, setPagination] = useState({
         currentPage: 0,
         pageSize: 20
@@ -23,7 +23,9 @@ const TopicPack = (props) => {
     const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
-        setTopicPage(topicPack.topicPage)
+        console.log("topic pack")
+        console.log(topicPack)
+        setTopicBlockPage(topicPack.topicBlockPage)
     }, [topicPack])
 
     function handlePageChange(pageNumber) {
@@ -34,7 +36,7 @@ const TopicPack = (props) => {
                 }
             }
         ).then((res) => {
-            setTopicPage(res.data.topicPage);
+            setTopicBlockPage(res.data.topicBlockPage);
         });
         setPagination({...pagination, currentPage: pageNumber})
     }
@@ -67,7 +69,7 @@ const TopicPack = (props) => {
         <TopicPackContext.Provider
             value={{pagination}}>
             <hr></hr>
-            {topicPack.topicParent.category === false &&
+            {topicPack.topicBlockParent.category === false &&
                 <TopicPackFilter
                     categoryFilter={categoryFilter}
                     categoryList={categoryList}
@@ -83,21 +85,22 @@ const TopicPack = (props) => {
                 </button>
             </div>
             <div className="d-flex flex-row flex-wrap">
-                {topicPage.content.map((topic) => (
+                {topicBlockPage.content.map((topicBlock) => (
                     <TopicBlock
-                        key={topic.id}
-                        topic={topic}
+                        key={topicBlock.id}
+                        topicBlock={topicBlock}
                         topicPackIndex={topicPackIndex}
                         topicBlockType={TopicBlockType.PRESENTER}
+                        isAnySelectionInPack={topicPack.anySelection}
                     />
                 ))}
                 <TopicBlock
-                    topic={{parentId: topicPack.topicParent.id}}
+                    topicBlock={{parentId: topicPack.topicBlockParent.id}}
                     topicBlockType={TopicBlockType.CREATOR}
                 />
             </div>
             <TopicPackPagination
-                pagination={topicPage}
+                pagination={topicBlockPage}
                 onPageChange={handlePageChange}>
             </TopicPackPagination>
 

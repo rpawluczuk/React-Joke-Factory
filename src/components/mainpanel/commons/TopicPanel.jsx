@@ -6,7 +6,7 @@ import axios from "axios";
 
 const TopicPanel = (props) => {
 
-    const {initialTopicType, topicPanel} = props;
+    const {initialTopicType, initialTopicBlock, topicPanel} = props;
     const [topicItemList, setTopicItemList] = useState([])
     const [topicPackList, setTopicPackList] = useState([])
     const [categoryList, setCategoryList] = useState([])
@@ -20,15 +20,26 @@ const TopicPanel = (props) => {
     }, [topicPanel])
 
     const addTopicPack = (topicPack, topicPackIndex) => {
-            setTopicPackList(oldArray => [...oldArray.slice(0, topicPackIndex),
-                topicPack
-            ]);
+        setTopicPackList(oldArray => [...oldArray.slice(0, topicPackIndex),
+            topicPack
+        ]);
     }
 
-    function changeTopicPack(newTopicPack, topicPackIndex) {
+    function changeTopicPack(newTopicPack) {
+        console.log("topic panel")
+        console.log(newTopicPack)
         setTopicPackList(topicPackList.map((oldTopicPack, index) => {
-            if (index === topicPackIndex) {
+            if (index === newTopicPack.topicPackIndex) {
                 return newTopicPack;
+            }
+            return oldTopicPack
+        }))
+    }
+
+    function refreshTopicPack(newTopicPack) {
+        setTopicPackList(topicPackList.map((oldTopicPack) => {
+            if (oldTopicPack.topicBlockParent.id === newTopicPack.topicBlockParent.id) {
+                return {...oldTopicPack, topicBlockPage: newTopicPack.topicBlockPage}
             }
             return oldTopicPack
         }))
@@ -42,10 +53,16 @@ const TopicPanel = (props) => {
 
     return (
         <TopicPanelContext.Provider
-            value={{selectedTopicIdList: topicPackList, addTopicPack, topicItemList}}>
+            value={{
+                selectedTopicIdList: topicPackList,
+                addTopicPack,
+                topicItemList,
+                refreshTopicPack,
+                changeTopicPack
+            }}>
             <div className="d-flex flex-column align-items-center">
                 <TopicBlock
-                    topic={topicPanel.initialTopic}
+                    topicBlock={topicPanel.initialTopic}
                     showChildren={false}
                     topicBlockType={initialTopicType}>
                 </TopicBlock>

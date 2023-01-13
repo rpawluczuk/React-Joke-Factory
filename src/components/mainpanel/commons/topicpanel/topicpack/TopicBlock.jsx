@@ -14,27 +14,27 @@ const TopicBlock = (props) => {
     const {topicPackIndex} = props;
 
     const [blockType, setBlockType] = useState(TopicBlockType.PRESENTER)
-    const [topic, setTopic] = useState({
+    const [topicBlock, setTopicBlock] = useState({
         id: 0,
         parentId: null,
         name: ''
     })
     const [errorMessage, setErrorMessage] = useState(null)
-    const {addTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
-    const {refreshTopicPack} = useContext(TopicPackContext)
+    const {addTopicPack, refreshTopicPack, changeTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
 
     useEffect(() => {
-        if (props.topic !== undefined) {
-            setTopic(props.topic)
+        // changeTopicPack()
+        if (props.topicBlock !== undefined) {
+            setTopicBlock(props.topicBlock)
         }
-    }, [props.topic])
+    }, [props.topicBlock])
 
     useEffect(() => {
         setBlockType(props.topicBlockType)
     }, [props.topicBlockType])
 
     function handleTopicNameChange(event) {
-        setTopic({...topic, name: event.target.value})
+        setTopicBlock({...topicBlock, name: event.target.value})
     }
 
     function handleEditClick() {
@@ -44,7 +44,19 @@ const TopicBlock = (props) => {
     function handleShowChildrenClick() {
         axios.get(`http://localhost:8081/api/topics/panel/show-children`, {
             params: {
-                parentId: topic.id,
+                parentId: topicBlock.id,
+                topicPackIndex: topicPackIndex
+            }
+        }).then(async (res) => {
+            await addTopicPack(res.data[0], topicPackIndex);
+            await addTopicPack(res.data[1], topicPackIndex + 1);
+        });
+    }
+
+    function handleSecondParentClick() {
+        axios.get(`http://localhost:8081/api/topics/panel/second-parent`, {
+            params: {
+                secondParentId: topicBlock.id,
                 topicPackIndex: topicPackIndex
             }
         }).then(async (res) => {
@@ -59,14 +71,14 @@ const TopicBlock = (props) => {
     }
 
     const refreshTopicBlock = () => {
-        axios.get(`http://localhost:8081/api/topics/${topic.id}`).then((res) => {
-            setTopic(res.data)
+        axios.get(`http://localhost:8081/api/topics/${topicBlock.id}`).then((res) => {
+            setTopicBlock(res.data)
         })
     }
 
     function handleEditionSubmit(event) {
         event.preventDefault();
-        axios.patch(`http://localhost:8081/api/topics`, topic).then(() => {
+        axios.patch(`http://localhost:8081/api/topics`, topicBlock).then(() => {
             setBlockType(TopicBlockType.PRESENTER);
             refreshTopicBlock()
         })
@@ -74,24 +86,26 @@ const TopicBlock = (props) => {
 
     function handleTopicCreatorSubmit(event) {
         event.preventDefault();
-        const topicCreatorDto = {
-            name: topic.name,
-            parentId: topic.parentId,
+        const topicBlockDto = {
+            name: topicBlock.name,
+            parentId: topicBlock.parentId,
         }
-        axios.post(`http://localhost:8081/api/topics`, topicCreatorDto).then(res => {
-            setTopic(res.data)
-            if (res.data.parentId === null) {
-                addTopicPack(res.data.id, 0)
+        axios.post(`http://localhost:8081/api/topics/panel`, topicBlockDto).then(res => {
+            console.log("from rest")
+            console.log(res.data)
+            if(res.data.topicBlockPage.totalElements === 0) {
+                setTopicBlock(res.data.topicBlockParent)
+                addTopicPack(res.data, 0)
                 setBlockType(TopicBlockType.PRESENTER)
             } else {
-                refreshTopicPack()
-                setTopic({
-                    ...topic,
+                refreshTopicPack(res.data)
+                setTopicBlock({
+                    ...topicBlock,
                     parentId: null,
                     name: ''
                 })
             }
-            refreshTopicItemList()
+            // refreshTopicItemList()
             setErrorMessage(null)
         }).catch((error) => {
             setErrorMessage(error.response.data.message)
@@ -99,19 +113,21 @@ const TopicBlock = (props) => {
     }
 
     return (
-        <TopicBlockContext.Provider value={{topic, setTopic, refreshTopicBlock}}>
+        <TopicBlockContext.Provider value={{topic: topicBlock, setTopic: setTopicBlock, refreshTopicBlock}}>
                 <div className="d-flex flex-column">
                     {blockType === TopicBlockType.PRESENTER &&
                         <TopicBlockPresenter
-                            topic={topic}
+                            topicBlock={topicBlock}
                             showChildren={props.showChildren}
+                            isAnySelectionInPack={props.isAnySelectionInPack}
                             onEditClick={handleEditClick}
-                            onShowChildrenClick={handleShowChildrenClick}>
+                            onShowChildrenClick={handleShowChildrenClick}
+                            onSecondParentClick={handleSecondParentClick}>
                         </TopicBlockPresenter>
                     }
                     {blockType === TopicBlockType.EDITOR &&
                         <TopicBlockEditor
-                            topic={topic}
+                            topic={topicBlock}
                             onEditionSubmit={handleEditionSubmit}
                             onCancelEditionClick={handleCancelEditionClick}
                             onTopicNameChange={handleTopicNameChange}>
@@ -119,7 +135,7 @@ const TopicBlock = (props) => {
                     }
                     {blockType === TopicBlockType.CREATOR &&
                         <TopicBlockCreator
-                            topic={topic}
+                            topic={topicBlock}
                             onTopicCreatorSubmit={handleTopicCreatorSubmit}
                             onTopicNameChange={handleTopicNameChange}>
                         </TopicBlockCreator>
