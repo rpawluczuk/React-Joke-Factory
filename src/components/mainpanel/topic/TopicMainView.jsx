@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {TopicContext} from "./TopicContext";
+import {TopicMainViewContext} from "components/mainpanel/topic/TopicMainViewContext";
 import TopicSearch from "components/mainpanel/topic/topicmainview/TopicSearch";
 import TopicList from "components/mainpanel/topic/topicmainview/TopicList";
 
@@ -59,7 +59,7 @@ const TopicMainView = () => {
     }
 
     return (
-        <TopicContext.Provider>
+        <TopicMainViewContext.Provider value={{refreshTopicView}}>
             <div className="container">
                 <div className="mb-4">
                     <h1 className="text-center display-2 text-dark m-5 fw-bolder">List of Topics</h1>
@@ -80,7 +80,7 @@ const TopicMainView = () => {
                     }
                 </div>
             </div>
-        </TopicContext.Provider>
+        </TopicMainViewContext.Provider>
     )
 }
 

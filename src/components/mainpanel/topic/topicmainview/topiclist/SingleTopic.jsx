@@ -4,9 +4,10 @@ import Button from "react-bootstrap/Button";
 import {FaEdit, FaTimes} from "react-icons/all";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {TopicContext} from "components/mainpanel/topic/TopicContext";
 import "App.css";
 import QuestionPanel from "components/mainpanel/topic/topicmainview/topiclist/questionpanel/QuestionPanel";
+import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
+import {TopicMainViewContext} from "components/mainpanel/topic/TopicMainViewContext";
 
 const SingleTopic = (props) => {
 
@@ -14,6 +15,7 @@ const SingleTopic = (props) => {
 
     const [topic, setTopic] = useState(props.topic)
     const [isCategory, setIsCategory] = useState(topic.category);
+    const {refreshTopicView} = useContext(TopicMainViewContext)
 
     function refreshTopic() {
         axios.get(`http://localhost:8081/api/topics/${topic.id}`)
@@ -27,10 +29,10 @@ const SingleTopic = (props) => {
     }
 
     function handleDeleteTopic(id) {
-        // if (window.confirm('Are you sure you want to delete?')) {
-        //     axios.delete(`http://localhost:8081/api/topics/${id}`)
-        //         .then(refreshTopicList)
-        // }
+        if (window.confirm('Are you sure you want to delete?')) {
+            axios.delete(`http://localhost:8081/api/topics/view/${id}`)
+                .then(refreshTopicView)
+        }
     }
 
     function handleCategoryButtonClick() {
