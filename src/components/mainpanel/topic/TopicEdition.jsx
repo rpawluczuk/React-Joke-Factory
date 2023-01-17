@@ -6,23 +6,26 @@ import axios from "axios";
 
 const TopicEdition = () => {
 
-    const [initialTopic, setInitialTopic] = useState({})
+    const [topicPanel, setTopicPanel] = useState(null)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/${params.id}`).then((res) => {
-            setInitialTopic(res.data)
-        })
+        axios.get(`http://localhost:8081/api/topics/panel/${params.id}`).then((res) => {
+            setTopicPanel(res.data)
+        });
     }, [])
 
     const params = useParams();
 
-    return(
+    return (
         <div className="container">
             <p className="Data-header">Edit topic</p>
-            <TopicPanel
-                initialTopic={initialTopic}
-                initialTopicType={TopicBlockType.EDITOR}
-            ></TopicPanel>
+            {topicPanel !== null &&
+                <TopicPanel
+                    topicPanel={topicPanel}
+                    initialTopicBlock={topicPanel.initialTopic}
+                    initialTopicType={TopicBlockType.EDITOR}
+                ></TopicPanel>
+            }
         </div>
     )
 }

@@ -16,7 +16,9 @@ const TopicPanel = (props) => {
         axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
-        setTopicPackList(topicPanel.topicPackList)
+        if (topicPanel !== undefined) {
+            setTopicPackList(topicPanel.topicPackList)
+        }
     }, [topicPanel])
 
     const addTopicPack = (topicPack, topicPackIndex) => {
@@ -62,7 +64,7 @@ const TopicPanel = (props) => {
             }}>
             <div className="d-flex flex-column align-items-center">
                 <TopicBlock
-                    topicBlock={topicPanel.initialTopic}
+                    topicBlock={initialTopicBlock}
                     showChildren={false}
                     topicBlockType={initialTopicType}>
                 </TopicBlock>

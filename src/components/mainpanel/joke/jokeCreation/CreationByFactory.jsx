@@ -49,8 +49,10 @@ const CreationByFactory = () => {
                 </div>
             </div>
             {topicPanel !== null &&
-                <TopicPanel topicPanel={topicPanel}
-                            initialTopicType={TopicBlockType.PRESENTER}>
+                <TopicPanel
+                    topicPanel={topicPanel}
+                    initialTopicBlock={topicPanel.initialTopic}
+                    initialTopicType={TopicBlockType.PRESENTER}>
                 </TopicPanel>
             }
         </div>
