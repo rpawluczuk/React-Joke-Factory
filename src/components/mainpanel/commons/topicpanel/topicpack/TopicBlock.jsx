@@ -91,11 +91,9 @@ const TopicBlock = (props) => {
             parentId: topicBlock.parentId,
         }
         axios.post(`http://localhost:8081/api/topics/panel`, topicBlockDto).then(res => {
-            console.log("from rest")
-            console.log(res.data)
-            if(res.data.topicBlockPage.totalElements === 0) {
-                setTopicBlock(res.data.topicBlockParent)
-                addTopicPack(res.data, 0)
+            if(res.data[0].topicBlockPage.totalElements === 0) {
+                setTopicBlock(res.data[0].topicBlockParent)
+                addTopicPack(res.data[0], 0)
                 setBlockType(TopicBlockType.PRESENTER)
             } else {
                 refreshTopicPack(res.data)

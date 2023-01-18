@@ -3,6 +3,7 @@ import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
 import {FaWindowClose, FaGripHorizontal, FaEdit, FaNetworkWired} from "react-icons/all";
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
+import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 
 const TopicBlockPresenter = (props) => {
 
@@ -15,11 +16,14 @@ const TopicBlockPresenter = (props) => {
         isAnySelectionInPack
     } = props;
 
-    const {refreshTopicPack} = useContext(TopicPackContext)
+    const {refreshTopicPack} = useContext(TopicPanelContext)
 
     const handleDeleteRelation = async () => {
-        await axios.delete(`http://localhost:8081/api/topics/remove-relation?topic-parent-id=${topicBlock.parentId}&topic-child-id=${topicBlock.id}`)
-        await refreshTopicPack(0)
+        console.log(topicBlock)
+        await axios.delete(`http://localhost:8081/api/topics/panel/remove-relation?topic-parent-id=${topicBlock.parentId}&topic-child-id=${topicBlock.id}`).then(res =>
+            refreshTopicPack(res.data)
+        )
+
     }
 
     return (

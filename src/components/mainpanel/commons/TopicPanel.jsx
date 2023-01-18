@@ -28,8 +28,6 @@ const TopicPanel = (props) => {
     }
 
     function changeTopicPack(newTopicPack) {
-        console.log("topic panel")
-        console.log(newTopicPack)
         setTopicPackList(topicPackList.map((oldTopicPack, index) => {
             if (index === newTopicPack.topicPackIndex) {
                 return newTopicPack;
@@ -38,13 +36,16 @@ const TopicPanel = (props) => {
         }))
     }
 
-    function refreshTopicPack(newTopicPack) {
+    function refreshTopicPack(listOfNewTopicPack) {
         setTopicPackList(topicPackList.map((oldTopicPack) => {
-            if (oldTopicPack.topicBlockParent.id === newTopicPack.topicBlockParent.id) {
-                return {...oldTopicPack, topicBlockPage: newTopicPack.topicBlockPage}
-            }
+            listOfNewTopicPack.forEach(newTopicPack => {
+                if (oldTopicPack.topicPackIndex === newTopicPack.topicPackIndex) {
+                    oldTopicPack = newTopicPack
+                }
+            })
             return oldTopicPack
         }))
+        console.log(topicPackList)
     }
 
     function refreshTopicItemList() {
