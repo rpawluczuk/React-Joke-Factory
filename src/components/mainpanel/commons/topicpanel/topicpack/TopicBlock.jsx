@@ -23,6 +23,8 @@ const TopicBlock = (props) => {
     const {addTopicPack, refreshTopicPack, changeTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
 
     useEffect(() => {
+        console.log("topicBlock")
+        console.log(props.topicBlock)
         // changeTopicPack()
         if (props.topicBlock !== undefined) {
             setTopicBlock(props.topicBlock)
@@ -60,6 +62,8 @@ const TopicBlock = (props) => {
                 topicPackIndex: topicPackIndex
             }
         }).then(async (res) => {
+            console.log("handleSecondParentClick")
+            console.log(res.data)
             await addTopicPack(res.data[0], topicPackIndex);
             await addTopicPack(res.data[1], topicPackIndex + 1);
         });
@@ -89,6 +93,7 @@ const TopicBlock = (props) => {
         const topicBlockDto = {
             name: topicBlock.name,
             parentId: topicBlock.parentId,
+            secondParentId: topicBlock.secondParentId
         }
         axios.post(`http://localhost:8081/api/topics/panel`, topicBlockDto).then(res => {
             if(res.data[0].topicBlockPage.totalElements === 0) {

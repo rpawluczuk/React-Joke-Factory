@@ -95,7 +95,8 @@ const TopicPack = (props) => {
                     />
                 ))}
                 <TopicBlock
-                    topicBlock={{parentId: topicPack.topicBlockParent.id}}
+                    topicBlock={{parentId: topicPack.topicBlockParent.id,
+                        secondParentId: topicPack.topicBlockSecondParent !== null ? topicPack.topicBlockSecondParent.id : null}}
                     topicBlockType={TopicBlockType.CREATOR}
                 />
             </div>
