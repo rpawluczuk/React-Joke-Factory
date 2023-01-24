@@ -1,6 +1,13 @@
 import React, {useContext} from 'react';
 import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
-import {FaWindowClose, FaGripHorizontal, FaEdit, FaNetworkWired} from "react-icons/all";
+import {
+    FaWindowClose,
+    FaGripHorizontal,
+    FaEdit,
+    FaNetworkWired,
+    FaExclamation,
+    FaExclamationTriangle
+} from "react-icons/all";
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
@@ -26,13 +33,25 @@ const TopicBlockPresenter = (props) => {
 
     }
 
+    function hasAnyCategory() {
+        return topicBlock.categories !== undefined && topicBlock.categories !== null && topicBlock.categories.length === 0
+    }
+
     return (
         <div className="topicBlock d-flex flex-column justify-content-between m-3"
              style={{
                  backgroundColor: topicBlock.selected || topicBlock.secondParent ? 'burlywood' : 'blanchedalmond',
                  borderColor: topicBlock.selected ? 'red' : 'black',
              }}>
-            <div className="d-flex flex-row justify-content-end" style={{background: "darkseagreen"}}>
+            <div className="d-flex flex-row justify-content-between" style={{background: "darkseagreen"}}>
+                <div>
+                    {
+                        hasAnyCategory() &&
+                        <button className='Item-top-button' onClick={handleDeleteRelation}>
+                            <FaExclamationTriangle/>
+                        </button>
+                    }
+                </div>
                 <button className='Item-top-button' onClick={handleDeleteRelation}>
                     <FaWindowClose/>
                 </button>

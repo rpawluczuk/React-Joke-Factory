@@ -16,7 +16,8 @@ const TopicBlock = (props) => {
     const [topicBlock, setTopicBlock] = useState({
         id: 0,
         parentId: null,
-        name: ''
+        name: '',
+        categories: []
     })
     const [errorMessage, setErrorMessage] = useState(null)
     const {addTopicPack, refreshTopicPack, changeTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)

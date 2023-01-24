@@ -16,8 +16,6 @@ const TopicPackPagination = (props) => {
                 topicPackIndex: topicPackIndex
             }
         }).then((res) => {
-            console.log('page size')
-            console.log(res.data)
             addTopicPack(res.data, topicPackIndex);
         });
     }
