@@ -7,7 +7,6 @@ import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/To
 import TopicBlockEditor from "components/mainpanel/commons/topicpanel/topicpack/topicblock/TopicBlockEditor";
 import axios from "axios";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
-import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 
 const TopicBlock = (props) => {
 

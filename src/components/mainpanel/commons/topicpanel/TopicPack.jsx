@@ -103,9 +103,9 @@ const TopicPack = (props) => {
             </div>
             <TopicPackPagination
                 pagination={topicBlockPage}
-                onPageChange={handlePageChange}>
+                onPageChange={handlePageChange}
+                topicPackIndex={topicPackIndex}>
             </TopicPackPagination>
-
         </TopicPackContext.Provider>
     );
 }
