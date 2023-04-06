@@ -9,7 +9,7 @@ const TopicEdition = () => {
     const [topicPanel, setTopicPanel] = useState(null)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/panel/${params.id}`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/panel/${params.id}`).then((res) => {
             setTopicPanel(res.data)
         });
     }, [])

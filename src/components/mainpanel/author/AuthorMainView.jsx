@@ -13,7 +13,7 @@ const AuthorMainView = () => {
     }, [])
 
     const refreshAuthorList = () => {
-        axios.get(`http://localhost:8081/api/authors`).then((res) => {
+        axios.get(`http://localhost:8082/api/authors`).then((res) => {
             setAuthorList(res.data)
         });
     }

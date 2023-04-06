@@ -42,7 +42,7 @@ const TopicBlock = (props) => {
     }
 
     function handleShowChildrenClick() {
-        axios.get(`http://localhost:8081/api/topics/panel/show-children`, {
+        axios.get(`http://localhost:8082/api/topics/panel/show-children`, {
             params: {
                 parentId: topicBlock.id,
                 topicPackIndex: topicPackIndex
@@ -54,7 +54,7 @@ const TopicBlock = (props) => {
     }
 
     function handleSecondParentClick() {
-        axios.get(`http://localhost:8081/api/topics/panel/second-parent`, {
+        axios.get(`http://localhost:8082/api/topics/panel/second-parent`, {
             params: {
                 secondParentId: topicBlock.id,
                 topicPackIndex: topicPackIndex
@@ -71,14 +71,14 @@ const TopicBlock = (props) => {
     }
 
     const refreshTopicBlock = () => {
-        axios.get(`http://localhost:8081/api/topics/${topicBlock.id}`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/${topicBlock.id}`).then((res) => {
             setTopicBlock(res.data)
         })
     }
 
     function handleEditionSubmit(event) {
         event.preventDefault();
-        axios.patch(`http://localhost:8081/api/topics`, topicBlock).then(() => {
+        axios.patch(`http://localhost:8082/api/topics`, topicBlock).then(() => {
             setBlockType(TopicBlockType.PRESENTER);
             refreshTopicBlock()
         })
@@ -92,7 +92,7 @@ const TopicBlock = (props) => {
             secondParentId: topicBlock.secondParentId,
             categories: [categoryFilter]
         }
-        axios.post(`http://localhost:8081/api/topics/panel`, topicBlockDto).then(res => {
+        axios.post(`http://localhost:8082/api/topics/panel`, topicBlockDto).then(res => {
             if(res.data[0].topicBlockPage.totalElements === 0) {
                 setTopicBlock(res.data[0].topicBlockParent)
                 addTopicPack(res.data[0], 0)

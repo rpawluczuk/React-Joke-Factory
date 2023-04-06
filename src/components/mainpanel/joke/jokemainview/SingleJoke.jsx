@@ -14,7 +14,7 @@ const SingleJoke = ({joke}) => {
 
     const handleDelete = (id) => {
         if (window.confirm('Are you sure you want to delete?')) {
-            axios.delete(`http://localhost:8081/api/jokes/${id}`)
+            axios.delete(`http://localhost:8082/api/jokes/${id}`)
                 .then(refreshJokeList)
         }
     }

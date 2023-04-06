@@ -18,7 +18,7 @@ const TopicPackFilter = (props) => {
     const [questionList, setQuestionList] = useState()
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/panel/question-list`, {
+        axios.get(`http://localhost:8082/api/topics/panel/question-list`, {
             params: {
                 topicPackIndex: topicPackIndex
             }
@@ -29,7 +29,7 @@ const TopicPackFilter = (props) => {
 
     function handleQuestionSelect(selectedQuestion) {
         setQuestionFilter(selectedQuestion)
-        axios.get(`http://localhost:8081/api/topics/panel/pack-filter/by-question`,
+        axios.get(`http://localhost:8082/api/topics/panel/pack-filter/by-question`,
             {
                 params: {
                     questionId: selectedQuestion.value,

@@ -10,7 +10,7 @@ const TopicPackPagination = (props) => {
     const {addTopicPack} = useContext(TopicPanelContext)
 
     function handleSizeChange(event) {
-        axios.get(`http://localhost:8081/api/topics/panel/change-size`, {
+        axios.get(`http://localhost:8082/api/topics/panel/change-size`, {
             params: {
                 pageSize: event.target.value,
                 topicPackIndex: topicPackIndex

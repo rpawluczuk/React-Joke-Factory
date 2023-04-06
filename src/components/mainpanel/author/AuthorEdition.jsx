@@ -20,7 +20,7 @@ const AuthorEdition = () => {
     }, [authorCreatorDto.name])
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/authors/creator/${params.id}`).then((res) => {
+        axios.get(`http://localhost:8082/api/authors/creator/${params.id}`).then((res) => {
             setAuthorCreatorDto({
                 id: params.id,
                 name: res.data.name,
@@ -31,7 +31,7 @@ const AuthorEdition = () => {
     }, [])
 
     const handleSubmit = () => {
-        axios.put(`http://localhost:8081/api/authors`, authorCreatorDto).then(navigate(`/author-list`))
+        axios.put(`http://localhost:8082/api/authors`, authorCreatorDto).then(navigate(`/author-list`))
     }
 
     const handleNameChange = event => {

@@ -20,12 +20,12 @@ const JokeFilter = () => {
     const {setQuery} = useContext(JokeContext)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/authors/list-items`).then((res) => {
+        axios.get(`http://localhost:8082/api/authors/list-items`).then((res) => {
             setAuthorList(prevState =>
                 [...prevState, ...res.data]
             )
         });
-        // axios.get(`http://localhost:8081/api/structures/list-items`).then((res) => {
+        // axios.get(`http://localhost:8082/api/structures/list-items`).then((res) => {
         //     setStructureList(prevState =>
         //         [...prevState, ...res.data]
         //     )

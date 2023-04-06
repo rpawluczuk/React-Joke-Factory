@@ -14,7 +14,7 @@ const TopicMainView = () => {
     }, [])
 
     const refreshTopicView = () => {
-        axios.get(`http://localhost:8081/api/topics/view`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/view`).then((res) => {
             setTopicView(res.data)
         });
     }
@@ -25,21 +25,21 @@ const TopicMainView = () => {
 
     function handleSearchFormSubmit(event) {
         event.preventDefault();
-        axios.get(`http://localhost:8081/api/topics/view/by-name?name=${searchControl}`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/view/by-name?name=${searchControl}`).then((res) => {
             setTopicView(res.data)
         });
     }
 
     function handleCategorySwitch(event) {
         event.preventDefault();
-        axios.get(`http://localhost:8081/api/topics/view/category-filter`)
+        axios.get(`http://localhost:8082/api/topics/view/category-filter`)
             .then((res) => {
                 setTopicView(res.data);
             });
     }
 
     function handlePageChange(event) {
-        axios.get(`http://localhost:8081/api/topics/view/change-page`, {
+        axios.get(`http://localhost:8082/api/topics/view/change-page`, {
             params: {
                 pageNumber: event.selected
             }
@@ -49,7 +49,7 @@ const TopicMainView = () => {
     }
 
     function handleSizeChange(event) {
-        axios.get(`http://localhost:8081/api/topics/view/change-size`, {
+        axios.get(`http://localhost:8082/api/topics/view/change-size`, {
             params: {
                 pageSize: event.target.value
             }

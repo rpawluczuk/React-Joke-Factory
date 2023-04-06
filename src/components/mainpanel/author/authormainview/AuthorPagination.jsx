@@ -14,7 +14,7 @@ const AuthorPagination = () => {
     }, [])
 
     useEffect(() => {
-        axios.put(`http://localhost:8081/api/authors/pagination`, pagination).then(() => {
+        axios.put(`http://localhost:8082/api/authors/pagination`, pagination).then(() => {
             refreshAuthorList()
         }).then(() => {
             getPagination()
@@ -22,7 +22,7 @@ const AuthorPagination = () => {
     }, [pagination.currentPage, pagination.pageSize])
 
     const getPagination = () => {
-        axios.get(`http://localhost:8081/api/authors/pagination`).then((res) => {
+        axios.get(`http://localhost:8082/api/authors/pagination`).then((res) => {
             setPagination(res.data)
         })
     };

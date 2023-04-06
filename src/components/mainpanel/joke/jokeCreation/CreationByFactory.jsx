@@ -15,16 +15,16 @@ const CreationByFactory = () => {
     const [topicPanel, setTopicPanel] = useState(null)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
-        axios.get(`http://localhost:8081/api/topics/panel/${0}`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/panel/${0}`).then((res) => {
             setTopicPanel(res.data)
         });
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/topics/panel/${selectedCategory.value}`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/panel/${selectedCategory.value}`).then((res) => {
             setTopicPanel(res.data)
         })
     }, [selectedCategory])

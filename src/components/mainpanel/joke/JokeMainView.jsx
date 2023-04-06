@@ -20,12 +20,12 @@ const [query, setQuery] = useState('')
 
     const refreshJokeList = () => {
         if (query.length === 0) {
-            axios.get(`http://localhost:8081/api/jokes`).then((res) => {
+            axios.get(`http://localhost:8082/api/jokes`).then((res) => {
                 setJokeList(res.data)
             });
         } else {
             console.log(query)
-            axios.get(`http://localhost:8081/api/jokes?query${query}`).then((res) => {
+            axios.get(`http://localhost:8082/api/jokes?query${query}`).then((res) => {
                 setJokeList(res.data)
             });
         }

@@ -24,10 +24,10 @@ const JokeEdition = () => {
     }, [jokeCreatorDto.title, jokeCreatorDto.content])
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/authors/list-items`).then((res) => {
+        axios.get(`http://localhost:8082/api/authors/list-items`).then((res) => {
             setAuthorItemList(res.data)
         })
-        axios.get(`http://localhost:8081/api/jokes/creator/${params.id}`).then((res) => {
+        axios.get(`http://localhost:8082/api/jokes/creator/${params.id}`).then((res) => {
             setJokeCreatorDto({
                 id: params.id,
                 title: res.data.title,
@@ -38,7 +38,7 @@ const JokeEdition = () => {
     }, [])
 
     const handleSubmit = () => {
-        axios.put(`http://localhost:8081/api/jokes`, jokeCreatorDto)
+        axios.put(`http://localhost:8082/api/jokes`, jokeCreatorDto)
             .then(navigate(`/joke-list`))
     }
 

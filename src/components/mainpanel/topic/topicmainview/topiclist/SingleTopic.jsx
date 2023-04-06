@@ -18,7 +18,7 @@ const SingleTopic = (props) => {
     const {refreshTopicView} = useContext(TopicMainViewContext)
 
     function refreshTopic() {
-        axios.get(`http://localhost:8081/api/topics/${topic.id}`)
+        axios.get(`http://localhost:8082/api/topics/${topic.id}`)
             .then((res) => {
                 setTopic(res.data)
             })
@@ -30,13 +30,13 @@ const SingleTopic = (props) => {
 
     function handleDeleteTopic(id) {
         if (window.confirm('Are you sure you want to delete?')) {
-            axios.delete(`http://localhost:8081/api/topics/view/${id}`)
+            axios.delete(`http://localhost:8082/api/topics/view/${id}`)
                 .then(refreshTopicView)
         }
     }
 
     function handleCategoryButtonClick() {
-        axios.patch(`http://localhost:8081/api/topics/changeCategoryStatus/${topic.id}`)
+        axios.patch(`http://localhost:8082/api/topics/changeCategoryStatus/${topic.id}`)
             .then(() => setIsCategory(prevState => !prevState))
     }
 

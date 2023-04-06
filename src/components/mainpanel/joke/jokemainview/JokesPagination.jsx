@@ -13,7 +13,7 @@ const JokesPagination = () => {
     const {refreshJokeList, jokeList} = useContext(JokeContext)
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/jokes/pagination`).then((res) => {
+        axios.get(`http://localhost:8082/api/jokes/pagination`).then((res) => {
             setCurrentPage(res.data.currentPage)
             setTotalItems(res.data.totalItems)
             setTotalPages(res.data.totalPages)
@@ -28,11 +28,11 @@ const JokesPagination = () => {
             totalPages: totalPages,
             pageSize: pageSize
         }
-        axios.put(`http://localhost:8081/api/jokes/pagination`, pagination).then(refreshJokeList)
+        axios.put(`http://localhost:8082/api/jokes/pagination`, pagination).then(refreshJokeList)
     }, [currentPage, pageSize])
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/jokes/pagination`).then((res) => {
+        axios.get(`http://localhost:8082/api/jokes/pagination`).then((res) => {
             setCurrentPage(res.data.currentPage)
             setTotalItems(res.data.totalItems)
             setTotalPages(res.data.totalPages)

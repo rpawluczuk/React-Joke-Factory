@@ -29,7 +29,7 @@ const TopicPack = (props) => {
     }, [topicPack])
 
     function handlePageChange(pageNumber) {
-        axios.get(`http://localhost:8081/api/topics/panel/get-pack-by-page`, {
+        axios.get(`http://localhost:8082/api/topics/panel/get-pack-by-page`, {
                 params: {
                     pageNumber: pageNumber,
                     topicPackIndex: topicPackIndex
@@ -43,7 +43,7 @@ const TopicPack = (props) => {
 
     function handleCategorySelect(selectedCategory) {
         setCategoryFilter(selectedCategory)
-        axios.get(`http://localhost:8081/api/topics/panel/pack-filter`,
+        axios.get(`http://localhost:8082/api/topics/panel/pack-filter`,
             {
                 params: {
                     categoryId: selectedCategory.value,
@@ -55,7 +55,7 @@ const TopicPack = (props) => {
     }
 
     const handleRandomClick = async () => {
-        axios.get(`http://localhost:8081/api/topics/panel/random`, {
+        axios.get(`http://localhost:8082/api/topics/panel/random`, {
             params: {
                 topicPackIndex: topicPackIndex
             }

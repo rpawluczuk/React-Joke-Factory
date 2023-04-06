@@ -31,7 +31,7 @@ const JokeCreation = () => {
 
     function handleFormSubmit(event) {
         event.preventDefault()
-        axios.post(`http://localhost:8081/api/jokes`, jokeCreatorDto)
+        axios.post(`http://localhost:8082/api/jokes`, jokeCreatorDto)
             .then(navigate(`/joke-list`))
     }
 

@@ -21,7 +21,7 @@ const AuthorCreation = () => {
 
 
   const handleSubmit = () => {
-    axios.post(`http://localhost:8081/api/authors`, authorCreatorDto).then(navigate(`/author-list`))
+    axios.post(`http://localhost:8082/api/authors`, authorCreatorDto).then(navigate(`/author-list`))
   }
 
   const handleNameChange = event => {

@@ -21,7 +21,7 @@ const FastCreation = (props) => {
     const [authorItemList, setAuthorItemList] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/api/authors/list-items`).then((res) => {
+        axios.get(`http://localhost:8082/api/authors/list-items`).then((res) => {
             setAuthorItemList(res.data)
         });
     }, [])

@@ -20,7 +20,7 @@ const QuestionPanel = (props) => {
 
     useEffect(() => {
         console.log(questions)
-        axios.get(`http://localhost:8081/api/topics/view/category-list`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
     }, [])
@@ -49,7 +49,7 @@ const QuestionPanel = (props) => {
     function handleQuestionSubmit(event) {
         event.preventDefault()
         if (questionDto.id === null) {
-            axios.post(`http://localhost:8081/api/questions`, questionDto).then((res) => {
+            axios.post(`http://localhost:8082/api/questions`, questionDto).then((res) => {
                 setQuestions(res.data);
                 setQuestionDto({
                     ...questionDto,
@@ -59,7 +59,7 @@ const QuestionPanel = (props) => {
                 })
             })
         } else {
-            axios.put(`http://localhost:8081/api/questions`, questionDto).then((res) => {
+            axios.put(`http://localhost:8082/api/questions`, questionDto).then((res) => {
                 setQuestions(res.data);
                 setQuestionDto({
                     ...questionDto,
@@ -72,7 +72,7 @@ const QuestionPanel = (props) => {
     }
 
     function handleQuestionClick(question) {
-        axios.get(`http://localhost:8081/api/questions/${question.id}`).then((res) => {
+        axios.get(`http://localhost:8082/api/questions/${question.id}`).then((res) => {
             setQuestionDto(
                 res.data
             )
@@ -82,7 +82,7 @@ const QuestionPanel = (props) => {
 
     function handleDeleteButtonClick(question) {
         console.log('delete')
-        axios.delete(`http://localhost:8081/api/questions/${question.id}`)
+        axios.delete(`http://localhost:8082/api/questions/${question.id}`)
             .then((res) => {
                 setQuestions(res.data);
             })

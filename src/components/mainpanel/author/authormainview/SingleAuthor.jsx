@@ -14,7 +14,7 @@ const SingleAuthor= ({author}) => {
 
     const handleDeleteAuthor = (id) => {
         if (window.confirm('Are you sure you want to delete?')) {
-            axios.delete(`http://localhost:8081/api/authors/${id}`)
+            axios.delete(`http://localhost:8082/api/authors/${id}`)
                 .then(refreshAuthorList)
         }
     }
