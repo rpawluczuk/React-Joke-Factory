@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
+import SingleAlgorithm from "components/mainpanel/algorithm/algorithmmainview/SingleAlgorithm";
 
 const AlgorithmMainView = () => {
 
@@ -30,7 +31,7 @@ const AlgorithmMainView = () => {
             </h1>
 
             {algorithmList.map((algorithm) => (
-                <h1>{algorithm.name}</h1>
+                <SingleAlgorithm key={algorithm.id} algorithm={algorithm}/>
             ))}
 
         </div>
