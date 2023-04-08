@@ -5,10 +5,8 @@ import {
     FaGripHorizontal,
     FaEdit,
     FaNetworkWired,
-    FaExclamation,
     FaExclamationTriangle
 } from "react-icons/all";
-import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 

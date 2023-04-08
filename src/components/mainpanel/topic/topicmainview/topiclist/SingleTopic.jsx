@@ -6,7 +6,6 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import "App.css";
 import QuestionPanel from "components/mainpanel/topic/topicmainview/topiclist/questionpanel/QuestionPanel";
-import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 import {TopicMainViewContext} from "components/mainpanel/topic/TopicMainViewContext";
 
 const SingleTopic = (props) => {
