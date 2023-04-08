@@ -1,19 +1,19 @@
-import React, {useContext, useEffect, useState} from 'react';
-import ReactPaginate from 'react-paginate';
+import React, {useEffect, useState, useContext} from 'react';
+import ReactPaginate from "react-paginate";
 import axios from "axios";
-import {JokeContext} from "../JokeContext";
+import {AlgorithmContext} from "components/mainpanel/algorithm/AlgorithmContext";
 
 
-const JokesPagination = () => {
+const AlgorithmPagination = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [totalItems, setTotalItems] = useState();
     const [totalPages, setTotalPages] = useState();
     const [pageSize, setPageSize] = useState(5);
-    const {refreshJokeList, jokeList} = useContext(JokeContext)
+    const {refreshAlgorithmList, algorithmList} = useContext(AlgorithmContext)
 
     useEffect(() => {
-        axios.get(`http://localhost:8082/api/jokes/pagination`)
+        axios.get(`http://localhost:8082/api/algorithms/pagination`)
             .then((res) => {
                 setCurrentPage(res.data.currentPage)
                 setTotalItems(res.data.totalItems)
@@ -29,19 +29,19 @@ const JokesPagination = () => {
             totalPages: totalPages,
             pageSize: pageSize
         }
-        axios.put(`http://localhost:8082/api/jokes/pagination`, pagination)
-            .then(refreshJokeList)
+        axios.put(`http://localhost:8082/api/algorithms/pagination`, pagination)
+            .then(refreshAlgorithmList)
     }, [currentPage, pageSize])
 
     useEffect(() => {
-        axios.get(`http://localhost:8082/api/jokes/pagination`)
+        axios.get(`http://localhost:8082/api/algorithms/pagination`)
             .then((res) => {
                 setCurrentPage(res.data.currentPage)
                 setTotalItems(res.data.totalItems)
                 setTotalPages(res.data.totalPages)
                 setPageSize(res.data.pageSize)
             })
-    }, [jokeList])
+    }, [algorithmList])
 
     const handlePageChange = (event) => {
         setCurrentPage(event.selected)
@@ -85,6 +85,6 @@ const JokesPagination = () => {
             </div>
         </div>
     );
-}
+};
 
-export default JokesPagination;
+export default AlgorithmPagination;
