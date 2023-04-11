@@ -65,7 +65,7 @@ const FastCreation = (props) => {
                             variant="success"
                             type="submit"
                             disabled={isBtnDisabled}
-                        >
+                    >
                         Add Joke
                     </Button>
                     <Button className="float-right mx-2"
