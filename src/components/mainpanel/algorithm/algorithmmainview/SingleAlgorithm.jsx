@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {FaEdit, FaTimes} from "react-icons/all";
 import {Button} from "react-bootstrap";
 import axios from "axios";
 import DiagramBlock from "components/mainpanel/algorithm/algorithmmainview/singlealgorithm/DiagramBlock";
+import {AlgorithmContext} from "components/mainpanel/algorithm/AlgorithmContext";
 
 
 const SingleAlgorithm = ({algorithm}) => {
@@ -10,6 +11,7 @@ const SingleAlgorithm = ({algorithm}) => {
     const {id, name, description} = algorithm;
     const [isDetailsButtonClicked, setIsDetailsButtonClicked] = useState(false)
     const [diagramBlockList, setDiagramBlockList] = useState([])
+    const {refreshAlgorithmList} = useContext(AlgorithmContext)
 
 
     function handleDetailsClick() {
@@ -17,8 +19,14 @@ const SingleAlgorithm = ({algorithm}) => {
             .then((res) => {
                 setDiagramBlockList(res.data)
                 setIsDetailsButtonClicked(!isDetailsButtonClicked)
-                console.log(res.data)
             })
+    }
+
+    const handleDelete = (id) => {
+        if (window.confirm('Are you sure you want to delete?')) {
+            axios.delete(`http://localhost:8082/api/algorithms/${id}`)
+                .then(refreshAlgorithmList)
+        }
     }
 
     return (
@@ -27,7 +35,7 @@ const SingleAlgorithm = ({algorithm}) => {
                 <h2 className='card-title pt-4 px-4'> {name} </h2>
                 <div className='card-header-tabs px-2'>
                     <button className='Item-top-button'><FaEdit/></button>
-                    <button className='Item-top-button'><FaTimes/></button>
+                    <button className='Item-top-button' onClick={() => handleDelete(algorithm.id)}><FaTimes/></button>
                 </div>
             </div>
             <div className='card-body px-4'>

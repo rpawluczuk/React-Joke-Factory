@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import SingleAlgorithm from "components/mainpanel/algorithm/algorithmmainview/SingleAlgorithm";
-import JokesPagination from "components/mainpanel/joke/jokemainview/JokesPagination";
 import AlgorithmPagination from "components/mainpanel/algorithm/algorithmmainview/AlgorithmPagination";
 import {AlgorithmContext} from "components/mainpanel/algorithm/AlgorithmContext";
 
