@@ -13,6 +13,7 @@ import TopicCreation from "./components/mainpanel/topic/TopicCreation";
 import TopicEdition from "./components/mainpanel/topic/TopicEdition";
 import AlgorithmMainView from "components/mainpanel/algorithm/AlgorithmMainView";
 import AlgorithmCreation from "components/mainpanel/algorithm/AlgorithmCreation";
+import AlgorithmEdition from "components/mainpanel/algorithm/AlgorithmEdition";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
                             <Route exact path='/joke-edition/:id' element={<JokeEdition/>}/>
                             <Route exact path='/algorithm-list' element={<AlgorithmMainView/>}/>
                             <Route exact path='/algorithm-creation' element={<AlgorithmCreation/>}/>
+                            <Route exact path='/algorithm-edition/:id' element={<AlgorithmEdition/>}/>
                             <Route exact path='/author-list' element={<AuthorMainView/>}/>
                             <Route exact path='/author-creation' element={<AuthorCreation/>}/>
                             <Route exact path='/author-edition/:id' element={<AuthorEdition/>}/>
