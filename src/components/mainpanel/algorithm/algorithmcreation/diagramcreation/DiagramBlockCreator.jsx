@@ -1,21 +1,19 @@
 import React from 'react';
-import "components/mainpanel/algorithm/algorithmcreation/DiagramBlockCreator.css";
+import "components/mainpanel/algorithm/algorithmcreation/diagramcreation/DiagramBlockCreator.css";
 import {FaWindowClose} from "react-icons/all";
 import {Form, FormGroup} from "react-bootstrap";
 
 
 const DiagramBlockCreator = (props) => {
 
-    const {diagramBlock, onDelete} = props;
+    const {diagramBlock, onDelete, onDiagramBlockChange} = props;
 
     function handleTitleChange(event) {
-        const updatedDiagramBlock = {...diagramBlock, title: event.target.value};
-        props.onDiagramBlockChange(updatedDiagramBlock);
+        onDiagramBlockChange({...diagramBlock, title: event.target.value});
     }
 
     function handleDescriptionChange(event) {
-        const updatedDiagramBlock = {...diagramBlock, description: event.target.value};
-        props.onDiagramBlockChange(updatedDiagramBlock);
+        onDiagramBlockChange({...diagramBlock, description: event.target.value});
     }
 
     return (
