@@ -1,5 +1,5 @@
 import React from "react";
-import DiagramBlockCreator from "components/mainpanel/algorithm/algorithmcreation/diagramcreation/DiagramBlockCreator";
+import DiagramBlockCreator from "components/mainpanel/algorithm/algorithmpersistance/shared/diagramcreation/DiagramBlockCreator";
 import {FaArrowDown} from "react-icons/all";
 
 const DiagramCreation = ({ diagramBlockList, setDiagramBlockList }) => {

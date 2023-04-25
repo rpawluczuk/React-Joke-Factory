@@ -5,7 +5,7 @@ const AlgorithmFormButtons = ({ isBtnDisabled }) => {
     return (
         <div className="d-flex flex-row-reverse">
             <Button className="float-right mx-2" variant="success" type="submit" disabled={isBtnDisabled}>
-                Add Algorithm
+                Save Algorithm
             </Button>
             <Button className="float-right mx-2" variant={"primary"}>
                 Cancel

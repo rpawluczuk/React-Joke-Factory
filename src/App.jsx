@@ -12,8 +12,8 @@ import TopicMainView from "./components/mainpanel/topic/TopicMainView";
 import TopicCreation from "./components/mainpanel/topic/TopicCreation";
 import TopicEdition from "./components/mainpanel/topic/TopicEdition";
 import AlgorithmMainView from "components/mainpanel/algorithm/AlgorithmMainView";
-import AlgorithmCreation from "components/mainpanel/algorithm/AlgorithmCreation";
-import AlgorithmEdition from "components/mainpanel/algorithm/AlgorithmEdition";
+import AlgorithmCreation from "components/mainpanel/algorithm/algorithmpersistance/AlgorithmCreation";
+import AlgorithmEdition from "components/mainpanel/algorithm/algorithmpersistance/AlgorithmEdition";
 
 function App() {
 

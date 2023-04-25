@@ -1,18 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form} from "react-bootstrap";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import DiagramCreation from "components/mainpanel/algorithm/algorithmcreation/DiagramCreation";
-import AlgorithmForm from "components/mainpanel/algorithm/algorithmcreation/AlgorithmForm";
-import AlgorithmFormButtons from "components/mainpanel/algorithm/algorithmcreation/AlgorithmFormButtons";
+import DiagramCreation from "components/mainpanel/algorithm/algorithmpersistance/shared/DiagramCreation";
+import AlgorithmForm from "components/mainpanel/algorithm/algorithmpersistance/shared/AlgorithmForm";
+import AlgorithmFormButtons from "components/mainpanel/algorithm/algorithmpersistance/shared/AlgorithmFormButtons";
 
-const AlgorithmCreation = () => {
+const AlgorithmEdition = () => {
+
 
     const [algorithmDto, setAlgorithmDto] = useState({
         name: '',
         description: '',
-        diagramBlockList: [{ title: "", description: "", position: 0}]
+        diagramBlockList: [{title: "", description: "", position: 0}]
     })
+    const params = useParams();
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
     const [nameMessage, setNameMessage] = useState('')
     const navigate = useNavigate();
@@ -21,6 +23,17 @@ const AlgorithmCreation = () => {
         algorithmDto.name.length < 3 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
         algorithmDto.name.length > 0 && algorithmDto.name.length < 3 ? setNameMessage("Name must be at least 3 characters long!") : setNameMessage(null)
     }, [algorithmDto.name])
+
+    useEffect(() => {
+        axios.get(`http://localhost:8082/api/algorithms/${params.id}`).then((res) => {
+            setAlgorithmDto({
+                id: params.id,
+                name: res.data.name,
+                description: res.data.description,
+                diagramBlockList: res.data.diagramBlockList
+            })
+        })
+    }, [])
 
     function handleNameChange(event) {
         setAlgorithmDto({...algorithmDto, name: event.target.value})
@@ -32,13 +45,13 @@ const AlgorithmCreation = () => {
 
     function handleFormSubmit(event) {
         event.preventDefault()
-        axios.post(`http://localhost:8082/api/algorithms`, algorithmDto)
+        axios.put(`http://localhost:8082/api/algorithms`, algorithmDto)
             .then(navigate(`/algorithm-list`))
     }
 
     return (
-        <>
-            <p className="Data-header">Add a new algorithm</p>
+        <div className="container">
+            <p className="Data-header">Edit algorithm</p>
             <div className="Data-container">
                 <Form onSubmit={handleFormSubmit} className='mt-4'>
                     <div className="d-flex flex-row">
@@ -49,17 +62,17 @@ const AlgorithmCreation = () => {
                                 handleDescriptionChange={handleDescriptionChange}
                                 nameMessage={nameMessage}
                             />
-                            <AlgorithmFormButtons isBtnDisabled={isBtnDisabled} />
+                            <AlgorithmFormButtons isBtnDisabled={isBtnDisabled}/>
                         </div>
                         <DiagramCreation
                             diagramBlockList={algorithmDto.diagramBlockList}
-                            setDiagramBlockList={(newList) => setAlgorithmDto(prevState => ({ ...prevState, diagramBlockList: newList }))}
+                            setDiagramBlockList={(newList) => setAlgorithmDto(prevState => ({...prevState, diagramBlockList: newList}))}
                         />
                     </div>
                 </Form>
             </div>
-        </>
+        </div>
     );
 };
 
-export default AlgorithmCreation;
+export default AlgorithmEdition;

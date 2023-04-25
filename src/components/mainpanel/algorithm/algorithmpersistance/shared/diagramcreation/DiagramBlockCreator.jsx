@@ -1,5 +1,5 @@
 import React from 'react';
-import "components/mainpanel/algorithm/algorithmcreation/diagramcreation/DiagramBlockCreator.css";
+import "components/mainpanel/algorithm/algorithmpersistance/shared/diagramcreation/DiagramBlockCreator.css";
 import {FaWindowClose} from "react-icons/all";
 import {Form, FormGroup} from "react-bootstrap";
 
