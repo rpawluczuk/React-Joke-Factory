@@ -21,6 +21,12 @@
   margin: 15px;
 }
 
+.Data-container {
+  padding: 15px;
+  background: white;
+  margin: 15px;
+}
+
 .Item-top-button {
   background: none;
   border: none;
