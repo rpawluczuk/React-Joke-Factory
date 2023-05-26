@@ -23,8 +23,6 @@ const TopicPack = (props) => {
     const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
-        console.log("topic pack")
-        console.log(topicPack)
         setTopicBlockPage(topicPack.topicBlockPage)
     }, [topicPack])
 

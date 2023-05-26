@@ -19,7 +19,6 @@ const QuestionPanel = (props) => {
     const [categoryList, setCategoryList] = useState([])
 
     useEffect(() => {
-        console.log(questions)
         axios.get(`http://localhost:8082/api/topics/view/category-list`).then((res) => {
             setCategoryList(res.data)
         });
@@ -81,7 +80,6 @@ const QuestionPanel = (props) => {
     }
 
     function handleDeleteButtonClick(question) {
-        console.log('delete')
         axios.delete(`http://localhost:8082/api/questions/${question.id}`)
             .then((res) => {
                 setQuestions(res.data);

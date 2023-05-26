@@ -24,7 +24,6 @@ const TopicBlockPresenter = (props) => {
     const {refreshTopicPack} = useContext(TopicPanelContext)
 
     const handleDeleteRelation = async () => {
-        console.log(topicBlock)
         await axios.delete(`http://localhost:8082/api/topics/panel/remove-relation?topic-parent-id=${topicBlock.parentId}&topic-child-id=${topicBlock.id}`).then(res =>
             refreshTopicPack(res.data)
         )

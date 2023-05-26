@@ -24,7 +24,6 @@ const [query, setQuery] = useState('')
                 setJokeList(res.data)
             });
         } else {
-            console.log(query)
             axios.get(`http://localhost:8082/api/jokes?query${query}`).then((res) => {
                 setJokeList(res.data)
             });

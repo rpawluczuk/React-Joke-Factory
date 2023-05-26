@@ -22,8 +22,6 @@ const TopicPanel = (props) => {
     }, [topicPanel])
 
     const addTopicPack = (topicPack, topicPackIndex) => {
-        console.log("addTopicPack")
-        console.log(topicPack)
         setTopicPackList(oldArray => [...oldArray.slice(0, topicPackIndex),
             topicPack
         ]);
@@ -47,7 +45,6 @@ const TopicPanel = (props) => {
             })
             return oldTopicPack
         }))
-        console.log(topicPackList)
     }
 
     function refreshTopicItemList() {
