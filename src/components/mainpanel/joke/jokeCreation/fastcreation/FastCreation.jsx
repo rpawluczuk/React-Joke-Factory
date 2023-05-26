@@ -7,6 +7,7 @@ import JokeFormButtons from "components/mainpanel/joke/jokeCreation/fastcreation
 import JokeDiagramCreation
     from "components/mainpanel/joke/jokeCreation/fastcreation/jokediagramcreation/JokeDiagramCreation";
 import ReactPaginate from "react-paginate";
+import useLengthValidation from "hooks/useLengthValidation";
 
 const FastCreation = (props) => {
 
@@ -26,8 +27,8 @@ const FastCreation = (props) => {
     } = props;
 
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
-    const [titleMessage, setTitleMessage] = useState('')
-    const [contentMessage, setContentMessage] = useState('')
+    const [titleMessage] = useLengthValidation(title, 3);
+    const [contentMessage] = useLengthValidation(content, 10);
     const [authorItemList, setAuthorItemList] = useState([])
     const [allAlgorithmItemList, setAllAlgorithmItemList] = useState([])
     const [currentAlgorithmItemIndex, setCurrentAlgorithmItemIndex] = useState(0)
@@ -43,8 +44,6 @@ const FastCreation = (props) => {
 
     useEffect(() => {
         title.length < 3 || content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-        title.length > 0 && title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
-        content.length > 0 && content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
     }, [title, content])
 
     function onAlgorithmsSelect(newAlgorithmItemList) {

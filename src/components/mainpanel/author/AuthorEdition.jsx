@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import useLengthValidation from "hooks/useLengthValidation";
 
 const AuthorEdition = () => {
     const [authorCreatorDto, setAuthorCreatorDto] = useState({
@@ -9,14 +10,13 @@ const AuthorEdition = () => {
         description: ''
     })
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
-    const [nameMessage, setNameMessage] = useState('')
+    const [nameMessage] = useLengthValidation(authorCreatorDto.name, 3);
 
     const params = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         authorCreatorDto.name.length < 3 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-        authorCreatorDto.name.length > 0 && authorCreatorDto.name.length < 3 ? setNameMessage("Name must be at least 3 characters long!") : setNameMessage(null)
     }, [authorCreatorDto.name])
 
     useEffect(() => {

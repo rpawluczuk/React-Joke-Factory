@@ -5,6 +5,7 @@ import axios from "axios";
 import DiagramCreation from "components/mainpanel/algorithm/algorithmpersistance/shared/DiagramCreation";
 import AlgorithmForm from "components/mainpanel/algorithm/algorithmpersistance/shared/AlgorithmForm";
 import AlgorithmFormButtons from "components/mainpanel/algorithm/algorithmpersistance/shared/AlgorithmFormButtons";
+import useLengthValidation from "hooks/useLengthValidation";
 
 const AlgorithmEdition = () => {
 
@@ -16,12 +17,11 @@ const AlgorithmEdition = () => {
     })
     const params = useParams();
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
-    const [nameMessage, setNameMessage] = useState('')
+    const [nameMessage] = useLengthValidation(algorithmDto.name, 3);
     const navigate = useNavigate();
 
     useEffect(() => {
         algorithmDto.name.length < 3 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-        algorithmDto.name.length > 0 && algorithmDto.name.length < 3 ? setNameMessage("Name must be at least 3 characters long!") : setNameMessage(null)
     }, [algorithmDto.name])
 
     useEffect(() => {

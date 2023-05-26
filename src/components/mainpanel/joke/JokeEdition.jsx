@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import useLengthValidation from "hooks/useLengthValidation";
 
 const JokeEdition = () => {
     const [jokeCreatorDto, setJokeCreatorDto] = useState({
@@ -10,8 +11,8 @@ const JokeEdition = () => {
         authorItem: null
     })
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
-    const [titleMessage, setTitleMessage] = useState('')
-    const [contentMessage, setContentMessage] = useState('')
+    const [titleMessage] = useLengthValidation(jokeCreatorDto.title, 3);
+    const [contentMessage] = useLengthValidation(jokeCreatorDto.content, 10);
     const [authorItemList, setAuthorItemList] = useState([])
 
     const params = useParams();
@@ -19,8 +20,6 @@ const JokeEdition = () => {
 
     useEffect(() => {
         jokeCreatorDto.title.length < 3 || jokeCreatorDto.content.length < 10 ? setIsBtnDisabled(true) : setIsBtnDisabled(false)
-        jokeCreatorDto.title.length > 0 && jokeCreatorDto.title.length < 3 ? setTitleMessage("Title must be at least 3 characters long!") : setTitleMessage(null)
-        jokeCreatorDto.content.length > 0 && jokeCreatorDto.content.length < 10 ? setContentMessage("Content must be at least 10 characters long!") : setContentMessage(null)
     }, [jokeCreatorDto.title, jokeCreatorDto.content])
 
     useEffect(() => {
