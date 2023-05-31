@@ -94,7 +94,9 @@ const SingleJoke = ({joke}) => {
                         forcePage={currentAlgorithmIndex}
                         renderOnZeroPageCount={null}
                     />
-                    <h2>{algorithmItemList[currentAlgorithmIndex].label}</h2>
+                    {algorithmItemList[currentAlgorithmIndex] && (
+                        <h2>{algorithmItemList[currentAlgorithmIndex].label}</h2>
+                    )}
                     <div className="d-flex align-items-center flex-column">
                         {jokeBlockList.map((jokeBlock) => (
                             <JokeBlock jokeBlock={jokeBlock}/>
