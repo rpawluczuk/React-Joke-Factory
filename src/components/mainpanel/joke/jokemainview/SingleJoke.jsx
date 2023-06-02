@@ -6,8 +6,8 @@ import axios from "axios";
 import {Button} from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 
-import "components/mainpanel/joke/jokemainview/singlejoke/JokeBlock.css";
-import JokeBlock from "components/mainpanel/joke/jokemainview/singlejoke/JokeBlock";
+import "components/mainpanel/joke/jokemainview/jokelist/singlejoke/JokeBlock.css";
+import JokeBlock from "components/mainpanel/joke/jokemainview/jokelist/singlejoke/JokeBlock";
 
 const SingleJoke = ({joke}) => {
 

@@ -27,7 +27,7 @@ const JokeForm = (props) => {
         axios.get(`http://localhost:8082/api/authors/list-items`).then((res) => {
             setAuthorItemList(res.data)
         });
-        axios.get(`http://localhost:8082/api/algorithms/item-list/`).then((res) => {
+        axios.get(`http://localhost:8082/api/algorithms/item-list`).then((res) => {
             setAllAlgorithmItemList(res.data)
         });
     }, [])

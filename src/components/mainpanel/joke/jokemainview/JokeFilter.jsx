@@ -10,12 +10,8 @@ const JokeFilter = () => {
     const [open, setOpen] = useState(false);
     const [selectedAuthor, setSelectedAuthor] = useState({label: "All"})
     const [authorList, setAuthorList] = useState([{label: "All"}])
-    const [selectedStructure, setSelectedStructure] = useState({label: "All"})
-    const [structureList, setStructureList] = useState([{label: "All"}])
-    const [filters, setFilters] = useState({
-        authorFilter: '',
-        structureFilter: ''
-    })
+    const [selectedAlgorithm, setSelectedAlgorithm] = useState({label: "All"})
+    const [algorithmList, setAlgorithmList] = useState([{label: "All"}])
 
     const {setQuery} = useContext(JokeContext)
 
@@ -25,47 +21,34 @@ const JokeFilter = () => {
                 [...prevState, ...res.data]
             )
         });
-        // axios.get(`http://localhost:8082/api/structures/list-items`).then((res) => {
-        //     setStructureList(prevState =>
-        //         [...prevState, ...res.data]
-        //     )
-        // });
+        axios.get(`http://localhost:8082/api/algorithms/item-list`).then((res) => {
+            setAlgorithmList(prevState =>
+                [...prevState, ...res.data]
+            )
+        });
     }, [])
 
     useEffect(() => {
-        if (selectedAuthor.label === "All") {
-            setFilters(prevState => {
-                return {...prevState, authorFilter: ""}
-            })
+        if (selectedAuthor.label === "All" && selectedAlgorithm.label === "All") {
+            setQuery({});
         } else {
-            setFilters(prevState => {
-                return {...prevState, authorFilter: "&author=" + selectedAuthor.value}
-            })
+            const newQuery = {};
+            if (selectedAuthor.label !== "All") {
+                newQuery.authorId = selectedAuthor.value;
+            }
+            if (selectedAlgorithm.label !== "All") {
+                newQuery.algorithmId = selectedAlgorithm.value;
+            }
+            setQuery(newQuery);
         }
-    }, [selectedAuthor])
-
-    useEffect(() => {
-        if (selectedStructure.label === "All") {
-            setFilters(prevState => {
-                return {...prevState, structureFilter: ""}
-            })
-        } else {
-            setFilters(prevState => {
-                return {...prevState, structureFilter: "&structures=" + selectedStructure.value}
-            })
-        }
-    }, [selectedStructure])
-
-    useEffect(() => {
-        setQuery(filters.authorFilter + filters.structureFilter)
-    }, [filters])
+    }, [selectedAuthor, selectedAlgorithm])
 
     const handleAuthorSelect = (newSelectedAuthor) => {
         setSelectedAuthor(newSelectedAuthor)
     };
 
-    const handleStructureSelect = (newSelectedStructure) => {
-        setSelectedStructure(newSelectedStructure)
+    const handleAlgorithmSelect = (newSelectedAlgorithm) => {
+        setSelectedAlgorithm(newSelectedAlgorithm)
     };
 
     return (
@@ -95,13 +78,13 @@ const JokeFilter = () => {
                         />
                     </div>
                     <div className="d-flex flex-row justify-content-center mt-4">
-                        <label className="col-form-label col-md-2">Filter By Structure:</label>
+                        <label className="col-form-label col-md-2">Filter By Algorithm:</label>
                         <Select
                             className="col ms-4"
-                            value={selectedStructure}
-                            options={structureList}
-                            onChange={handleStructureSelect}
-                            placeholder={"Select Structure Branch"}
+                            value={selectedAlgorithm}
+                            options={algorithmList}
+                            onChange={handleAlgorithmSelect}
+                            placeholder={"Select Algorithm Branch"}
                         />
                     </div>
                 </div>
