@@ -1,6 +1,6 @@
 import React from 'react';
-import SingleJoke from "components/mainpanel/joke/jokemainview/SingleJoke";
-import JokesPagination from "components/mainpanel/joke/jokemainview/JokesPagination";
+import SingleJoke from "components/mainpanel/joke/jokemainview/jokelist/singlejoke/SingleJoke";
+import JokesPagination from "components/mainpanel/joke/jokemainview/jokelist/JokesPagination";
 
 const JokeList = (props) => {
 
