@@ -8,7 +8,8 @@ const JokeDetails = (props) => {
 
     const {
         algorithmItemList = [],
-        jokeId
+        jokeId,
+        paginateRef
     } = props;
 
     const [currentAlgorithmIndex, setCurrentAlgorithmIndex] = useState(0)
@@ -30,27 +31,29 @@ const JokeDetails = (props) => {
 
     return (
         <div className="d-flex flex-column align-items-center">
-            <ReactPaginate
-                previousLabel="< previous"
-                nextLabel="next >"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                pageCount={algorithmItemList.length}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handleAlgorithmChange}
-                containerClassName="pagination"
-                activeClassName="active"
-                forcePage={currentAlgorithmIndex}
-                renderOnZeroPageCount={null}
-            />
+            <div ref={paginateRef}>
+                <ReactPaginate
+                    previousLabel="< previous"
+                    nextLabel="next >"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    pageCount={algorithmItemList.length}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handleAlgorithmChange}
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    forcePage={currentAlgorithmIndex}
+                    renderOnZeroPageCount={null}
+                />
+            </div>
             {algorithmItemList[currentAlgorithmIndex] && (
                 <h2>{algorithmItemList[currentAlgorithmIndex].label}</h2>
             )}

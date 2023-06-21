@@ -1,9 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useRef, useEffect} from 'react';
 import {FaEdit, FaTimes} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
 import {JokeContext} from "components/mainpanel/joke/JokeContext";
 import axios from "axios";
-import {Button} from "react-bootstrap";
 import "components/mainpanel/joke/jokemainview/jokelist/singlejoke/jokedetails/jokeblock/JokeBlock.css";
 import JokeDetails from "components/mainpanel/joke/jokemainview/jokelist/singlejoke/jokedetails/JokeDetails";
 
@@ -13,6 +12,20 @@ const SingleJoke = ({joke}) => {
     const [algorithmItemList, setAlgorithmItemList] = useState([])
     const navigate = useNavigate();
     const {refreshJokeList} = useContext(JokeContext)
+    const paginateRef = useRef(null);
+    const jokeRef = useRef(null);
+
+
+    useEffect(() => {
+        if (jokeRef.current) {
+            jokeRef.current.addEventListener('click', handleDetailsClick);
+        }
+        return () => {
+            if (jokeRef.current) {
+                jokeRef.current.removeEventListener('click', handleDetailsClick);
+            }
+        };
+    }, []);
 
     const handleEditJoke = (id) => {
         navigate(`/joke-edition/${id}`)
@@ -25,17 +38,20 @@ const SingleJoke = ({joke}) => {
         }
     }
 
-    function handleDetailsClick(id) {
-        axios.get(`http://localhost:8082/api/algorithms/item-list/${id}`)
+    function handleDetailsClick(e) {
+        if (paginateRef.current && paginateRef.current.contains(e.target)) {
+            return;
+        }
+        axios.get(`http://localhost:8082/api/algorithms/item-list/${joke.id}`)
             .then((res) => {
                 setAlgorithmItemList(res.data)
-                setIsDetailsButtonClicked(!isDetailsButtonClicked)
+                setIsDetailsButtonClicked(prev => !prev)
             })
     }
 
     return (
         <div className="card mb-4" style={{background: "azure"}}
-             onClick={() => handleDetailsClick(joke.id)}>
+             ref={jokeRef}>
             <div className='d-flex flex-row justify-content-between'>
                 <h2 className='card-title pt-4 px-4'> {joke.title} </h2>
                 <div className='card-header-tabs px-2'>
@@ -52,7 +68,8 @@ const SingleJoke = ({joke}) => {
             </div>
             {isDetailsButtonClicked &&
                 <JokeDetails algorithmItemList={algorithmItemList}
-                             jokeId={joke.id}/>
+                             jokeId={joke.id}
+                             paginateRef={paginateRef}/>
             }
         </div>
     )

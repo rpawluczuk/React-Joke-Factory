@@ -17,14 +17,10 @@ const JokeFilter = () => {
 
     useEffect(() => {
         axios.get(`http://localhost:8082/api/authors/list-items`).then((res) => {
-            setAuthorList(prevState =>
-                [...prevState, ...res.data]
-            )
+            setAuthorList(res.data)
         });
         axios.get(`http://localhost:8082/api/algorithms/item-list`).then((res) => {
-            setAlgorithmList(prevState =>
-                [...prevState, ...res.data]
-            )
+            setAlgorithmList(res.data)
         });
     }, [])
 
