@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {FaEdit, FaTimes} from "react-icons/all";
+import {FaEdit, FaTimes} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {AuthorContext} from "../AuthorContext";

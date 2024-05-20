@@ -1,6 +1,6 @@
 import React,{useContext} from 'react';
 import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
-import {FaCheck, FaTimes} from "react-icons/all";
+import {FaCheck, FaTimes} from "react-icons/fa";
 import {Form} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";

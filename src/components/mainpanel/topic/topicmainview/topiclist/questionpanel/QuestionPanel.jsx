@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Badge, Card, Col, Form, InputGroup, Row} from "react-bootstrap";
-import {FaBan, FaPlus, FaTimes} from "react-icons/all";
+import {FaBan, FaPlus, FaTimes} from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Select from "react-select";

@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {Badge, Card} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {FaEdit, FaTimes} from "react-icons/all";
+import {FaEdit, FaTimes} from "react-icons/fa";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import "App.css";
@@ -35,7 +35,7 @@ const SingleTopic = (props) => {
     }
 
     function handleCategoryButtonClick() {
-        axios.patch(`http://localhost:8082/api/topics/changeCategoryStatus/${topic.id}`)
+        axios.patch(`http://localhost:8082/api/topics/view/changeCategoryStatus/${topic.id}`)
             .then(() => setIsCategory(prevState => !prevState))
     }
 

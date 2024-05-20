@@ -1,6 +1,6 @@
 import React from 'react';
 import JokeBlockCreator from "components/mainpanel/joke/jokeCreation/fastcreation/jokediagramcreation/jokeblockcreator/JokeBlockCreator";
-import {FaArrowDown} from "react-icons/all";
+import {FaArrowDown} from "react-icons/fa";
 
 const JokeDiagramCreation = ({jokeBlockList, onJokeSnippetChange}) => {
 

@@ -3,7 +3,7 @@ import TopicBlock from "components/mainpanel/commons/topicpanel/topicpack/TopicB
 import {TopicPackContext} from "components/mainpanel/commons/topicpanel/TopicPackContext";
 import axios from "axios";
 import TopicPackPagination from "components/mainpanel/commons/topicpanel/topicpack/TopicPackPagination";
-import {FaRandom} from "react-icons/all";
+import {FaRandom} from "react-icons/fa";
 import TopicBlockType from "components/mainpanel/commons/topicpanel/topicpack/TopicBlockType";
 import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 import TopicPackFilter from "components/mainpanel/commons/topicpanel/topicpack/TopicPackFilter";

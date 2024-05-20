@@ -1,5 +1,5 @@
 import React, {useContext, useState, useRef, useEffect} from 'react';
-import {FaEdit, FaTimes} from "react-icons/all";
+import {FaEdit, FaTimes} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import {JokeContext} from "components/mainpanel/joke/JokeContext";
 import axios from "axios";

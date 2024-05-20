@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ReactPaginate from "react-paginate";
 import JokeBlock from "components/mainpanel/joke/jokemainview/jokelist/singlejoke/jokedetails/jokeblock/JokeBlock";
-import {FaArrowDown} from "react-icons/all";
+import {FaArrowDown} from "react-icons/fa";
 import axios from "axios";
 
 const JokeDetails = (props) => {

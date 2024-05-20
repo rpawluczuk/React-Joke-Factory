@@ -1,6 +1,6 @@
 import React from 'react';
 import "components/mainpanel/algorithm/algorithmmainview/singlealgorithm/DiagramBlock.css";
-import {FaLongArrowAltDown} from "react-icons/all";
+import {FaLongArrowAltDown} from "react-icons/fa";
 
 const DiagramBlock = (props) => {
 

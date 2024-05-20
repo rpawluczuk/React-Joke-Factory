@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {FaEdit, FaTimes} from "react-icons/all";
+import {FaEdit, FaTimes} from "react-icons/fa";
 import {Button} from "react-bootstrap";
 import axios from "axios";
 import DiagramBlock from "components/mainpanel/algorithm/algorithmmainview/singlealgorithm/DiagramBlock";
