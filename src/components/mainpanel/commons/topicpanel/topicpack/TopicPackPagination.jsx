@@ -1,24 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import ReactPaginate from "react-paginate";
-import axios from "axios";
-import {TopicPanelContext} from "components/mainpanel/commons/TopicPanelContext";
 
 
 const TopicPackPagination = (props) => {
 
-    const {pagination, onPageChange, topicPackIndex} = props;
-    const {addTopicPack} = useContext(TopicPanelContext)
-
-    function handleSizeChange(event) {
-        axios.get(`http://localhost:8082/api/topics/panel/change-size`, {
-            params: {
-                pageSize: event.target.value,
-                topicPackIndex: topicPackIndex
-            }
-        }).then((res) => {
-            addTopicPack(res.data, topicPackIndex);
-        });
-    }
+    const {pagination, onPageChange, onSizeChange} = props;
 
     return (
         <div className="d-flex justify-content-center mb-5">
@@ -46,11 +32,11 @@ const TopicPackPagination = (props) => {
                 />
             <div className="ms-4">
                 <span className="d-inline me-3" style={{height: `36px`}}>Page Size</span>
-                <select onChange={handleSizeChange} className="d-inline page-item" style={{height: `36px`}}>
-                    <option>11</option>
-                    <option>17</option>
-                    <option selected="true">23</option>
-                    <option>47</option>
+                <select onChange={(e) => onSizeChange(parseInt(e.target.value, 10))} className="d-inline page-item" style={{height: `36px`}}>
+                    <option value={11}>11</option>
+                    <option value={17}>17</option>
+                    <option value={23} selected>23</option>
+                    <option value={47}>47</option>
                 </select>
             </div>
         </div>

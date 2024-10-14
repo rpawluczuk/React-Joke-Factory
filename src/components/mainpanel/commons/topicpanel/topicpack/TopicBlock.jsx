@@ -41,18 +41,6 @@ const TopicBlock = (props) => {
         setBlockType(TopicBlockType.EDITOR)
     }
 
-    function handleShowChildrenClick() {
-        axios.get(`http://localhost:8082/api/topics/panel/show-children`, {
-            params: {
-                parentId: topicBlock.id,
-                topicPackIndex: topicPackIndex
-            }
-        }).then(async (res) => {
-            await addTopicPack(res.data[0], topicPackIndex);
-            await addTopicPack(res.data[1], topicPackIndex + 1);
-        });
-    }
-
     function handleSecondParentClick() {
         axios.get(`http://localhost:8082/api/topics/panel/second-parent`, {
             params: {
@@ -71,7 +59,7 @@ const TopicBlock = (props) => {
     }
 
     const refreshTopicBlock = () => {
-        axios.get(`http://localhost:8082/api/topics/${topicBlock.id}`).then((res) => {
+        axios.get(`http://localhost:8082/api/topics/panel/${topicBlock.id}`).then((res) => {
             setTopicBlock(res.data)
         })
     }
@@ -86,6 +74,7 @@ const TopicBlock = (props) => {
 
     function handleTopicCreatorSubmit(event) {
         event.preventDefault();
+
         const topicBlockDto = {
             name: topicBlock.name,
             parentId: topicBlock.parentId,
@@ -93,12 +82,13 @@ const TopicBlock = (props) => {
             categories: [categoryFilter]
         }
         axios.post(`http://localhost:8082/api/topics/panel`, topicBlockDto).then(res => {
-            if(res.data[0].topicBlockPage.totalElements === 0) {
-                setTopicBlock(res.data[0].topicBlockParent)
-                addTopicPack(res.data[0], 0)
+            console.log(res)
+            if (res.data.topicBlockPage.totalElements === 0) {
+                addTopicPack(res.data, 0)
                 setBlockType(TopicBlockType.PRESENTER)
             } else {
-                refreshTopicPack(res.data)
+                console.log("there are children")
+                // refreshTopicPack(res.data)
                 setTopicBlock({
                     ...topicBlock,
                     parentId: null,
@@ -114,36 +104,36 @@ const TopicBlock = (props) => {
 
     return (
         <TopicBlockContext.Provider value={{topic: topicBlock, setTopic: setTopicBlock, refreshTopicBlock}}>
-                <div className="d-flex flex-column">
-                    {blockType === TopicBlockType.PRESENTER &&
-                        <TopicBlockPresenter
-                            topicBlock={topicBlock}
-                            showChildren={props.showChildren}
-                            isAnySelectionInPack={props.isAnySelectionInPack}
-                            onEditClick={handleEditClick}
-                            onShowChildrenClick={handleShowChildrenClick}
-                            onSecondParentClick={handleSecondParentClick}>
-                        </TopicBlockPresenter>
-                    }
-                    {blockType === TopicBlockType.EDITOR &&
-                        <TopicBlockEditor
-                            topic={topicBlock}
-                            onEditionSubmit={handleEditionSubmit}
-                            onCancelEditionClick={handleCancelEditionClick}
-                            onTopicNameChange={handleTopicNameChange}>
-                        </TopicBlockEditor>
-                    }
-                    {blockType === TopicBlockType.CREATOR &&
-                        <TopicBlockCreator
-                            topic={topicBlock}
-                            onTopicCreatorSubmit={handleTopicCreatorSubmit}
-                            onTopicNameChange={handleTopicNameChange}>
-                        </TopicBlockCreator>
-                    }
-                    {errorMessage !== null &&
-                        <p1 style={{color:'red'}}>{errorMessage}</p1>
-                    }
-                </div>
+            <div className="d-flex flex-column">
+                {blockType === TopicBlockType.PRESENTER &&
+                    <TopicBlockPresenter
+                        topicBlock={topicBlock}
+                        showChildren={props.showChildren}
+                        isAnySelectionInPack={props.isAnySelectionInPack}
+                        onEditClick={handleEditClick}
+                        topicPackIndex={topicPackIndex}
+                        onSecondParentClick={handleSecondParentClick}>
+                    </TopicBlockPresenter>
+                }
+                {blockType === TopicBlockType.EDITOR &&
+                    <TopicBlockEditor
+                        topic={topicBlock}
+                        onEditionSubmit={handleEditionSubmit}
+                        onCancelEditionClick={handleCancelEditionClick}
+                        onTopicNameChange={handleTopicNameChange}>
+                    </TopicBlockEditor>
+                }
+                {blockType === TopicBlockType.CREATOR &&
+                    <TopicBlockCreator
+                        topic={topicBlock}
+                        onTopicCreatorSubmit={handleTopicCreatorSubmit}
+                        onTopicNameChange={handleTopicNameChange}>
+                    </TopicBlockCreator>
+                }
+                {errorMessage !== null &&
+                    <p1 style={{color: 'red'}}>{errorMessage}</p1>
+                }
+            </div>
         </TopicBlockContext.Provider>
     );
 }

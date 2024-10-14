@@ -8,13 +8,21 @@ const TopicMainView = () => {
 
     const [topicView, setTopicView] = useState({})
     const [searchControl, setSearchControl] = useState("")
+    const [viewRequest, setViewRequest] = useState({
+        pageNumber: 0,
+        pageSize: 10
+    })
 
     useEffect(() => {
         refreshTopicView()
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        refreshTopicView();
+    }, [viewRequest.pageNumber]);
 
     const refreshTopicView = () => {
-        axios.get(`http://localhost:8082/api/topics/view`).then((res) => {
+        axios.post(`http://localhost:8082/api/topics/view`, viewRequest).then((res) => {
             setTopicView(res.data)
         });
     }
@@ -39,13 +47,10 @@ const TopicMainView = () => {
     }
 
     function handlePageChange(event) {
-        axios.get(`http://localhost:8082/api/topics/view/change-page`, {
-            params: {
-                pageNumber: event.selected
-            }
-        }).then((res) => {
-            setTopicView(res.data)
-        });
+        setViewRequest(prevState => ({
+            ...prevState,
+            pageNumber: event.selected
+        }));
     }
 
     function handleSizeChange(event) {

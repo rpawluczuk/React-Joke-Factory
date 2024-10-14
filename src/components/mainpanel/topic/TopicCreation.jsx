@@ -8,11 +8,7 @@ const TopicCreation = () => {
         <div className="container">
             <p className="Data-header">Add a new topic</p>
                 <TopicPanel
-                    initialTopicBlock={{
-                        id: undefined,
-                        parentId: null,
-                        name: null
-                    }}
+                    initialParentId={null}
                     initialTopicType={TopicBlockType.CREATOR}>
                 </TopicPanel>
         </div>

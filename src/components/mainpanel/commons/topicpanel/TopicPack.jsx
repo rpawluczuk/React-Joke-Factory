@@ -18,8 +18,9 @@ const TopicPack = (props) => {
     const [topicBlockPage, setTopicBlockPage] = useState(topicPack.topicBlockPage)
     const [pagination, setPagination] = useState({
         currentPage: 0,
-        pageSize: 20
+        pageSize: 23
     })
+    const [selectedId, setSelectedId] = useState()
     const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
@@ -27,16 +28,29 @@ const TopicPack = (props) => {
     }, [topicPack])
 
     function handlePageChange(pageNumber) {
-        axios.get(`http://localhost:8082/api/topics/panel/get-pack-by-page`, {
-                params: {
-                    pageNumber: pageNumber,
-                    topicPackIndex: topicPackIndex
-                }
-            }
-        ).then((res) => {
-            setTopicBlockPage(res.data.topicBlockPage);
-        });
+        const packRequest = {
+            parentId: topicPack.topicBlockParent.id,
+            pageNumber: pageNumber,
+            pageSize: pagination.pageSize
+        };
+        axios.post(`http://localhost:8082/api/topics/panel/get-pack`, packRequest)
+            .then((res) => {
+                setTopicBlockPage(res.data.topicBlockPage);
+            });
         setPagination({...pagination, currentPage: pageNumber})
+    }
+
+    function handleSizeChange(pageSize) {
+        const packRequest = {
+            parentId: topicPack.topicBlockParent.id,
+            pageNumber: 0,
+            pageSize: pageSize
+        };
+        axios.post(`http://localhost:8082/api/topics/panel/get-pack`, packRequest)
+            .then((res) => {
+                setTopicBlockPage(res.data.topicBlockPage);
+            });
+        setPagination({...pagination, pageSize: pageSize})
     }
 
     function handleCategorySelect(selectedCategory) {
@@ -65,24 +79,24 @@ const TopicPack = (props) => {
 
     return (
         <TopicPackContext.Provider
-            value={{pagination}}>
+            value={{pagination, selectedId, setSelectedId}}>
             <hr></hr>
-            {topicPack.topicBlockParent.category === false &&
+            {topicPack?.topicBlockParent?.category === false &&
                 <TopicPackFilter
                     categoryFilter={categoryFilter}
                     categoryList={categoryList}
                     onCategorySelect={handleCategorySelect}
-                    topicPackIndex={topicPackIndex}
-                    >
+                    parentId={topicPack?.topicBlockParent?.id}
+                >
                 </TopicPackFilter>
             }
-            <div className="d-flex flex-row justify-content-center mt-3">
-                <button className="btn-sm btn-outline-primary" onClick={handleRandomClick}>
-                    <div>Random</div>
-                    <FaRandom style={{fontSize: "26px"}}/>
-                </button>
-            </div>
-            <div className="d-flex flex-row flex-wrap">
+            {/*<div className="d-flex flex-row justify-content-center mt-3">*/}
+            {/*    <button className="btn-sm btn-outline-primary" onClick={handleRandomClick}>*/}
+            {/*        <div>Random</div>*/}
+            {/*        <FaRandom style={{fontSize: "26px"}}/>*/}
+            {/*    </button>*/}
+            {/*</div>*/}
+            {/*<div className="d-flex flex-row flex-wrap">*/}
                 {topicBlockPage.content.map((topicBlock) => (
                     <TopicBlock
                         key={topicBlock.id}
@@ -93,17 +107,19 @@ const TopicPack = (props) => {
                     />
                 ))}
                 <TopicBlock
-                    topicBlock={{parentId: topicPack.topicBlockParent.id,
-                        secondParentId: topicPack.topicBlockSecondParent !== null ? topicPack.topicBlockSecondParent.id : null}}
+                    topicBlock={{
+                        parentId: topicPack.topicBlockParent.id,
+                        secondParentId: topicPack.topicBlockSecondParent !== null ? topicPack.topicBlockSecondParent.id : null
+                    }}
                     topicBlockType={TopicBlockType.CREATOR}
                     categoryFilter={categoryFilter}
                 />
-            </div>
-            <TopicPackPagination
-                pagination={topicBlockPage}
-                onPageChange={handlePageChange}
-                topicPackIndex={topicPackIndex}>
-            </TopicPackPagination>
+            {/*</div>*/}
+            {/*<TopicPackPagination*/}
+            {/*    pagination={topicBlockPage}*/}
+            {/*    onPageChange={handlePageChange}*/}
+            {/*    onSizeChange={handleSizeChange}>*/}
+            {/*</TopicPackPagination>*/}
         </TopicPackContext.Provider>
     );
 }

@@ -8,23 +8,25 @@ const TopicPackFilter = (props) => {
         categoryFilter,
         categoryList,
         onCategorySelect,
-        topicPackIndex
+        parentId
     } = props;
 
     const [questionFilter, setQuestionFilter] = useState({
         value: 0,
         label: "Not Selected"
     })
-    const [questionList, setQuestionList] = useState()
+    const [questionList, setQuestionList] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8082/api/topics/panel/question-list`, {
-            params: {
-                topicPackIndex: topicPackIndex
-            }
-        }).then((res) => {
-            setQuestionList(res.data)
-        });
+        if (parentId !== null) {
+            axios.get(`http://localhost:8082/api/topics/panel/question-list`, {
+                params: {
+                    topicId: parentId
+                }
+            }).then((res) => {
+                setQuestionList(res.data)
+            });
+        }
     }, [])
 
     function handleQuestionSelect(selectedQuestion) {
@@ -33,7 +35,7 @@ const TopicPackFilter = (props) => {
             {
                 params: {
                     questionId: selectedQuestion.value,
-                    topicPackIndex: topicPackIndex
+                    // topicPackIndex: topicPackIndex
                 }
             }).then((res) => {
                 onCategorySelect(res.data.categoryFilter)
