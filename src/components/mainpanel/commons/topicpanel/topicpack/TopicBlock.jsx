@@ -23,6 +23,7 @@ const TopicBlock = (props) => {
     const {addTopicPack, refreshTopicPack, changeTopicPack, refreshTopicItemList} = useContext(TopicPanelContext)
 
     useEffect(() => {
+        console.log("TopicBlock -> topicPackIndex: ", topicPackIndex)
         // changeTopicPack()
         if (props.topicBlock !== undefined) {
             setTopicBlock(props.topicBlock)
@@ -74,20 +75,25 @@ const TopicBlock = (props) => {
 
     function handleTopicCreatorSubmit(event) {
         event.preventDefault();
+        console.log("Submitting topic creator form...", topicPackIndex);
 
         const topicBlockDto = {
             name: topicBlock.name,
             parentId: topicBlock.parentId,
             secondParentId: topicBlock.secondParentId,
-            categories: [categoryFilter]
+            categories: [categoryFilter],
+            topicPackIndex: topicPackIndex
         }
+        console.log("Payload to send:", topicBlockDto);
+
         axios.post(`http://localhost:8082/api/topics/panel`, topicBlockDto).then(res => {
-            console.log(res)
+            console.log("Response received:", res);
             if (res.data.topicBlockPage.totalElements === 0) {
-                addTopicPack(res.data, 0)
+                console.log("No children, adding new topic pack...")
+                addTopicPack(res.data, res.data.topicPackIndex)
                 setBlockType(TopicBlockType.PRESENTER)
             } else {
-                console.log("there are children")
+                console.log("there are children, just modifying existing block")
                 // refreshTopicPack(res.data)
                 setTopicBlock({
                     ...topicBlock,

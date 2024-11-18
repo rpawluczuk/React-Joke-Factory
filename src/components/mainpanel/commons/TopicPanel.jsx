@@ -24,8 +24,8 @@ const TopicPanel = (props) => {
             });
         }, [])
 
-        const addTopicPack = (topicPack, topicPackIndex) => {
-            setTopicPackList(oldArray => [...oldArray.slice(0, topicPackIndex),
+        const addTopicPack = (topicPack) => {
+            setTopicPackList(oldArray => [...oldArray.slice(0, topicPack.topicPackIndex),
                 topicPack
             ]);
         }

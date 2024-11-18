@@ -24,6 +24,7 @@ const TopicPack = (props) => {
     const {addTopicPack} = useContext(TopicPanelContext)
 
     useEffect(() => {
+        console.log("TopicPack -> topicPackIndex: ", topicPackIndex)
         setTopicBlockPage(topicPack.topicBlockPage)
     }, [topicPack])
 
@@ -111,6 +112,7 @@ const TopicPack = (props) => {
                         parentId: topicPack.topicBlockParent.id,
                         secondParentId: topicPack.topicBlockSecondParent !== null ? topicPack.topicBlockSecondParent.id : null
                     }}
+                    topicPackIndex={topicPackIndex}
                     topicBlockType={TopicBlockType.CREATOR}
                     categoryFilter={categoryFilter}
                 />
