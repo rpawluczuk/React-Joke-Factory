@@ -24,10 +24,6 @@ const TopicPanel = (props) => {
             });
         }, [])
 
-        useEffect(() => {
-            console.log("Topic pack list after", topicPackList);
-        }, [topicPackList]);
-
         const addTopicPack = (topicPack) => {
             setTopicPackList(oldArray => [...oldArray.slice(0, topicPack.topicPackIndex),
                 topicPack
@@ -35,8 +31,6 @@ const TopicPanel = (props) => {
         }
 
         function changeTopicPack(newTopicPack) {
-            console.log("change topic pack", newTopicPack)
-            console.log("Topic pack list before", topicPackList)
             setTopicPackList(topicPackList.map((oldTopicPack, index) => {
                 if (index === newTopicPack.topicPackIndex) {
                     return newTopicPack;

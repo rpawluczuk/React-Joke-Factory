@@ -36,11 +36,14 @@ const TopicBlockPresenter = (props) => {
         const packRequest = {
             parentId: topicBlock.id,
             pageNumber: 0,
-            pageSize: 23
+            pageSize: 23,
+            topicPackIndex: topicPackIndex
         };
+        console.log("Payload to send:", packRequest);
         axios.post(`http://localhost:8082/api/topics/panel/get-pack`, packRequest)
             .then(async (res) => {
-                await addTopicPack(res.data, topicPackIndex + 1);
+                console.log("Response received:", res);
+                await addTopicPack(res.data);
                 setSelectedId(topicBlock.id)
             });
     }
