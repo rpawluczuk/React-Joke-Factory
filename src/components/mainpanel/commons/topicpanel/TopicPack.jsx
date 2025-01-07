@@ -97,7 +97,7 @@ const TopicPack = (props) => {
             {/*        <FaRandom style={{fontSize: "26px"}}/>*/}
             {/*    </button>*/}
             {/*</div>*/}
-            {/*<div className="d-flex flex-row flex-wrap">*/}
+            <div className="d-flex flex-row flex-wrap">
                 {topicBlockPage.content.map((topicBlock) => (
                     <TopicBlock
                         key={topicBlock.id}
@@ -116,7 +116,7 @@ const TopicPack = (props) => {
                     topicBlockType={TopicBlockType.CREATOR}
                     categoryFilter={categoryFilter}
                 />
-            {/*</div>*/}
+            </div>
             {/*<TopicPackPagination*/}
             {/*    pagination={topicBlockPage}*/}
             {/*    onPageChange={handlePageChange}*/}

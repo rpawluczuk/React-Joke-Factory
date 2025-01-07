@@ -94,7 +94,7 @@ const TopicBlock = (props) => {
                 setBlockType(TopicBlockType.PRESENTER)
             } else {
                 console.log("there are children, just modifying existing block")
-                // refreshTopicPack(res.data)
+                changeTopicPack(res.data)
                 setTopicBlock({
                     ...topicBlock,
                     parentId: null,
