@@ -5,21 +5,21 @@ import Stack from 'react-bootstrap/Stack';
 
 const TopicSearch = (props) => {
 
-    const {onSearchControlChange,
-        searchControl,
-        onSearchFormSubmit,
+    const {onNameFilterChange,
+        onSearch,
+        nameFilter,
         onCategorySwitch,
         categoryFilter} = props;
 
     return (
         <div className="card card-body mt-3 px-5 mb-5">
-            <Form onSubmit={onSearchFormSubmit}>
+            <Form onSubmit={onSearch}>
                 <Stack gap={3} direction="horizontal">
                     <Form.Control
                         type="text"
-                        value={searchControl}
+                        value={nameFilter}
                         placeholder="Search for topics ..."
-                        onChange={onSearchControlChange}
+                        onChange={onNameFilterChange}
                     />
                     <Button
                         variant="outline-primary"

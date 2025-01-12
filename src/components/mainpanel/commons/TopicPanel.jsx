@@ -39,17 +39,37 @@ const TopicPanel = (props) => {
             }))
         }
 
-        //
-        // function refreshTopicPack(listOfNewTopicPack) {
-        //     setTopicPackList(topicPackList.map((oldTopicPack) => {
-        //         listOfNewTopicPack.forEach(newTopicPack => {
-        //             if (oldTopicPack.topicPackIndex === newTopicPack.topicPackIndex) {
-        //                 oldTopicPack = newTopicPack
-        //             }
-        //         })
-        //         return oldTopicPack
-        //     }))
-        // }
+
+    function refreshTopicPack(parentId) {
+        const indexes = topicPackList
+            .map((pack, idx) => (pack.topicBlockParent?.id === parentId ? idx : -1))
+            .filter((idx) => idx !== -1);
+
+        if (indexes.length === 0) {
+            return;
+        }
+
+        indexes.forEach((packIndex) => {
+            const packToRefresh = topicPackList[packIndex];
+
+            const packRequest = {
+                parentId: parentId,
+                pageNumber: packToRefresh.topicBlockPage.number,
+                pageSize: packToRefresh.topicBlockPage.size,
+                topicPackIndex: packIndex
+            };
+
+            axios
+                .post("http://localhost:8082/api/topics/panel/get-pack", packRequest)
+                .then((res) => {
+                    setTopicPackList((oldList) => {
+                        const newList = [...oldList];
+                        newList[packIndex] = res.data;
+                        return newList;
+                    });
+                })
+        });
+    }
 
         function refreshTopicItemList() {
             axios.get(`http://localhost:8082/api/topics/view/list-items`).then((res) => {
@@ -69,8 +89,8 @@ const TopicPanel = (props) => {
                     selectedTopicIdList: topicPackList,
                     addTopicPack,
                     topicItemList,
-                    changeTopicPack
-                    //     refreshTopicPack
+                    changeTopicPack,
+                    refreshTopicPack
                 }}>
                 {topicPackList !== null &&
                     <div>

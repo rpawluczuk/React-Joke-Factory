@@ -6,12 +6,11 @@ import TopicList from "components/mainpanel/topic/topicmainview/TopicList";
 
 const TopicMainView = () => {
 
+    const [nameFilter, setNameFilter] = useState('');
+    const [pageNumber, setPageNumber] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+
     const [topicView, setTopicView] = useState({})
-    const [searchControl, setSearchControl] = useState("")
-    const [viewRequest, setViewRequest] = useState({
-        pageNumber: 0,
-        pageSize: 10
-    })
 
     useEffect(() => {
         refreshTopicView()
@@ -19,23 +18,28 @@ const TopicMainView = () => {
 
     useEffect(() => {
         refreshTopicView();
-    }, [viewRequest.pageNumber]);
+    }, [pageNumber]);
 
     const refreshTopicView = () => {
-        axios.post(`http://localhost:8082/api/topics/view`, viewRequest).then((res) => {
+        const requestBody = {
+            nameFilter,
+            pageNumber,
+            pageSize
+        };
+
+        axios.post(`http://localhost:8082/api/topics/view`, requestBody).then((res) => {
             setTopicView(res.data)
         });
     }
 
-    function handleSearchControlChange(event) {
-        setSearchControl(event.target.value)
+    function handleNameFilterChange(event) {
+        setNameFilter(event.target.value)
     }
 
-    function handleSearchFormSubmit(event) {
+    function handleSearch(event) {
         event.preventDefault();
-        axios.get(`http://localhost:8082/api/topics/view/by-name?name=${searchControl}`).then((res) => {
-            setTopicView(res.data)
-        });
+        setPageNumber(0);
+        refreshTopicView();
     }
 
     function handleCategorySwitch(event) {
@@ -47,10 +51,7 @@ const TopicMainView = () => {
     }
 
     function handlePageChange(event) {
-        setViewRequest(prevState => ({
-            ...prevState,
-            pageNumber: event.selected
-        }));
+        setPageNumber(event.selected);
     }
 
     function handleSizeChange(event) {
@@ -69,9 +70,9 @@ const TopicMainView = () => {
                 <div className="mb-4">
                     <h1 className="text-center display-2 text-dark m-5 fw-bolder">List of Topics</h1>
                     <TopicSearch
-                        onSearchControlChange={handleSearchControlChange}
-                        onSearchFormSubmit={handleSearchFormSubmit}
-                        searchControl={searchControl}
+                        onNameFilterChange={handleNameFilterChange}
+                        onSearch={handleSearch}
+                        nameFilter={nameFilter}
                         onCategorySwitch={handleCategorySwitch}
                         categoryFilter={topicView.categoryFilter}
                     />
