@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import "components/mainpanel/commons/topicpanel/topicpack/TopicBlock.css";
 import {FaCheck} from "react-icons/fa";
 import {Form} from "react-bootstrap";
@@ -17,13 +17,13 @@ const TopicBlockCreator = (props) => {
                     <Form.Label>Name</Form.Label>
                     <Form.Control list="topics"
                                   onChange={onTopicNameChange}
-                                  value={topic.name}
+                                  value={topic.name ?? ""}
                                   type="text"
                                   className="form-control"
                                   placeholder="topic child name"/>
                     <datalist id="topics">
                         {topicItemList.map((topicItem) => (
-                            <option>
+                            <option key={topicItem.value}>
                                 {topicItem.label}
                             </option>
                         ))}

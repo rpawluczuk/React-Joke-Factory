@@ -88,12 +88,10 @@ const TopicBlock = (props) => {
 
         axios.post(`http://localhost:8082/api/topics/panel`, topicBlockDto).then(res => {
             console.log("Response received:", res);
-            if (res.data.topicBlockPage.totalElements === 0) {
-                console.log("No children, adding new topic pack...")
+            if (res.data.topicPackIndex === null) {
                 addTopicPack(res.data, res.data.topicPackIndex)
                 setBlockType(TopicBlockType.PRESENTER)
             } else {
-                console.log("there are children, just modifying existing block")
                 changeTopicPack(res.data)
                 setTopicBlock({
                     ...topicBlock,

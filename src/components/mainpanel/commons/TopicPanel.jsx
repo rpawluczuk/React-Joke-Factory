@@ -17,8 +17,8 @@ const TopicPanel = (props) => {
                 pageNumber: 0,
                 pageSize: 23
             };
-            refreshTopicPackList(packRequest)
             refreshTopicItemList()
+            refreshTopicPackList(packRequest)
             axios.get(`http://localhost:8082/api/topics/view/category-list`).then((res) => {
                 setCategoryList(res.data)
             });
