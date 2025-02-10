@@ -18,15 +18,15 @@ const TopicPackFilter = (props) => {
     const [questionList, setQuestionList] = useState([])
 
     useEffect(() => {
-        if (parentId !== null) {
-            axios.get(`http://localhost:8082/api/topics/panel/question-list`, {
-                params: {
-                    topicId: parentId
-                }
-            }).then((res) => {
-                setQuestionList(res.data)
-            });
-        }
+        // if (parentId !== null) {
+        //     axios.get(`http://localhost:8082/api/topics/panel/question-list`, {
+        //         params: {
+        //             topicId: parentId
+        //         }
+        //     }).then((res) => {
+        //         setQuestionList(res.data)
+        //     });
+        // }
     }, [])
 
     function handleQuestionSelect(selectedQuestion) {

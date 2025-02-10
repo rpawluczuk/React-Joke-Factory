@@ -67,7 +67,15 @@ const TopicBlock = (props) => {
 
     function handleEditionSubmit(event) {
         event.preventDefault();
-        axios.patch(`http://localhost:8082/api/topics`, topicBlock).then(() => {
+        const topicBlockDto = {
+            id: topicBlock.id,
+            name: topicBlock.name,
+            parentId: topicBlock.parentId,
+            secondParentId: topicBlock.secondParentId,
+            categories: [categoryFilter],
+            topicPackIndex: topicPackIndex
+        }
+        axios.patch(`http://localhost:8082/api/topics/panel`, topicBlockDto).then(() => {
             setBlockType(TopicBlockType.PRESENTER);
             refreshTopicBlock()
         })
