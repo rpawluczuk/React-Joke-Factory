@@ -31,6 +31,7 @@ const TopicPanel = (props) => {
         }
 
         function changeTopicPack(newTopicPack) {
+            console.log("changeTopicPack ", newTopicPack);
             setTopicPackList(topicPackList.map((oldTopicPack, index) => {
                 if (index === newTopicPack.topicPackIndex) {
                     return newTopicPack;

@@ -32,11 +32,13 @@ const TopicPack = (props) => {
         const packRequest = {
             parentId: topicPack.topicBlockParent.id,
             pageNumber: pageNumber,
-            pageSize: pagination.pageSize
+            pageSize: pagination.pageSize,
+            topicPackIndex: topicPackIndex
         };
         axios.post(`http://localhost:8082/api/topics/panel/get-pack`, packRequest)
             .then((res) => {
                 setTopicBlockPage(res.data.topicBlockPage);
+                changeTopicPack(res.data);
             });
         setPagination({...pagination, currentPage: pageNumber})
     }
@@ -91,12 +93,12 @@ const TopicPack = (props) => {
                 >
                 </TopicPackFilter>
             }
-            {/*<div className="d-flex flex-row justify-content-center mt-3">*/}
-            {/*    <button className="btn-sm btn-outline-primary" onClick={handleRandomClick}>*/}
-            {/*        <div>Random</div>*/}
-            {/*        <FaRandom style={{fontSize: "26px"}}/>*/}
-            {/*    </button>*/}
-            {/*</div>*/}
+            <div className="d-flex flex-row justify-content-center mt-3">
+                <button className="btn-sm btn-outline-primary" onClick={handleRandomClick}>
+                    <div>Random</div>
+                    <FaRandom style={{fontSize: "26px"}}/>
+                </button>
+            </div>
             <div className="d-flex flex-row flex-wrap">
                 {topicBlockPage.content.map((topicBlock) => (
                     <TopicBlock
@@ -117,11 +119,11 @@ const TopicPack = (props) => {
                     categoryFilter={categoryFilter}
                 />
             </div>
-            {/*<TopicPackPagination*/}
-            {/*    pagination={topicBlockPage}*/}
-            {/*    onPageChange={handlePageChange}*/}
-            {/*    onSizeChange={handleSizeChange}>*/}
-            {/*</TopicPackPagination>*/}
+            <TopicPackPagination
+                pagination={topicBlockPage}
+                onPageChange={handlePageChange}
+                onSizeChange={handleSizeChange}>
+            </TopicPackPagination>
         </TopicPackContext.Provider>
     );
 }
